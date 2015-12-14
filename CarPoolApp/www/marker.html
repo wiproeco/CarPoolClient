@@ -1,0 +1,72 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <!--
+        Customize the content security policy in the meta tag below as needed. Add 'unsafe-inline' to default-src to enable inline JavaScript.
+        For details, see http://go.microsoft.com/fwlink/?LinkID=617521
+    -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; script-src 'self' https://ssl.gstatic.com 'unsafe-eval' 'self' https://*.googleapis.com 'unsafe-eval'; img-src *; font-src *; media-src *">
+    <title>Wipro Car Pool App</title>
+
+    <!-- CarPoolApp references -->
+    <link href="css/index.css" rel="stylesheet" />
+    <!--<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:400,100,300,500">-->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <!--<link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">-->
+    <link rel="stylesheet" href="css/form-elements.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/index.css">
+    <!--<script src="cordova.js"></script>-->
+    <style>
+        #wrapper {
+            position: relative;
+        }
+
+        #over_map {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            z-index: 99;
+            width: 97%;
+        }
+
+        #over_map_button {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            z-index: 99;
+            width: 97%;
+        }
+    </style>
+
+</head>
+<body ng-app="myApp" ng-controller="myCtrl">
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="wrapper">
+                <div id="map" data-tap-disabled="true"></div>
+                <div id="over_map">
+                    <input type="text" id="txtDestination" style="width:100%;" />
+                    <div id="demo"></div>
+                </div>
+                <div id="over_map_button">
+                    <input type="button" id="btnRoute" value="Get Route" class="btn btn-primary" />
+                    <input type="button" id="btnReset" value="Reset" class="btn btn-primary" />
+                    <input type="button" id="btnSubmit" value="Submit" class="btn btn-primary" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Cordova reference, this is added to your app when it's built. -->
+    <script src="cordova.js"></script>
+    <script src="scripts/platformOverrides.js"></script>
+    <script src="scripts/jquery-1.11.1.min.js"></script>
+    <script src="scripts/bootstrap.min.js"></script>
+    <script src="scripts/jquery.backstretch.min.js"></script>
+    <script src="scripts/scripts.js"></script>
+    <!--<script src="scripts/carservice.js"></script>-->
+    <script src="scripts/marker.js"></script>
+</body>
+</html>

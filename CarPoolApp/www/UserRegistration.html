@@ -1,0 +1,134 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+
+    <!--
+        Customize the content security policy in the meta tag below as needed. Add 'unsafe-inline' to default-src to enable inline JavaScript.
+        For details, see http://go.microsoft.com/fwlink/?LinkID=617521
+    -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *">
+    <title>Wipro Car Pool App</title>
+
+    <!-- CarPoolApp references -->
+    <link href="css/index.css" rel="stylesheet" />
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:400,100,300,500">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <!--<link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">-->
+    <link rel="stylesheet" href="css/form-elements.css">
+    <link rel="stylesheet" href="css/style.css">
+   
+</head>
+<body ng-app="myApp" ng-controller="userCtrl">
+    <div class="top-content">
+        <div class="inner-bg">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h2>
+                            <a href="http://www.wipro.com" target="_blank" class="pull-left">
+                                <img width="80" height="60" class="mscom-image mscom-left" id="D4F87B65-CB46-40F9-8458-56E05A099321" alt="WIPRO" src="images/wipro.jpg">
+                            </a>
+                        </h2>
+                        <h4><b>WELCOME TO CAR POOLING</b></h4>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6 col-sm-offset-3 form-box">
+                        <div class="form-top">
+                            <div></div>
+                            <div class="form-top-left">
+                                <h3><b>Sign Up..</b></h3>
+                                <p>Enter your details for Registering</p>
+                            </div>
+                        </div>
+                        <div class="form-bottom">
+                            <form role="form"   class="login-form">
+                                <div class="form-group">
+                                    <label class="sr-only" for="form-username">Username</label>
+                                    <input type="text" name="form-username" placeholder="Username..." ng-model="txtRegUserName" class="form-control" id="form-username">
+                                </div>
+                                <div class="form-group">
+                                    <label class="sr-only" for="form-password">Password</label>
+                                    <input type="password" name="form-password" placeholder="Password..." ng-model="txtRegPwd" class="form-control" id="form-password">
+                                </div>
+                                <div class="form-group">
+                                    <label class="sr-only" for="form-confirm-password">Confirm Password</label>
+                                    <input type="password" name="form-confirm-password" placeholder="Confirm Password..." ng-model="txtRegConfirmPwd" class="form-control" id="form-confirm-password">
+                                </div>
+                                <div ng-hide="ismatch" class="alert alert-danger"> Password and confirm password must be matched.</div>
+                                <div class="form-group">
+                                    <label class="sr-only" for="form-emailId">Email Id</label>
+                                    <input type="text" name="form-emailId" placeholder="Email Id..." ng-model="txtRegEmail" class="form-control" id="form-emailId">
+                                </div>
+                                <div class="form-group">
+                                    <label class="sr-only" for="form-mobileno">Mobile No</label>
+                                    <input type="text" name="form-mobileno" placeholder="Mobile No..." ng-model="txtRegMobile" class="form-control" id="form-mobileno">
+                                </div>
+                                <div class="form-group">
+                                    <label><b>Gender </b></label>
+                                    <label class="radio-inline">
+                                        <input type="radio" name="optionsRadiosInline" id="optionsRadiosInline1"  ng-model="inputRegGender" value="Male" checked="">Male
+                                    </label>
+                                    <label class="radio-inline">
+                                        <input type="radio" name="optionsRadiosInline" id="optionsRadiosInline2" ng-model="inputRegGender" value="Female">Female
+                                    </label>                                    
+                                </div>
+                                <hr />
+                                <div class="form-group">
+                                    <label class="checkbox-inline" for="form-isowner">
+                                        <input type="checkbox" ng-model="isCarOwner" ng-change="change(isCarOwner)" id="form-isowner" name="form-isowner" />Is Car Owner
+                                    </label>
+                                </div>
+                                <div ng-show="edit">
+                                    <h4>Car Details</h4>
+                                    <div class="form-group">
+                                        <label class="sr-only" for="form-carnumber">Car number</label>
+                                        <input type="text" name="form-carnumber" placeholder="Car number..." ng-model="carno" class="form-carnumber form-control" id="form-carnumber">
+                                    </div>
+                                    <div class="form-group">
+                                        <h4>Seating Capacity</h4>
+                                        <select class="form-noOfseats form-control" id="form-noOfseats" name="form-noOfseats" ng-model="seats">
+                                            <option>4</option>
+                                            <option>6</option>
+                                            <option>7</option>
+                                            <option>8</option>
+                                        </select>
+                                    </div>  
+                                </div>
+                                <button type="submit" class="btn" ng-click="AddUser()">Sign Up!</button>
+
+                            </form>
+                            
+                            <div>
+                                <a href="index.html"><b>Already a member? Sign In</b></a>
+                            </div>
+                            <div class="alert alert-danger" ng-hide="iserror">
+                                Registration Failed due to {{Error}}
+                            </div>
+                            <div class="alert alert-success" ng-show="success">
+                             Success. <a href="index.html" style="color:black;">Click <u>here to Login</u></a> 
+                            </div>
+                        </div>
+
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Cordova reference, this is added to your app when it's built. -->
+    <script src="cordova.js"></script>
+    <script src="scripts/platformOverrides.js"></script>
+    <script src="scripts/jquery-1.11.1.min.js"></script>
+    <script src="scripts/bootstrap.min.js"></script>
+    <script src="scripts/jquery.backstretch.min.js"></script>
+    <script src="scripts/scripts.js"></script> 
+    <script src="scripts/angular.min.js" type="text/javascript"></script> 
+    <script src="scripts/app.js"></script>
+
+</body>
+</html>
