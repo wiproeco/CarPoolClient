@@ -1,11 +1,20 @@
 ﻿
 var app = angular.module('myApp', []);
-app.controller('userCtrl', function ($scope, $http, $window) {
+
+app.run(function ($rootScope) {
+    $rootScope.userid = 0;
+});
+app.controller('userCtrl', function ($scope, $http, $window,$rootScope) {
     $scope.authenticated = true;
     $scope.login = function () {
         var email = $scope.txtEmail;
-        var pass = $scope.txtPassword;              
-        if (email != "" && pass != "" && email!=undefined && pass!=undefined) {
+        var pass = $scope.txtPassword;
+
+        ////to be removed two lines
+        //document.location.href = 'NewDashboard.html';
+        //return;
+
+        if (email != "" && pass != "") {
 
             //var url="http://azurecarpool.azurewebsites.net/authenticate/" + email + "/" + pass;
             //$.ajax({
@@ -30,25 +39,24 @@ app.controller('userCtrl', function ($scope, $http, $window) {
             //});
 
             $http.get("http://carpooltestapp.azurewebsites.net/authenticate/" + email + "/" + pass)
+            //$http.get("http://D-113049821.fareast.corp.microsoft.com:1513/authenticate/" + email + "/" + pass)
             .success(function (response) {                               
                 var data = JSON.stringify(response);
                 var result = JSON.parse(data);
                 if (result.length > 0) {                    
                     var userid = result[0].id;
                     window.localStorage.setItem("userid", userid);
-                    document.location.href = 'Dashboard.html';
+                    document.location.href = 'NewDashboard.html';
                 }
                 else {
-                   
                     $scope.authenticated = false;
                 }
                
-            }).error(function (data, status) {
-                $scope.loginError = data;
+            })
+                .error(function (data, status) {               
                 $scope.authenticated = false;
             });
         }
-       
     }
     $scope.edit = false;
     $scope.change = function () {
@@ -59,7 +67,6 @@ app.controller('userCtrl', function ($scope, $http, $window) {
             $scope.edit = false;
     }
     $scope.iserror = true;
-    $scope.success = false;
     $scope.ismatch = true;
     $scope.AddUser = function () {
         var UserName = $scope.txtRegUserName;
@@ -71,6 +78,8 @@ app.controller('userCtrl', function ($scope, $http, $window) {
         var isCarOwner = $scope.edit;
         var carNo = "";
         var seatCap = "";
+        var spoint = "";
+        var epoint = "";
         if (Password != ConfirmPwd) {
             $scope.ismatch = false;
         } else
@@ -80,91 +89,71 @@ app.controller('userCtrl', function ($scope, $http, $window) {
         if (isCarOwner) {
             carNo = $scope.carno;
             seatCap = $scope.seats;
+            spoint = $scope.startpoint;
+            epoint = $scope.endpoint;
         }
         //$window.alert(UserName + ',' + Password + ',' + Email + ',' + Mobile + ',' + Gender + ',' + isCarOwner + ',' + carNo + ',' + seatCap + ',' + spoint + ',' + epoint);
         if ($scope.ismatch && UserName != "" && Password != "" && ConfirmPwd != "" && Email != "" && Mobile != "" && Gender != ""
            && UserName != undefined && Password != undefined && ConfirmPwd != undefined && Email != undefined && Mobile != undefined && Gender != undefined)
         {
+
+            
             var user = JSON.stringify({
-                type: "User", UserName: UserName,
+                type: "user",
+                userName: UserName,
                 password: Password,
                 email: Email,
-                Mobile: Mobile,
-                Gender: Gender,
+                mobile: Mobile,
+                gender: Gender,
                 isowner: isCarOwner,
                 carNo:carNo,
                 totalseats: seatCap,
-                isActive:'true',
                 location: [
                     {
-                        startpoint: '',
-                        endpoint: '',
-                        seatavail: seatCap
+                        startpoint: null,
+                        startlat: null,
+                        startlng:null,
+                        endpoint: null,
+                        endlat: null,
+                        endlng:null                        
                     }
                 ],
-                setlocation:[
-                    {
-                        pickuplocations:""
-                    }
-                ],
-                joinride: [
-                {
-                    id:""
-                }]
+                pickuplocations: [],
+                rides: []
             });
-            //var settings = {
-            //    "async": true,
-            //    "crossDomain": true,
-            //    "url": "http://carpooltestapp.azurewebsites.net/register",
-            //    "method": "POST",
-            //    "headers": {
-            //        "content-type": "application/json",
-            //        "cache-control": "no-cache",
-            //    },
-            //    "processData": false,
-            //    "data": user
-            //}
+            
+            var settings = {
+                "async": true,
+                "crossDomain": true,
+                "url": "http://carpooltestapp.azurewebsites.net/register",
+                //"url": "http://D-113049821.fareast.corp.microsoft.com:1513/register",
+                "method": "POST",
+                "headers": {
+                    "content-type": "application/json",
+                    "cache-control": "no-cache",
+                    "postman-token": "200eb155-7957-1e2b-d9dc-ccd43707c75c"
+                },
+                "processData": false,
+                "data": user
+            }
 
-            //$.ajax(settings).success(function (response) {
-            //    $scope.iserror = true;
-            //    // window.location.href = '/index.html';
-            //    $window.alert('sucess');
-            //    $scope.success = true;
-            //    $scope.txtRegUserName='';
-            //    $scope.txtRegPwd='';
-            //    $scope.txtRegConfirmPwd='';
-            //    $scope.txtRegEmail='';
-            //    $scope.txtRegMobile='';
-            //}).error(function (jqXHR, textStatus, errorThrown) {
-            //    $scope.iserror = false;
-            //    $scope.success = false;
-            //    //$window.alert(errorThrown);
-            //    console.log(errorThrown);
-            //    $scope.Error = errorThrown;
-            //});
-            $http.post('http://carpooltestapp.azurewebsites.net/register', user,            
-                    {headers: { 'Content-Type': 'application/json'}}).then(function(data, status){
-                       // $window.alert('sucess');
-                        $scope.iserror = true;
-                        $scope.success = true;
-                        $scope.txtRegUserName='';
-                        $scope.txtRegPwd='';
-                        $scope.txtRegConfirmPwd='';
-                        $scope.txtRegEmail='';
-                        $scope.txtRegMobile='';
-                    }
-                    ,error(function(response){
-                       // $window.alert('failed with errror' + response);
-                        $scope.iserror = false;
-                        $scope.success = false;
-                        $scope.Error = response;
-                    }));                 
-        } 
+            $.ajax(settings).success(function (response) {
+                $scope.iserror = true;
+                $window.alert('User Registered');
+                window.location.href = '/index.html';
+
+                // redirect to login screen
+            }).error(function (jqXHR, textStatus, errorThrown) {
+                $scope.iserror = false;
+                //$window.alert(errorThrown);
+                console.log(errorThrown);
+                $scope.Error = errorThrown;
+            });
         }
-    
+    }
 
 });
-app.controller('searchCtrl', function ($scope, $http, $window) {
+app.controller('searchCtrl', function ($scope, $http, $window,$rootScope) {
 
     var url = "http://carpooltestapp.azurewebsites.net/listsharedrides/";
     var userid = window.localStorage.getItem("userid");    
@@ -174,6 +163,7 @@ app.controller('searchCtrl', function ($scope, $http, $window) {
                $scope.users = response;
 
            })
+
             .error(function (data, status) {
                 alert('failed');
             });
@@ -217,8 +207,9 @@ app.controller('searchCtrl', function ($scope, $http, $window) {
 
 
 app.controller('dashboardCtrl', function ($scope, $http, $window) {
+
     $scope.ShareRide = function () {
-        
+
         window.location.href = "addmarker.html";
     }
 
@@ -235,7 +226,7 @@ app.controller('dashboardCtrl', function ($scope, $http, $window) {
     $scope.logOut = function () {
         window.localStorage.setItem("userid", 0);
         window.location.href = 'index.html';
-   }
+    }
 });
 
 

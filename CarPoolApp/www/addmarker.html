@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8" />   
+    <meta charset="utf-8" />
     <!--
         Customize the content security policy in the meta tag below as needed. Add 'unsafe-inline' to default-src to enable inline JavaScript.
         For details, see http://go.microsoft.com/fwlink/?LinkID=617521
@@ -11,50 +11,50 @@
 
     <!-- CarPoolApp references -->
     <link href="css/index.css" rel="stylesheet" />
-    <!--<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:400,100,300,500">-->
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:400,100,300,500">
     <link rel="stylesheet" href="css/bootstrap.min.css">
-    <!--<link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">-->
+    <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="css/form-elements.css">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/index.css">
     <!--<script src="cordova.js"></script>-->
-   
+
 </head>
-<body ng-app="myApp" ng-controller="myCtrl">
+<body ng-app="myApp" ng-controller="dashboardCtrl">
 
     <div class="container-fluid">
         <div class="row">
             <div class="col-lg-12">
                 <h2>
                     <a href="http://www.wipro.com" target="_blank" class="pull-left">
-                        <img width="80"  class="mscom-image mscom-left" id="D4F87B65-CB46-40F9-8458-56E05A099321" alt="WIPRO" src="images/wipro.png">
+                        <img width="80" class="mscom-image mscom-left" id="D4F87B65-CB46-40F9-8458-56E05A099321" alt="WIPRO" src="images/wipro.png">
                     </a>
                 </h2>
                 <h4><b>WELCOME TO CAR POOLING</b></h4>
             </div>
         </div>
-        <br/>
+        <br />
         <div class="row">
-            <br/>
+            <br />
             <div class="form-bottom">
-                <br/>
+                <br />
                 <form role="form" action="" method="post" class="login-form">
                     <div class="form-group">
                         <label class="sr-only" for="form-source">Source</label>
                         <input type="text" name="form-source" id="txtSource" placeholder="Enter source" style="width:100%;" />
                     </div>
                     <div class="form-group">
-                        <label class="sr-only" for="form-markup">Pickup Locations</label>                       
+                        <label class="sr-only" for="form-markup">Pickup Locations</label>
                         <select id="ddlMarkup" class="form-markup form-control" name="form-markup"></select>
-                    </div>         
-                    <input type="button" style="color:black"  id="btnAddMarker" value="Add" />
-                 </form>
-             </div>
-            </div>
-            <div class="row">
-                <div id="map"></div>
+                    </div>
+                    <input type="button" style="color:black" id="btnAddMarker" value="Add" />
+                </form>
             </div>
         </div>
+        <div class="row">
+            <div id="map"></div>
+        </div>
+    </div>
     <!-- Cordova reference, this is added to your app when it's built. -->
     <script src="cordova.js"></script>
     <script src="scripts/platformOverrides.js"></script>
@@ -62,7 +62,7 @@
     <script src="scripts/bootstrap.min.js"></script>
     <script src="scripts/jquery.backstretch.min.js"></script>
     <script src="scripts/scripts.js"></script>
-    <!--<script src="scripts/carservice.js"></script>-->
+    <script src="scripts/app.js"></script>
     <script src="scripts/addmarker.js"></script>
 </body>
 </html>

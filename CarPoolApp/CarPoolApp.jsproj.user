@@ -1,15 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <ReferenceCachePath>C:\Users\v-mamokk\AppData\Local\Temp\eemtgykl_CarPoolApp_refcache</ReferenceCachePath>
+    <ReferenceCachePath>C:\Users\v-chmyna\AppData\Local\Temp\pgcsfuu5_CarPoolApp_refcache</ReferenceCachePath>
     <ShowAllFiles>false</ShowAllFiles>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Android'">
-    <DebuggerFlavor>AndroidEmulator</DebuggerFlavor>
+    <DebuggerFlavor>RippleNexus</DebuggerFlavor>
     <AndroidEmulatorID>AndroidEmulator;Google Android Emulator</AndroidEmulatorID>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Windows Phone (Universal)'">
     <DebuggerFlavor>WindowsMobileEmulator</DebuggerFlavor>
-    <WindowsMobileEmulatorID>A6BAF594-9315-40C3-AD16-F5B8A425A7AB;Emulator 8.1 WVGA 4 inch 512MB</WindowsMobileEmulatorID>
+    <WindowsMobileEmulatorID>D363CCA4-0764-4F2C-9EE1-12E55E13C0FC;Emulator 8.1 720P 4.7 inch</WindowsMobileEmulatorID>
   </PropertyGroup>
 </Project>

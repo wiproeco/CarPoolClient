@@ -1,0 +1,203 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!--<link rel="icon" href="../../favicon.ico">-->
+
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-inline'; style-src 'self' 'unsafe-inline'; media-src *">
+    <title>Wipro Car Pool App</title>
+
+    <!-- CarPoolApp references -->
+    <link href="css/index.css" rel="stylesheet" />
+    <!--<link href="css/googleapifonts.css" rel="stylesheet" />-->
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:400,100,300,500">
+    <!-- <link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">-->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <!-- Custom Fonts -->
+    <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="css/form-elements.css">
+    <link rel="stylesheet" href="css/style.css">
+
+</head>
+<body ng-app="myApp" ng-controller="dashboardCtrl">
+    <!-- Navigation -->
+    <a id="menu-toggle" href="#" class="btn btn-dark btn-lg toggle"><i class="fa fa-bars"></i></a>
+    <nav id="sidebar-wrapper">
+        <!--<a id="menu-close" href="#top" class="btn btn-light btn-md pull-right toggle"><i class="fa fa-times"></i></a>-->
+        <ul class="sidebar-nav">
+            <!--<li class="sidebar-brand">
+                <a href="#top" onclick=$("#menu-close").click(); style="float:left"><p>Wipro Car Pooling</p></a>
+            </li>-->
+            <li><a href="/NewDashboard.html">Dashboard</a></li>
+            <li><a href="#" ng-click="ShareRide1()">Ride Share</a></li>
+            <li><a href="#" ng-click="JoinRide()">Join Ride</a></li>
+            <li><a href="#" ng-click="logOut()">Log Out</a></li>
+        </ul>
+        <div class="clearfix"></div>
+    </nav>
+    <!-- Header -->
+    <header id="top" class="header">
+        <div class="text-vertical-center">
+            <h2> Wipro Car Pooling</h2>
+            <h4 class="text-primary"> Ride with our Wiproites</h4>
+            <!--<a href="#services" class="btn btn-dark btn-lg">Find Out More</a>-->
+        </div>
+    </header>  
+    <!-- Services -->
+    <!-- The circle icons use Font Awesome's stacked icon classes. For more information, visit http://fontawesome.io/examples/ -->
+    <section id="services" class="services bg-primary">
+        <div class="container">
+            <div class="row text-center">
+                <div class="col-lg-10 col-lg-offset-1">
+                    <h2>Our Services</h2>
+                    <hr class="small">
+                    <div class="row">
+                        <div class="col-md-3 col-sm-6">
+                            <div class="service-item">
+                                <span class="fa-stack fa-2x">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fa fa-cloud fa-stack-1x text-primary"></i>
+                                </span>
+                                <h4>
+                                    <a href="#" class="btn btn-light" ng-click="ShareRide1()"><strong>Ride Share</strong></a>
+                                </h4>
+                                <p>Share your ride with wiproites</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-6">
+                            <div class="service-item">
+                                <span class="fa-stack fa-2x">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fa fa-compass fa-stack-1x text-primary"></i>
+                                </span>
+                                <h4>
+                                    <a href="#" class="btn btn-light" ng-click="JoinRide()"><strong>Join Ride</strong></a>
+                                </h4>
+                                <p>Join ride with wiproite</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-6">
+                            <div class="service-item">
+                                <span class="fa-stack fa-2x">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fa fa-flask fa-stack-1x text-primary"></i>
+                                </span>
+                                <h4>
+                                    <a href="#" class="btn btn-light" ng-click="ShareRide1()"><strong>Ride Share</strong></a>
+                                </h4>
+                                <p>Share your ride with wiproites</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-6">
+                            <div class="service-item">
+                                <span class="fa-stack fa-2x">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fa fa-shield fa-stack-1x text-primary"></i>
+                                </span>
+                                <h4>
+                                    <a href="#" class="btn btn-light" ng-click="JoinRide()"><strong>Join Ride</strong></a>
+                                </h4>
+                                <p>Join ride with wiproite</p>
+
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.row (nested) -->
+                </div>
+                <!-- /.col-lg-10 -->
+            </div>
+            <!-- /.row -->
+        </div>
+        <!-- /.container -->
+    </section>
+    <!-- Callout -->
+    <!--<aside class="callout">
+        <div class="text-vertical-center">
+            <h1>Our Wipro...</h1>
+        </div>
+    </aside>-->
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-10 col-lg-offset-1 text-center">
+                    <h4>
+                        <strong class="text-primary">Wipro Car Pool APP By <a href="http://www.Wipro.com">www.Wipro.com</a></strong>
+                    </h4>
+                    <!--  <p>3481 Melrose Place<br>Beverly Hills, CA 90210</p>
+                      <ul class="list-unstyled">
+                          <li><i class="fa fa-phone fa-fw"></i> (123) 456-7890</li>
+                          <li>
+                              <i class="fa fa-envelope-o fa-fw"></i>  <a href="mailto:name@example.com">name@example.com</a>
+                          </li>
+                      </ul>
+                      <br>
+                      <ul class="list-inline">
+                          <li>
+                              <a href="#"><i class="fa fa-facebook fa-fw fa-3x"></i></a>
+                          </li>
+                          <li>
+                              <a href="#"><i class="fa fa-twitter fa-fw fa-3x"></i></a>
+                          </li>
+                          <li>
+                              <a href="#"><i class="fa fa-dribbble fa-fw fa-3x"></i></a>
+                          </li>
+                      </ul>
+                    <hr class="small">-->
+                    <p class="text-muted">Copyright &copy; Your Wipro 2016</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Cordova reference, this is added to your app when it's built. -->
+    <script src="cordova.js"></script>
+    <script src="scripts/platformOverrides.js"></script>
+    <script src="scripts/jquery-1.11.1.min.js"></script>
+    <script src="scripts/bootstrap.min.js"></script>
+    <script src="scripts/jquery.backstretch.min.js"></script>
+    <script src="scripts/scripts.js"></script>
+    <script src="scripts/angular.min.js"></script>
+    <script src="scripts/app.js"></script>
+    <script src="scripts/socket.io-1.3.7.js"></script>
+    <script src="scripts/notification.js"></script>
+    <!--<script src="scripts/cycle.js"></script>-->
+    <!-- jQuery -->
+    <!-- <script src="js/jquery.js"></script>-->
+    <!-- Custom Theme JavaScript -->
+    <script src="scripts/custom.js"></script>
+   
+    <script>
+        var socket = null;
+
+        document.addEventListener('deviceready', function () {
+            var userdocid = window.localStorage.getItem("userid");
+            socket = io('http://carpooltestapp.azurewebsites.net:3000/');
+            socket.on('connect', function () { });
+            socket.emit('regUser', { userid: userdocid });
+
+            socket.on('recieveNotification', function (text) {
+                navigator.notification.confirm(text, onConfirm, 'Confirmation', ['Accept', 'Reject']);
+            });
+        });
+        
+        function onConfirm(buttonIndex) {
+            if (buttonIndex == 1) {
+                //navigator.notification.alert('Accepted');
+                socket.emit('sendNotification', { data: 'Your ride is accepted by Owner', userid: '' });
+            }
+            if (buttonIndex == 2) {
+                //navigator.notification.alert('Rejected');
+                socket.emit('sendNotification', { data: 'Your ride is rejected by Owner', userid: '' });
+            }
+
+        }
+       
+    </script>
+</body>
+</html>
