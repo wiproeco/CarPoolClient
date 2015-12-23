@@ -42,7 +42,7 @@
                             </div>
                         </div>
                         <div class="form-bottom">
-                            <form role="form" action="" method="post" class="login-form">
+                            <form role="form" class="login-form">
                                 <div class="form-group">
                                     <label class="sr-only" for="form-username">Username</label>
                                     <input type="text" name="form-username" ng-model="txtEmail" placeholder="Email Id..." class="form-username form-control" id="form-username">
@@ -51,7 +51,7 @@
                                     <label class="sr-only" for="form-password">Password</label>
                                     <input type="password" name="form-password" ng-model="txtPassword" placeholder="Password..." class="form-password form-control" id="form-password">
                                 </div>
-                                <button type="button" class="btn" ng-click="login()">Sign in!</button>
+                                <button type="submit" class="btn" ng-click="login()">Sign in!</button>
 
                             </form>
                             <div>
@@ -78,7 +78,8 @@
     <script src="scripts/bootstrap.min.js"></script>
     <script src="scripts/jquery.backstretch.min.js"></script>
     <script src="scripts/scripts.js"></script>
-    <script src="scripts/angular.min.js"></script>    
+    <script src="scripts/angular.min.js"></script>   
+    <script src="scripts/NotificationClientService.js"></script> 
     <script src="scripts/app.js"></script>
 
 </body>

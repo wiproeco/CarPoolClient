@@ -37,6 +37,17 @@
             z-index: 99;
             width: 97%;
         }
+
+         .menuLink {
+            color: #FFF;
+            cursor: pointer;
+        }
+
+        .menuLink:hover{
+            color:black;
+            background-color:#808080;
+        }
+
     </style>   
 </head>
 <body ng-app="myApp" ng-controller="dashboardCtrl">
@@ -46,13 +57,15 @@
         <!--<a id="menu-close" href="#top" class="btn btn-light btn-md pull-right toggle"><i class="fa fa-times"></i></a>-->
         <ul class="sidebar-nav">
             <!--<li class="sidebar-brand">
-                <a href="#top" onclick=$("#menu-close").click(); style="float:left"><p>Wipro Car Pooling</p></a>
-            </li>-->
-            <li><a href="/NewDashboard.html">Dashboard</a></li>
-            <li><a href="#" ng-click="ShareRide1()">Ride Share</a></li>
-            <li><a href="#" ng-click="JoinRide()">Join Ride</a></li>
-            <li><a href="#" ng-click="logOut()">Log Out</a></li>
+            <a href="#top" onclick=$("#menu-close").click(); style="float:left"><p>Wipro Car Pooling</p></a>
+        </li>-->
+            <li id="lnkDashboard" class="menuLink">
+                Dashboard
+            </li>
+            <li id="lnkNotifications" class="menuLink">Notifications</li>
+            <li id="lnkLogOut" class="menuLink">Log Out</li>
         </ul>
+
         <div class="clearfix"></div>
     </nav>   
     <div class="container-fluid">              
@@ -83,43 +96,43 @@
                             <div class="form-group">
                                 <label class="control-label col-sm-4" for="email">Car Owner: </label>
                                 <div class="col-sm-8">
-                                    <span id="carOwner">Sushil</span>
+                                    <span id="carOwner"></span>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="control-label col-sm-4" for="pwd">Car Number:</label>
                                 <div class="col-sm-8">
-                                    <span id="carNumber">TS 09 1234</span>
+                                    <span id="carNumber"></span>
                                 </div>
                             </div>      
                             <div class="form-group">
                                 <label class="control-label col-sm-4" for="pwd">No. of seats available:</label>
                                 <div class="col-sm-8">
-                                    <span id="carSeatsCount">7</span>
+                                    <span id="carSeatsCount"></span>
                                 </div>
                             </div> 
                             <div class="form-group">
                                 <label class="control-label col-sm-4" for="pwd">From:</label>
                                 <div class="col-sm-8">
-                                    <span id="carFrom">Secundrabad</span>
+                                    <span id="carFrom"></span>
                                 </div>
                             </div>    
                             <div class="form-group">
                                 <label class="control-label col-sm-4" for="pwd">To:</label>
-                                <div class="col-sm-8">
-                                    <span id="carTo">Wipro</span>
+                                <div class="col-sm-6">
+                                    <span id="carTo"></span>
                                 </div>
                             </div>  
                             <div class="form-group">
                                 <label class="control-label col-sm-4" for="pwd">Pick up points:</label>
-                                <div class="col-sm-8">
-                                    <select id="ddlPickuppoints">                                        
+                                <div class="col-sm-6">
+                                    <select class="form-control" id="ddlPickuppoints" style="width:80%">                                        
                                     </select>
                                 </div>
                             </div>                                                
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-default" id="btnJoinRide">Join Ride</button>                           
+                            <button type="button" class="btn btn-primary" id="btnJoinRide">Join Ride</button>                           
                         </div>
                     </form>
                 </div><!-- /.modal-content -->
@@ -133,14 +146,10 @@
     <script src="scripts/bootstrap.min.js"></script>
     <script src="scripts/jquery.backstretch.min.js"></script>
     <script src="scripts/scripts.js"></script>
-    <script src="scripts/socket.io-1.3.7.js"></script>
+    <!--<script src="scripts/socket.io-1.3.7.js"></script>-->
     <script src="scripts/angular.min.js"></script>
     <script src="scripts/app.js"></script>
     <script src="scripts/ride.js"></script>
-    <script src="scripts/notification.js"></script>
-    <!-- jQuery -->
-    <!-- <script src="js/jquery.js"></script>-->
-    <!-- Custom Theme JavaScript -->
     <script src="scripts/custom.js"></script>
 </body>
 </html>

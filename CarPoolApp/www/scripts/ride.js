@@ -52,14 +52,12 @@
         user: []
     };
     var nearVehicles = [];
-    var currentUserObject = null;
+    var rideObject = null;
+    var carOwnerId = null;   
 
     global.intilize = function () {
-
         
         getLocation();
-
-       
     }
     
     function getLocation() {
@@ -104,64 +102,58 @@
                     $.ajax({
                         type: "GET",
                         contentType: "application/json",
-                        //url: "http://D-113049821.fareast.corp.microsoft.com:1513/searchrides/" + searchLocation.vicinity,
-                        url: "http://carpooltestapp.azurewebsites.net/searchrides/" + searchLocation.vicinity,
+                        url: "http://carpoolserver.azurewebsites.net/searchrides/" + searchLocation.vicinity,
+                        //url: "http://carpooltestapp.azurewebsites.net/searchrides/" + searchLocation.vicinity,
                         //data: JSON.stringify(service),
                         dataType: "json",
                         success: function (data) {
                             $(data).each(function (index, obj) {
                                 var vehicleLatLng = new google.maps.LatLng(obj.lat, obj.lng);
-                                addMarker(vehicleLatLng, map, obj.id);
+                                var querystring = obj.id + "/" + obj.rideid;
+                                addMarker(vehicleLatLng, map, querystring);
                             });
                             directionsDisplay.setMap(map);
                         }
                     });
                 });
 
-                //nearVehicles.push({ lat: 17.4400802, long: 78.34891679999998, docId : 1 });
-                //nearVehicles.push({ lat: 17.4447918, long: 78.34830979999992, docId : 2 });
-                //nearVehicles.push({ lat: 17.4474117, long: 78.37623039999994, docId : 3 });
-                //nearVehicles.push({ lat: 17.4208251, long: 78.34439889999999, docId : 4 });
-                //nearVehicles.push({ lat: 17.43792029999999, long: 78.36465169999997, docId: 5 });
-
-
-
-
 
                 $("#btnJoinRide").click(function () {
-                    var userdocid = window.localStorage.getItem("userid");
-                    //var socketjson = window.localStorage.getItem("socket");
-                    var socket = io('http://carpooltestapp.azurewebsites.net:3000/');
-                    socket.on('connect', function () { });
-                    socket.emit('regUser', { userid: userdocid });
-                    //var socket = window.localStorage.getItem("socket");
-                    var notificationMessage = 'Mr/Mrs. ' + currentUserObject.userName + ' has sent a request for a new ride, Please confirm the request';
 
-                    //var socket = io('http://carpooltestapp.azurewebsites.net:3000');
-                    //socket.on('connect', function () { });
-                    //socket.emit('regUser', { userid: userdocid });
-                    socket.emit('sendNotification', { data: notificationMessage, userid: currentUserObject.id });
-                    //socket.on('recieveNotification', function (text) {
-                    //    navigator.notification.confirm(text, onConfirm, 'Confirmation', ['Accept', 'Reject']);
+                    $.ajax({
+                        type: "POST",
+                        contentType: "application/json",
+                        url: "http://carpoolserver.azurewebsites.net/joinride/",
+                        data: JSON.stringify({ carownerId: carOwnerId, userId: localStorage.getItem("userid"), rideid: rideObject.rideid, boardingid: $("#ddlPickuppoints").val() }),
+                        dataType: "json",
+                        success: function (data) {
+                            $("#carmodal").modal("toggle");
+                            //alert('Request sent to Owner. Please be wait...');
+                        }
                     });
-
-
-                    //var emailBody = "Hi,<br/><p> Ramesh has intrested about to share a ride on your car on 11-December-2015 at 7:30PM. <br> You can contact him by mobile no : 9989123456. <br> or <br> You could confirm by clicking below link. <br> <a href=\"" + "http://d113077841.fareast.corp.microsoft.com:1513/confirm" + "\">Confirm</a><p><br/>Thanks & Regards,<br/>Car Pool App Admin."
-
-                    //var req = { from: "wiprocarpool@gmail.com", to: "sreerama.tedla@wipro.com", subject: "Car pool request alert ✪", text: emailBody };
-
-                    //$.ajax({
-                    //    type: "POST",
-                    //    contentType: "application/json",
-                    //    url: "http://carpooltestapp.azurewebsites.net/send",
-                    //    //url: "http://localhost:1513/updatelocation",
-                    //    data: JSON.stringify(req),
-                    //    dataType: "json",
-                    //    success: function () {
-                    //        alert('Ride is shared');
-                    //    }
-                    //});
                 });
+
+                $("#lnkDashboard").click(function () {
+                    window.location.href = "NewDashboard.html";
+                });
+
+                $("#lnkNotifications").click(function () {
+                    var isowner = window.localStorage.getItem("isowner");
+                    var notificationurl = '';
+                    if (isowner == "true")
+                        notificationurl = "ownernotification.html";
+                    else
+                        notificationurl = "usernotification.html";
+
+                    window.location.href = notificationurl;
+                });
+
+                $("#lnkLogOut").click(function () {
+                    window.localStorage.setItem("userid", 0);
+                    window.location.href = 'index.html';
+                });
+
+           });
         } else {
             alert("Geolocation is not supported by this browser.");
         }
@@ -182,27 +174,29 @@
         marker.addListener('click', function () {            
             var position = marker.getPosition();
             var docId = marker.getTitle();
+            carOwnerId = docId.split("/")[0];
             
             $.ajax({
                 type: "GET",
                 contentType: "application/json",
-                //url: "http://D-113049821.fareast.corp.microsoft.com:1513/getcarowner/" + docId,
-                url: "http://carpooltestapp.azurewebsites.net/getcarowner/" + docId,
+                url: "http://carpoolserver.azurewebsites.net/getridedetails/" + docId,
+                //url: "http://carpooltestapp.azurewebsites.net/getcarowner/" + docId,
                 //data: JSON.stringify(service),
                 dataType: "json",
-                success: function (users) {
+                success: function (response) {
+                    
                     $("#ddlPickuppoints").html("");
-                    var data = users[0];
-                    currentUserObject = users[0];
+                    var data = response[0];
+                    rideObject = response[0];
                     $("#carmodal").modal("toggle");                    
-                    $("#carOwner").text(data.userName);
-                    $("#carNumber").text(data.carNo);
-                    $("#carSeatsCount").text(data.totalseats);
-                    $("#carFrom").text(data.location[0].startpoint);
-                    $("#carTo").text(data.location[0].endpoint);
-                    $(data.pickuplocations).each(function (index, obj) {
+                    $("#carOwner").text(response[0].userName);
+                    $("#carNumber").text(response[0].carNo);
+                    $("#carSeatsCount").text(response[0].seatsavailable);
+                    $("#carFrom").text(response[0].startpoint);
+                    $("#carTo").text(response[0].endpoint);
+                    $(data.boardingpoints).each(function (index, obj) {
                         var option = $("<option></option>");
-                        option.attr("value", obj.address).text(obj.address);
+                        option.attr("value", obj.boardingid).text(obj.address);
                         $("#ddlPickuppoints").append(option);
                     });                                       
                 }

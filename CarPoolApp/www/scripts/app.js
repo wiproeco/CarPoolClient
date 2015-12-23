@@ -1,61 +1,35 @@
 ﻿
 var app = angular.module('myApp', []);
 
-app.run(function ($rootScope) {
-    $rootScope.userid = 0;
-});
-app.controller('userCtrl', function ($scope, $http, $window,$rootScope) {
+
+app.controller('userCtrl', function ($scope, $http, $window) {
     $scope.authenticated = true;
     $scope.login = function () {
         var email = $scope.txtEmail;
         var pass = $scope.txtPassword;
-
-        ////to be removed two lines
-        //document.location.href = 'NewDashboard.html';
-        //return;
-
-        if (email != "" && pass != "") {
-
-            //var url="http://azurecarpool.azurewebsites.net/authenticate/" + email + "/" + pass;
-            //$.ajax({
-            //    type: "GET",
-            //    contentType: "application/json",
-            //    url: url,              
-            //    dataType: "json",
-            //    success: function () {
-
-            //        var data = JSON.stringify(response);
-            //        var result = JSON.parse(data);
-            //        if (result.length > 0) {
-            //            alert('test');
-            //            var userid = result[0].id;                      
-            //            window.localStorage.setItem("userid", userid);
-            //            window.location.href = '/Dashboard.html';
-            //        }
-            //        else {
-            //            $scope.authenticated = false;
-            //        }
-            //    }
-            //});
-
-            $http.get("http://carpooltestapp.azurewebsites.net/authenticate/" + email + "/" + pass)
-            //$http.get("http://D-113049821.fareast.corp.microsoft.com:1513/authenticate/" + email + "/" + pass)
-            .success(function (response) {                               
+        if (email != "" && pass != "" && email != undefined && pass != undefined) {
+            //$http.get("http://carpooltestapp.azurewebsites.net/authenticate/" + email + "/" + pass)
+            $http.get("http://carpoolserver.azurewebsites.net/authenticate/" + email + "/" + pass)
+            .success(function (response) {
                 var data = JSON.stringify(response);
                 var result = JSON.parse(data);
-                if (result.length > 0) {                    
+                if (result.length > 0) {
                     var userid = result[0].id;
+                    var isowner = result[0].isowner;
+                    //var username = result[0].userName;
                     window.localStorage.setItem("userid", userid);
+                    window.localStorage.setItem("isowner", isowner);
+                    //window.localStorage.setItem("username", username);
                     document.location.href = 'NewDashboard.html';
                 }
                 else {
                     $scope.authenticated = false;
                 }
-               
+
             })
-                .error(function (data, status) {               
-                $scope.authenticated = false;
-            });
+                .error(function (data, status) {
+                    $scope.authenticated = false;
+                });
         }
     }
     $scope.edit = false;
@@ -67,6 +41,7 @@ app.controller('userCtrl', function ($scope, $http, $window,$rootScope) {
             $scope.edit = false;
     }
     $scope.iserror = true;
+    $scope.success = false;
     $scope.ismatch = true;
     $scope.AddUser = function () {
         var UserName = $scope.txtRegUserName;
@@ -78,26 +53,20 @@ app.controller('userCtrl', function ($scope, $http, $window,$rootScope) {
         var isCarOwner = $scope.edit;
         var carNo = "";
         var seatCap = "";
-        var spoint = "";
-        var epoint = "";
         if (Password != ConfirmPwd) {
             $scope.ismatch = false;
-        } else
-        {
+        } else {
             $scope.ismatch = true;
         }
         if (isCarOwner) {
             carNo = $scope.carno;
             seatCap = $scope.seats;
-            spoint = $scope.startpoint;
-            epoint = $scope.endpoint;
         }
         //$window.alert(UserName + ',' + Password + ',' + Email + ',' + Mobile + ',' + Gender + ',' + isCarOwner + ',' + carNo + ',' + seatCap + ',' + spoint + ',' + epoint);
         if ($scope.ismatch && UserName != "" && Password != "" && ConfirmPwd != "" && Email != "" && Mobile != "" && Gender != ""
-           && UserName != undefined && Password != undefined && ConfirmPwd != undefined && Email != undefined && Mobile != undefined && Gender != undefined)
-        {
+           && UserName != undefined && Password != undefined && ConfirmPwd != undefined && Email != undefined && Mobile != undefined && Gender != undefined) {
 
-            
+
             var user = JSON.stringify({
                 type: "user",
                 userName: UserName,
@@ -106,66 +75,57 @@ app.controller('userCtrl', function ($scope, $http, $window,$rootScope) {
                 mobile: Mobile,
                 gender: Gender,
                 isowner: isCarOwner,
-                carNo:carNo,
+                carNo: carNo,
                 totalseats: seatCap,
-                location: [
-                    {
-                        startpoint: null,
-                        startlat: null,
-                        startlng:null,
-                        endpoint: null,
-                        endlat: null,
-                        endlng:null                        
-                    }
-                ],
-                pickuplocations: [],
-                rides: []
+                rides: [
+                ]
             });
-            
-            var settings = {
-                "async": true,
-                "crossDomain": true,
-                "url": "http://carpooltestapp.azurewebsites.net/register",
-                //"url": "http://D-113049821.fareast.corp.microsoft.com:1513/register",
-                "method": "POST",
-                "headers": {
-                    "content-type": "application/json",
-                    "cache-control": "no-cache",
-                    "postman-token": "200eb155-7957-1e2b-d9dc-ccd43707c75c"
-                },
-                "processData": false,
-                "data": user
-            }
 
-            $.ajax(settings).success(function (response) {
+            var res = $http.post('http://carpoolserver.azurewebsites.net/register', user,
+                      { headers: { 'Content-Type': 'application/json' } });
+            res.success(function (data, status, headers, config) {
                 $scope.iserror = true;
-                $window.alert('User Registered');
-                window.location.href = '/index.html';
+                $scope.success = true;
+                $scope.txtRegUserName = '';
+                $scope.txtRegPwd = '';
+                $scope.txtRegConfirmPwd = '';
+                $scope.txtRegEmail = '';
+                $scope.txtRegMobile = '';
+                $scope.carno = '';
 
-                // redirect to login screen
-            }).error(function (jqXHR, textStatus, errorThrown) {
-                $scope.iserror = false;
-                //$window.alert(errorThrown);
-                console.log(errorThrown);
-                $scope.Error = errorThrown;
             });
+            res.error(function (data, status, headers, config) {
+                $scope.iserror = false;
+                $scope.success = false;
+                $scope.Error = data;
+                $scope.txtRegUserName = '';
+                $scope.txtRegPwd = '';
+                $scope.txtRegConfirmPwd = '';
+                $scope.txtRegEmail = '';
+                $scope.txtRegMobile = '';
+                $scope.carno = '';
+            });
+
+
         }
+        return false;
     }
 
 });
-app.controller('searchCtrl', function ($scope, $http, $window,$rootScope) {
+
+app.controller('searchCtrl', function ($scope, $http, $window, $rootScope) {
 
     var url = "http://carpooltestapp.azurewebsites.net/listsharedrides/";
-    var userid = window.localStorage.getItem("userid");    
+    var userid = window.localStorage.getItem("userid");
     try {
-        $http.get(url + "undefined/undefined/"+userid)
-           .success(function (response) {               
+        $http.get(url + "undefined/undefined/" + userid)
+           .success(function (response) {
                $scope.users = response;
 
            })
 
             .error(function (data, status) {
-                alert('failed');
+                //alert('failed');
             });
     }
     catch (e) {
@@ -184,20 +144,20 @@ app.controller('searchCtrl', function ($scope, $http, $window,$rootScope) {
         try {
             if ($scope.txtsource != "" && $scope.txtdestination != "") {
                 var source = $scope.txtsource;
-                var destin = $scope.txtdestination;                
+                var destin = $scope.txtdestination;
                 $http.get(url + source + "/" + destin + "/0")
                    .success(function (Result) {
 
                        $scope.users = Result;
                    })
                     .error(function (data, status) {
-                        alert('Search failed');
+                        //alert('Search failed');
                     });
             }
             else { return false; }
         }
         catch (e) {
-            alert(e);
+            //alert(e);
         }
 
     }
@@ -206,16 +166,56 @@ app.controller('searchCtrl', function ($scope, $http, $window,$rootScope) {
 
 
 
-app.controller('dashboardCtrl', function ($scope, $http, $window) {
+app.controller('dashboardCtrl', function ($scope, $http, $window) {   
+
+    PushNotifications();
+    navigationLinks($scope, $http, $window);
+});
+
+function navigationLinks($scope, $http, $window) {
+
+    var isowner = window.localStorage.getItem("isowner");
+
+    if (isowner == "true") {
+        $("#carownerShow").show();
+        $("#passangerShow").hide();
+        $("#carownerShow2").show();
+        $("#passangerShow2").hide();
+    }
+    else {
+        $("#passangerShow").show();
+        $("#carownerShow").hide();
+        $("#passangerShow2").show();
+        $("#carownerShow2").hide();
+    }
+
+    $scope.MyDashboard = function () {
+
+        window.location.href = "NewDashboard.html";
+    }
+   
+    $scope.MyNotifications = function () {
+
+        var isowner = window.localStorage.getItem("isowner");
+        var notificationurl= '';
+        if (isowner == "true")
+            notificationurl = "ownernotification.html";
+        else
+            notificationurl = "usernotification.html";
+
+        window.location.href = notificationurl;
+
+        
+    }
 
     $scope.ShareRide = function () {
 
         window.location.href = "addmarker.html";
     }
 
-    $scope.ShareRide1 = function () {
+    $scope.MyRides = function () {
 
-        window.location.href = "marker.html";
+        window.location.href = "myrides.html";
     }
 
     $scope.JoinRide = function () {
@@ -227,7 +227,96 @@ app.controller('dashboardCtrl', function ($scope, $http, $window) {
         window.localStorage.setItem("userid", 0);
         window.location.href = 'index.html';
     }
+}
+
+function PushNotifications()
+{
+    var notificationurl = "http://carpoolserver.azurewebsites.net/";
+    var isowner = window.localStorage.getItem("isowner");
+    var userId = window.localStorage.getItem("userid");
+    var todayDate = new Date();
+    var date = todayDate.getFullYear() + "-" + (todayDate.getMonth() + 1) + "-" + todayDate.getDate();
+
+    var totaltimeout = 5;
+
+    if (isowner == "true") {
+        notificationurl = notificationurl + "getnotitifications/" + userId + "/" + date.toString();
+        totaltimeout = 15;
+    }
+    else {
+        notificationurl = notificationurl + "receivenotitifications/" + userId;
+    }
+    
+    NotificationClientService.AutomaticNotifications(notificationurl, 2, totaltimeout, null, NoticationCallback);
+}
+
+function NoticationCallback(data)
+{
+    if (data != undefined && data != null && data.data.length > 0)
+    {
+        $("#MyNotifications").css("backgroundColor", "red");
+        CancelNotification.Clear(NotificationClientService.RefreshIntervalId);
+    }
+}
+
+app.controller('usernotificationCtrl', function ($scope, $http, $window) {
+    navigationLinks($scope, $http, $window);
+    $scope.notificationdata = "";
+    var userId = window.localStorage.getItem("userid");
+    //var url = "http://carpoolserver.azurewebsites.net/receivenotitifications/53946907-3b48-6904-f599-db29de2e74e6";
+    var url = "http://carpoolserver.azurewebsites.net/receivenotitifications/" + userId;
+    $http.get(url)
+            .success(function (response) {
+                var data = JSON.stringify(response);
+                var result = JSON.parse(data);
+                if (result.length > 0) {
+                    $scope.notificationdata = result;
+                }
+            }).error(function (data, status) {
+            });
 });
 
+app.controller('ownernotificationCtrl', function ($scope, $http, $window) {
+    navigationLinks($scope, $http, $window);
+    $scope.notificationdata = "";
+
+    var userId = window.localStorage.getItem("userid");
+    var todayDate = new Date();
+    var date = todayDate.getFullYear() + "-" + (todayDate.getMonth() + 1) + "-" + todayDate.getDate();
+    //var url = "http://carpoolserver.azurewebsites.net/getnotitifications/bae03711-08e6-7d8f-8101-457caa0368a8/2011-07-14";
+    var url = "http://carpoolserver.azurewebsites.net/getnotitifications/" + userId + "/" + date.toString();
+    $http.get(url)
+            .success(function (response) {
+                var data = JSON.stringify(response);
+                var result = JSON.parse(data);
+                if (result.length > 0) {
+                    $scope.notificationdata = result;
+                }
+            }).error(function (data, status) {
+               // alert(data);
+            });
+
+    $scope.updateRideNotification = function (ownerid, rideid, passengerid, bookingstatus) {
+
+        var user = JSON.stringify({
+            id: ownerid,
+            rideid: rideid,
+            userid: passengerid,
+            status: bookingstatus
+        });
+
+        var res = $http.post('http://carpoolserver.azurewebsites.net/rideconfirmation', user, { headers: { 'Content-Type': 'application/json' } });
+        res.success(function (data, status, headers, config) {
+            $scope.notificationdata = "";
+            window.location.href = 'ownernotification.html';
+            $scope.iserror = true;
+            $scope.success = true;
+        }).error(function (data, status) {
+            //alert(data);
+            //$scope.iserror = false;
+            //$scope.success = false;
+        });
+    }
+});
 
 

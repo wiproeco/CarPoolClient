@@ -1,0 +1,157 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+
+    <!--
+        Customize the content security policy in the meta tag below as needed. Add 'unsafe-inline' to default-src to enable inline JavaScript.
+        For details, see http://go.microsoft.com/fwlink/?LinkID=617521
+    -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *">
+    <title>Wipro Car Pool App</title>
+
+    <!-- CarPoolApp references -->
+    <link rel="stylesheet" href="css/index.css" />
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:400,100,300,500">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/form-elements.css">
+    <!--<link rel="stylesheet" href="css/style.css">-->
+
+
+</head>
+<body ng-app="myApp1" ng-controller="myRideDetailsCtrl">
+    <a id="menu-toggle" href="#" class="btn btn-dark btn-lg toggle"><i class="fa fa-bars"></i></a>
+    <nav id="sidebar-wrapper">
+        <!--<a id="menu-close" href="#top" class="btn btn-light btn-md pull-right toggle"><i class="fa fa-times"></i></a>-->
+        <ul class="sidebar-nav">
+            <!--<li class="sidebar-brand">
+                <a href="#top" onclick=$("#menu-close").click(); style="float:left"><p>Wipro Car Pooling</p></a>
+            </li>-->
+            <li><a href="#" ng-click="MyDashboard()">Dashboard</a></li>
+            <li><a href="#" id="carownerShow2" ng-click="MyRides()">My Rides</a></li>
+            <li><a href="#" id="passangerShow2" ng-click="JoinRide()">Join Ride</a></li>
+            <li><a href="#" ng-click="MyNotifications()">Notifications</a></li>
+            <li><a href="#" ng-click="logOut()">Log Out</a></li>
+        </ul>
+        <div class="clearfix"></div>
+    </nav>
+    <!-- Header -->
+    <header id="top" class="header">
+        <div class="text-vertical-center">
+            <h2> Wipro Car Pooling</h2>
+            <h4 class="text-primary"> Ride with our Wiproites</h4>
+            <!--<a href="#services" class="btn btn-dark btn-lg">Find Out More</a>-->
+        </div>
+    </header>
+    <!-- Services -->
+    <!-- The circle icons use Font Awesome's stacked icon classes. For more information, visit http://fontawesome.io/examples/ -->
+    <section id="services" class="services bg-primary">
+        <div class="container">
+            <div class="row text-center">
+                <div class="col-lg-10 col-lg-offset-1">
+                    <h3>Ride details required</h3>
+                    <hr class="small">
+                    <div class="row">
+                        <div class="col-md-4 pull-left">No.of Seats</div>
+                        <div class="col-md-6">
+                            <select class="form-noOfseats form-control" id="form-noOfseats" name="form-noOfseats" ng-model="seats" placeholder="No.of Seats..." required>
+                                <option>1</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                                <option>5</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 pull-left">Start Date</div>
+                        <div class="col-md-6">
+                            <input type="datetime-local" name="form-destination" placeholder="Start Date..." class="form-destination form-control" id="form-destination" ng-model="date.startdate" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 pull-left">End Date</div>
+                        <div class="col-md-6">
+                            <input type="datetime-local" name="form-destination" placeholder="End Date..." class="form-destination form-control" id="form-destination" ng-model="date.enddate" required>
+                        </div>
+                    </div>
+                    <hr class="small">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <button type="button" class="btn" ng-click="updateRide()">Submit</button>
+                            <!--<div class="alert alert-danger" ng-hide="iserror">
+
+                                OOPS!.....Status not updated.
+
+                            </div>-->
+
+                            <div class="alert alert-success" ng-show="success">
+
+                                Success. <a href="myrides.html" style="color:black;">Click <u>here to see updated status</u></a>
+
+                            </div> 
+                        </div>
+                    </div>
+                </div>
+                <!-- /.row (nested) -->
+            </div>
+            <!-- /.col-lg-10 -->
+        </div>
+        <!-- /.row -->
+        </div>
+        <!-- /.container -->
+    </section>
+    <!-- Callout -->
+    <!--<aside class="callout">
+        <div class="text-vertical-center">
+            <h1>Our Wipro...</h1>
+        </div>
+    </aside>-->
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-10 col-lg-offset-1 text-center">
+                    <h4>
+                        <strong class="text-primary">Wipro Car Pool APP By <a href="http://www.Wipro.com">www.Wipro.com</a></strong>
+                    </h4>
+                    <!--  <p>3481 Melrose Place<br>Beverly Hills, CA 90210</p>
+                      <ul class="list-unstyled">
+                          <li><i class="fa fa-phone fa-fw"></i> (123) 456-7890</li>
+                          <li>
+                              <i class="fa fa-envelope-o fa-fw"></i>  <a href="mailto:name@example.com">name@example.com</a>
+                          </li>
+                      </ul>
+                      <br>
+                      <ul class="list-inline">
+                          <li>
+                              <a href="#"><i class="fa fa-facebook fa-fw fa-3x"></i></a>
+                          </li>
+                          <li>
+                              <a href="#"><i class="fa fa-twitter fa-fw fa-3x"></i></a>
+                          </li>
+                          <li>
+                              <a href="#"><i class="fa fa-dribbble fa-fw fa-3x"></i></a>
+                          </li>
+                      </ul>
+                    <hr class="small">-->
+                    <p class="text-muted">Copyright &copy; Your Wipro 2016</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="cordova.js"></script>
+    <script src="scripts/platformOverrides.js"></script>
+    <script src="scripts/jquery-1.11.1.min.js"></script>
+    <script src="scripts/bootstrap.min.js"></script>
+    <script src="scripts/jquery.backstretch.min.js"></script>
+    <script src="scripts/scripts.js"></script>
+    <script src="scripts/angular.min.js" type="text/javascript"></script>
+    <script src="scripts/common.js"></script>
+    <script src="scripts/myrides.js"></script>
+    <script src="scripts/app.js"></script>
+    <script src="scripts/custom.js"></script>
+</body>
+</html>
