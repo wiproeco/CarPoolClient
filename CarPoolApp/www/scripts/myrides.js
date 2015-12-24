@@ -11,13 +11,19 @@ app.controller('myRideCtrl', function ($scope, $http, $window) {
     //var userid = "011251e3-a03d-60ad-a981-973b0bc60253";
     $scope.iserror = true;
     $scope.success = false;
+   
+
     $http.get("http://carpoolserver.azurewebsites.net/getallridedetails/" + userid)
         .success(function (response) {
             $scope.rides = response[0].rides;
+            document.getElementById("Loading").style.display = "none";
+          
         })
         .error(function (data, status) {
             //alert('failed');
+            document.getElementById("Loading").style.display = "none";
         });
+ 
     $scope.cancel = function (rideId) {
         $http.post("http://carpoolserver.azurewebsites.net/cancelride", { id: localStorage.getItem("userid"), rideid: rideId })
        .success(function (response) {
@@ -115,11 +121,12 @@ app.controller('myRideDetailsCtrl', function ($scope, $http, $window) {
         var rideJSON = localStorage.getItem("currentRideObject");
         var rideObject = JSON.parse(rideJSON);
         rideObject.seatsavailable = $scope.seats;
-        //alert($scope.date.startdate);
-        rideObject.startdatetime = $scope.date.startdate.toJSON();
-        alert(rideObject.startdatetime);
-
-        rideObject.enddatetime = $scope.date.enddate.toJSON();
+        //rideObject.startdatetime = "2015-12-24"; //JSON.parse(JSON.stringify($scope.date.startdate));
+        // rideObject.enddatetime = "2015-12-24"; //JSON.parse(JSON.stringify($scope.date.enddate));
+        
+        rideObject.startdatetime = formatDate();
+        rideObject.enddatetime = formatDate();
+        //console.log(rideObject.startdatetime);
         $scope.iserror = true;
         $scope.success = false;
         //alert(JSON.stringify(rideObject));
@@ -138,4 +145,25 @@ app.controller('myRideDetailsCtrl', function ($scope, $http, $window) {
        });
     }
 });
+
+
+function GetStartDate() {
+        return (new Date()).toString();
+    }
+   function GetEndDate() {
+        return (new Date()).toString();
+
+    }
+   function formatDate() {
+       var d = new Date(),
+           month = '-' + (d.getMonth() + 1),
+           day = '-' + d.getDate(),
+           year = d.getFullYear();
+
+       var strDate = year + month + day;
+
+      //2015-12-24
+
+       return strDate;
+   }
 

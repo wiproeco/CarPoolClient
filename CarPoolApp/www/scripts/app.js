@@ -2,11 +2,13 @@
 var app = angular.module('myApp', []);
 
 
+
 app.controller('userCtrl', function ($scope, $http, $window) {
     $scope.authenticated = true;
     $scope.login = function () {
-        var email = $scope.txtEmail;
-        var pass = $scope.txtPassword;
+       var email = $scope.txtEmail;
+       var pass = $scope.txtPassword;       
+       document.getElementById("Loading").style.display = "block";
         if (email != "" && pass != "" && email != undefined && pass != undefined) {
             //$http.get("http://carpooltestapp.azurewebsites.net/authenticate/" + email + "/" + pass)
             $http.get("http://carpoolserver.azurewebsites.net/authenticate/" + email + "/" + pass)
@@ -23,14 +25,19 @@ app.controller('userCtrl', function ($scope, $http, $window) {
                     document.location.href = 'NewDashboard.html';
                 }
                 else {
+                    document.getElementById("Loading").style.display = "none";
                     $scope.authenticated = false;
                 }
-
+              
             })
-                .error(function (data, status) {
-                    $scope.authenticated = false;
-                });
+            .error(function (data, status) {
+                $scope.authenticated = false;                
+                document.getElementById("Loading").style.display = "none";
+
+            });
+            
         }
+        else { document.getElementById("Loading").style.display = "none"; }
     }
     $scope.edit = false;
     $scope.change = function () {
@@ -246,40 +253,64 @@ function PushNotifications()
     else {
         notificationurl = notificationurl + "receivenotitifications/" + userId;
     }
-    
+
+    $("#MyNotifications").css("backgroundColor", "green");
     NotificationClientService.AutomaticNotifications(notificationurl, 2, totaltimeout, null, NoticationCallback);
 }
 
 function NoticationCallback(data)
 {
+    var isowner = window.localStorage.getItem("isowner");
+
     if (data != undefined && data != null && data.data.length > 0)
     {
-        $("#MyNotifications").css("backgroundColor", "red");
-        CancelNotification.Clear(NotificationClientService.RefreshIntervalId);
+        if (isowner == "true")
+        {
+            $("#MyNotifications").css("backgroundColor", "red");
+            CancelNotification.Clear(NotificationClientService.RefreshIntervalId);
+        }
+        else
+        {
+            if (data.data[0].status == "pending") {
+                $("#MyNotifications").css("backgroundColor", "yellow");
+            }
+            else {
+                $("#MyNotifications").css("backgroundColor", "red");
+                CancelNotification.Clear(NotificationClientService.RefreshIntervalId);
+            }
+        }
     }
 }
 
 app.controller('usernotificationCtrl', function ($scope, $http, $window) {
+
+    document.getElementById("Loading").style.display = "block";
     navigationLinks($scope, $http, $window);
     $scope.notificationdata = "";
     var userId = window.localStorage.getItem("userid");
+
     //var url = "http://carpoolserver.azurewebsites.net/receivenotitifications/53946907-3b48-6904-f599-db29de2e74e6";
     var url = "http://carpoolserver.azurewebsites.net/receivenotitifications/" + userId;
     $http.get(url)
             .success(function (response) {
+
                 var data = JSON.stringify(response);
                 var result = JSON.parse(data);
                 if (result.length > 0) {
                     $scope.notificationdata = result;
                 }
+                document.getElementById("Loading").style.display = "none";
+
             }).error(function (data, status) {
+                document.getElementById("Loading").style.display = "none";
             });
+   
 });
 
 app.controller('ownernotificationCtrl', function ($scope, $http, $window) {
+   
     navigationLinks($scope, $http, $window);
     $scope.notificationdata = "";
-
     var userId = window.localStorage.getItem("userid");
     var todayDate = new Date();
     var date = todayDate.getFullYear() + "-" + (todayDate.getMonth() + 1) + "-" + todayDate.getDate();
@@ -292,12 +323,14 @@ app.controller('ownernotificationCtrl', function ($scope, $http, $window) {
                 if (result.length > 0) {
                     $scope.notificationdata = result;
                 }
+                document.getElementById("Loading").style.display = "none";
+               
             }).error(function (data, status) {
-               // alert(data);
+                // alert(data);    
+                document.getElementById("Loading").style.display = "none";
             });
 
     $scope.updateRideNotification = function (ownerid, rideid, passengerid, bookingstatus) {
-
         var user = JSON.stringify({
             id: ownerid,
             rideid: rideid,
@@ -317,6 +350,7 @@ app.controller('ownernotificationCtrl', function ($scope, $http, $window) {
             //$scope.success = false;
         });
     }
+   
 });
 
 
