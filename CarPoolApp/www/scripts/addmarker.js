@@ -85,7 +85,7 @@
             $.ajax({
                 type: "POST",
                 contentType: "application/json",
-                url: "http://azurecarpool.azurewebsites.net/updatelocation",
+                url: "http://wiprocarpool.azurewebsites.net/updatelocation",
                 data: JSON.stringify(service),
                 dataType: "json",
                 success: function () {

@@ -102,7 +102,7 @@
                     $.ajax({
                         type: "GET",
                         contentType: "application/json",
-                        url: "http://carpoolserver.azurewebsites.net/searchrides/" + searchLocation.vicinity,
+                        url: "http://wiprocarpool.azurewebsites.net/searchrides/" + searchLocation.vicinity,
                         //url: "http://carpooltestapp.azurewebsites.net/searchrides/" + searchLocation.vicinity,
                         //data: JSON.stringify(service),
                         dataType: "json",
@@ -123,7 +123,7 @@
                     $.ajax({
                         type: "POST",
                         contentType: "application/json",
-                        url: "http://carpoolserver.azurewebsites.net/joinride/",
+                        url: "http://wiprocarpool.azurewebsites.net/joinride/",
                         data: JSON.stringify({ carownerId: carOwnerId, userId: localStorage.getItem("userid"), rideid: rideObject.rideid, boardingid: $("#ddlPickuppoints").val() }),
                         dataType: "json",
                         success: function (data) {
@@ -179,7 +179,7 @@
             $.ajax({
                 type: "GET",
                 contentType: "application/json",
-                url: "http://carpoolserver.azurewebsites.net/getridedetails/" + docId,
+                url: "http://wiprocarpool.azurewebsites.net/getridedetails/" + docId,
                 //url: "http://carpooltestapp.azurewebsites.net/getcarowner/" + docId,
                 //data: JSON.stringify(service),
                 dataType: "json",

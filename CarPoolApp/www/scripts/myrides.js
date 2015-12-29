@@ -13,7 +13,7 @@ app.controller('myRideCtrl', function ($scope, $http, $window) {
     $scope.success = false;
    
 
-    $http.get("http://carpoolserver.azurewebsites.net/getallridedetails/" + userid)
+    $http.get("http://wiprocarpool.azurewebsites.net/getallridedetails/" + userid)
         .success(function (response) {
             $scope.rides = response[0].rides;
             document.getElementById("Loading").style.display = "none";
@@ -25,7 +25,7 @@ app.controller('myRideCtrl', function ($scope, $http, $window) {
         });
  
     $scope.cancel = function (rideId) {
-        $http.post("http://carpoolserver.azurewebsites.net/cancelride", { id: localStorage.getItem("userid"), rideid: rideId })
+        $http.post("http://wiprocarpool.azurewebsites.net/cancelride", { id: localStorage.getItem("userid"), rideid: rideId })
        .success(function (response) {
            //alert(rideId + " has been cancelled");
            $scope.iserror = true;
@@ -131,7 +131,7 @@ app.controller('myRideDetailsCtrl', function ($scope, $http, $window) {
         $scope.success = false;
         //alert(JSON.stringify(rideObject));
 
-        $http.post("http://carpoolserver.azurewebsites.net/updateroute/", { userid: localStorage.getItem("userid"), ride: rideObject })
+        $http.post("http://wiprocarpool.azurewebsites.net/updateroute/", { userid: localStorage.getItem("userid"), ride: rideObject })
        .success(function (response) {
           /* $scope.rides = response[0].rides;  */         
            $scope.iserror = true;

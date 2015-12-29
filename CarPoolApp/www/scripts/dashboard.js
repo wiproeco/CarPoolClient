@@ -9,25 +9,25 @@
 
     function onDeviceReady() {
 
-            var socket = null;
-            //Socket registration related
-            var userdocid = window.localStorage.getItem("userid");
-            socket = io('http://carpooltestapp.azurewebsites.net:3000/');
-            socket.on('connect', function () { });
-            socket.emit('regUser', { userid: userdocid });
+            //var socket = null;
+            ////Socket registration related
+            //var userdocid = window.localStorage.getItem("userid");
+            //socket = io('http://carpooltestapp.azurewebsites.net:3000/');
+            //socket.on('connect', function () { });
+            //socket.emit('regUser', { userid: userdocid });
 
-            socket.on('recieveNotification', function (text) {
-                navigator.notification.confirm(text, onConfirm, 'Confirmation', ['Accept', 'Reject']);
-            });
-            function onConfirm(buttonIndex) {
-                if (buttonIndex == 1) {
-                    socket.emit('sendNotification', { data: 'Your ride is accepted by Owner', userid: '' });
-                }
-                if (buttonIndex == 2) {
-                    socket.emit('sendNotification', { data: 'Your ride is rejected by Owner', userid: '' });
-                }
+            //socket.on('recieveNotification', function (text) {
+            //    navigator.notification.confirm(text, onConfirm, 'Confirmation', ['Accept', 'Reject']);
+            //});
+            //function onConfirm(buttonIndex) {
+            //    if (buttonIndex == 1) {
+            //        socket.emit('sendNotification', { data: 'Your ride is accepted by Owner', userid: '' });
+            //    }
+            //    if (buttonIndex == 2) {
+            //        socket.emit('sendNotification', { data: 'Your ride is rejected by Owner', userid: '' });
+            //    }
 
-            }
+            //}
 
         // Handle the Cordova pause and resume events
         document.addEventListener('pause', onPause.bind(this), false);

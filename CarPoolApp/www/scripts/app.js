@@ -10,8 +10,7 @@ app.controller('userCtrl', function ($scope, $http, $window) {
        var pass = $scope.txtPassword;       
        document.getElementById("Loading").style.display = "block";
         if (email != "" && pass != "" && email != undefined && pass != undefined) {
-            //$http.get("http://carpooltestapp.azurewebsites.net/authenticate/" + email + "/" + pass)
-            $http.get("http://carpoolserver.azurewebsites.net/authenticate/" + email + "/" + pass)
+            $http.get("http://wiprocarpool.azurewebsites.net/authenticate/" + email + "/" + pass)
             .success(function (response) {
                 var data = JSON.stringify(response);
                 var result = JSON.parse(data);
@@ -88,7 +87,7 @@ app.controller('userCtrl', function ($scope, $http, $window) {
                 ]
             });
 
-            var res = $http.post('http://carpoolserver.azurewebsites.net/register', user,
+            var res = $http.post('http://wiprocarpool.azurewebsites.net/register', user,
                       { headers: { 'Content-Type': 'application/json' } });
             res.success(function (data, status, headers, config) {
                 $scope.iserror = true;
@@ -122,7 +121,7 @@ app.controller('userCtrl', function ($scope, $http, $window) {
 
 app.controller('searchCtrl', function ($scope, $http, $window, $rootScope) {
 
-    var url = "http://carpooltestapp.azurewebsites.net/listsharedrides/";
+    var url = "http://wiprocarpool.azurewebsites.net/listsharedrides/";
     var userid = window.localStorage.getItem("userid");
     try {
         $http.get(url + "undefined/undefined/" + userid)
@@ -238,7 +237,7 @@ function navigationLinks($scope, $http, $window) {
 
 function PushNotifications()
 {
-    var notificationurl = "http://carpoolserver.azurewebsites.net/";
+    var notificationurl = "http://wiprocarpool.azurewebsites.net/";
     var isowner = window.localStorage.getItem("isowner");
     var userId = window.localStorage.getItem("userid");
     var todayDate = new Date();
@@ -289,8 +288,8 @@ app.controller('usernotificationCtrl', function ($scope, $http, $window) {
     $scope.notificationdata = "";
     var userId = window.localStorage.getItem("userid");
 
-    //var url = "http://carpoolserver.azurewebsites.net/receivenotitifications/53946907-3b48-6904-f599-db29de2e74e6";
-    var url = "http://carpoolserver.azurewebsites.net/receivenotitifications/" + userId;
+    //var url = "http://wiprocarpool.azurewebsites.net/receivenotitifications/53946907-3b48-6904-f599-db29de2e74e6";
+    var url = "http://wiprocarpool.azurewebsites.net/receivenotitifications/" + userId;
     $http.get(url)
             .success(function (response) {
 
@@ -314,8 +313,8 @@ app.controller('ownernotificationCtrl', function ($scope, $http, $window) {
     var userId = window.localStorage.getItem("userid");
     var todayDate = new Date();
     var date = todayDate.getFullYear() + "-" + (todayDate.getMonth() + 1) + "-" + todayDate.getDate();
-    //var url = "http://carpoolserver.azurewebsites.net/getnotitifications/bae03711-08e6-7d8f-8101-457caa0368a8/2011-07-14";
-    var url = "http://carpoolserver.azurewebsites.net/getnotitifications/" + userId + "/" + date.toString();
+    //var url = "http://wiprocarpool.azurewebsites.net/getnotitifications/bae03711-08e6-7d8f-8101-457caa0368a8/2011-07-14";
+    var url = "http://wiprocarpool.azurewebsites.net/getnotitifications/" + userId + "/" + date.toString();
     $http.get(url)
             .success(function (response) {
                 var data = JSON.stringify(response);
@@ -338,7 +337,7 @@ app.controller('ownernotificationCtrl', function ($scope, $http, $window) {
             status: bookingstatus
         });
 
-        var res = $http.post('http://carpoolserver.azurewebsites.net/rideconfirmation', user, { headers: { 'Content-Type': 'application/json' } });
+        var res = $http.post('http://wiprocarpool.azurewebsites.net/rideconfirmation', user, { headers: { 'Content-Type': 'application/json' } });
         res.success(function (data, status, headers, config) {
             $scope.notificationdata = "";
             window.location.href = 'ownernotification.html';
