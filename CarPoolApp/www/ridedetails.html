@@ -21,29 +21,35 @@
 
 </head>
 <body ng-app="myApp1" ng-controller="myRideDetailsCtrl">
-    <a id="menu-toggle" href="#" class="btn btn-dark btn-lg toggle"><i class="fa fa-bars"></i></a>
-    <nav id="sidebar-wrapper">
-        <!--<a id="menu-close" href="#top" class="btn btn-light btn-md pull-right toggle"><i class="fa fa-times"></i></a>-->
-        <ul class="sidebar-nav">
-            <!--<li class="sidebar-brand">
-                <a href="#top" onclick=$("#menu-close").click(); style="float:left"><p>Wipro Car Pooling</p></a>
-            </li>-->
-            <li><a href="#" ng-click="MyDashboard()">Dashboard</a></li>
-            <li><a href="#" id="carownerShow2" ng-click="MyRides()">My Rides</a></li>
-            <li><a href="#" id="passangerShow2" ng-click="JoinRide()">Join Ride</a></li>
-            <li><a href="#" ng-click="MyNotifications()">Notifications</a></li>
-            <li><a href="#" ng-click="logOut()">Log Out</a></li>
-        </ul>
-        <div class="clearfix"></div>
-    </nav>
-    <!-- Header -->
-    <header id="top" class="header">
-        <div class="text-vertical-center">
-            <h2> Wipro Car Pooling</h2>
-            <h4 class="text-primary"> Ride with our Wiproites</h4>
-            <!--<a href="#services" class="btn btn-dark btn-lg">Find Out More</a>-->
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-2">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">
+                    Wipro Car Pool App
+                </a>
+            </div>
+
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-2">
+                <ul class="nav navbar-nav">
+                    <li style="background-color:white;line-height:50px;"><span style="padding-left:15px;"></span></li>
+                    <li class="divider"></li>
+                    <!--<li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>
+                    <li><a href="#">Link</a></li>-->
+                    <li><a href="#" ng-click="MyDashboard()">Dashboard</a></li>
+                    <li><a id="carownerShow2" href="#" ng-click="MyRides()">My Rides</a></li>
+                    <li><a id="passangerShow2" href="#" ng-click="JoinRide()">Join Ride</a></li>
+                    <li><a href="#" ng-click="MyNotifications()">Notifications</a></li>
+                    <li><a href="#" ng-click="logOut()">Log Out</a></li>
+                </ul>
+            </div>
         </div>
-    </header>
+    </nav>
     <!-- Services -->
     <!-- The circle icons use Font Awesome's stacked icon classes. For more information, visit http://fontawesome.io/examples/ -->
     <section id="services" class="services bg-primary">
@@ -110,34 +116,9 @@
     </aside>-->
     <!-- Footer -->
     <footer>
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-10 col-lg-offset-1 text-center">
-                    <h4>
-                        <strong class="text-primary">Wipro Car Pool APP By <a href="http://www.Wipro.com">www.Wipro.com</a></strong>
-                    </h4>
-                    <!--  <p>3481 Melrose Place<br>Beverly Hills, CA 90210</p>
-                      <ul class="list-unstyled">
-                          <li><i class="fa fa-phone fa-fw"></i> (123) 456-7890</li>
-                          <li>
-                              <i class="fa fa-envelope-o fa-fw"></i>  <a href="mailto:name@example.com">name@example.com</a>
-                          </li>
-                      </ul>
-                      <br>
-                      <ul class="list-inline">
-                          <li>
-                              <a href="#"><i class="fa fa-facebook fa-fw fa-3x"></i></a>
-                          </li>
-                          <li>
-                              <a href="#"><i class="fa fa-twitter fa-fw fa-3x"></i></a>
-                          </li>
-                          <li>
-                              <a href="#"><i class="fa fa-dribbble fa-fw fa-3x"></i></a>
-                          </li>
-                      </ul>
-                    <hr class="small">-->
-                    <p class="text-muted">Copyright &copy; Your Wipro 2016</p>
-                </div>
+        <div class="row">
+            <div class="col-lg-12">
+                © 2015 - Wipro Technologies
             </div>
         </div>
     </footer>

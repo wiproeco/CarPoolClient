@@ -1,8 +1,6 @@
 ﻿
 var app = angular.module('myApp', []);
 
-
-
 app.controller('userCtrl', function ($scope, $http, $window) {
     $scope.authenticated = true;
     $scope.login = function () {
@@ -17,10 +15,10 @@ app.controller('userCtrl', function ($scope, $http, $window) {
                 if (result.length > 0) {
                     var userid = result[0].id;
                     var isowner = result[0].isowner;
-                    //var username = result[0].userName;
+                    var username = result[0].userName;
                     window.localStorage.setItem("userid", userid);
                     window.localStorage.setItem("isowner", isowner);
-                    //window.localStorage.setItem("username", username);
+                    window.localStorage.setItem("username", username);
                     document.location.href = 'NewDashboard.html';
                 }
                 else {
@@ -50,6 +48,7 @@ app.controller('userCtrl', function ($scope, $http, $window) {
     $scope.success = false;
     $scope.ismatch = true;
     $scope.AddUser = function () {
+       
         var UserName = $scope.txtRegUserName;
         var Password = $scope.txtRegPwd;
         var ConfirmPwd = $scope.txtRegConfirmPwd;
@@ -86,7 +85,7 @@ app.controller('userCtrl', function ($scope, $http, $window) {
                 rides: [
                 ]
             });
-
+            $scope.processing = true;
             var res = $http.post('http://wiprocarpool.azurewebsites.net/register', user,
                       { headers: { 'Content-Type': 'application/json' } });
             res.success(function (data, status, headers, config) {
@@ -98,7 +97,7 @@ app.controller('userCtrl', function ($scope, $http, $window) {
                 $scope.txtRegEmail = '';
                 $scope.txtRegMobile = '';
                 $scope.carno = '';
-
+                $scope.processing = false;
             });
             res.error(function (data, status, headers, config) {
                 $scope.iserror = false;
@@ -110,10 +109,13 @@ app.controller('userCtrl', function ($scope, $http, $window) {
                 $scope.txtRegEmail = '';
                 $scope.txtRegMobile = '';
                 $scope.carno = '';
+                $scope.processing = false;
+               
             });
 
 
         }
+       
         return false;
     }
 
@@ -170,10 +172,14 @@ app.controller('searchCtrl', function ($scope, $http, $window, $rootScope) {
 
 });
 
+app.controller('newRideCtrl', function ($scope, $http, $window) {
 
+    $scope.userName = localStorage.getItem("username");
+    navigationLinks($scope, $http, $window);
+});
 
 app.controller('dashboardCtrl', function ($scope, $http, $window) {   
-
+    $scope.userName = localStorage.getItem("username");
     PushNotifications();
     navigationLinks($scope, $http, $window);
 });
@@ -287,6 +293,7 @@ app.controller('usernotificationCtrl', function ($scope, $http, $window) {
     navigationLinks($scope, $http, $window);
     $scope.notificationdata = "";
     var userId = window.localStorage.getItem("userid");
+    $scope.userName = localStorage.getItem("username");
 
     //var url = "http://wiprocarpool.azurewebsites.net/receivenotitifications/53946907-3b48-6904-f599-db29de2e74e6";
     var url = "http://wiprocarpool.azurewebsites.net/receivenotitifications/" + userId;
@@ -307,10 +314,11 @@ app.controller('usernotificationCtrl', function ($scope, $http, $window) {
 });
 
 app.controller('ownernotificationCtrl', function ($scope, $http, $window) {
-   
+   document.getElementById("Loading").style.display = "block";
     navigationLinks($scope, $http, $window);
     $scope.notificationdata = "";
     var userId = window.localStorage.getItem("userid");
+    $scope.userName = localStorage.getItem("username");
     var todayDate = new Date();
     var date = todayDate.getFullYear() + "-" + (todayDate.getMonth() + 1) + "-" + todayDate.getDate();
     //var url = "http://wiprocarpool.azurewebsites.net/getnotitifications/bae03711-08e6-7d8f-8101-457caa0368a8/2011-07-14";
@@ -330,6 +338,7 @@ app.controller('ownernotificationCtrl', function ($scope, $http, $window) {
             });
 
     $scope.updateRideNotification = function (ownerid, rideid, passengerid, bookingstatus) {
+        document.getElementById("Loading").style.display = "block";
         var user = JSON.stringify({
             id: ownerid,
             rideid: rideid,
@@ -343,10 +352,12 @@ app.controller('ownernotificationCtrl', function ($scope, $http, $window) {
             window.location.href = 'ownernotification.html';
             $scope.iserror = true;
             $scope.success = true;
+            document.getElementById("Loading").style.display = "none";
         }).error(function (data, status) {
             //alert(data);
             //$scope.iserror = false;
             //$scope.success = false;
+            document.getElementById("Loading").style.display = "none";
         });
     }
    

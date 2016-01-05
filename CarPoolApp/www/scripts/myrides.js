@@ -1,37 +1,29 @@
 ﻿var app = angular.module('myApp1', []);
 
 app.controller('myRideCtrl', function ($scope, $http, $window) {
-
+    document.getElementById("Loading").style.display = "block";
     navigationLinks($scope, $http, $window);
 
     $scope.rideId = "";
     $scope.rides = [];
-   
     var userid = localStorage.getItem("userid");
+    $scope.userName = localStorage.getItem("username");
     //var userid = "011251e3-a03d-60ad-a981-973b0bc60253";
     $scope.iserror = true;
     $scope.success = false;
-   
-
-    $http.get("http://wiprocarpool.azurewebsites.net/getallridedetails/" + userid)
-        .success(function (response) {
-            $scope.rides = response[0].rides;
-            document.getElementById("Loading").style.display = "none";
-          
-        })
-        .error(function (data, status) {
-            //alert('failed');
-            document.getElementById("Loading").style.display = "none";
-        });
- 
+    getAllRideDetails($scope, $http, userid);
     $scope.cancel = function (rideId) {
+        document.getElementById("Loading").style.display = "block";
         $http.post("http://wiprocarpool.azurewebsites.net/cancelride", { id: localStorage.getItem("userid"), rideid: rideId })
        .success(function (response) {
+           getAllRideDetails($scope, $http, localStorage.getItem("userid"));
+           document.getElementById("Loading").style.display = "none";
            //alert(rideId + " has been cancelled");
            $scope.iserror = true;
            $scope.success = true;
        })
        .error(function (data, status) {
+           document.getElementById("Loading").style.display = "none";
            //alert('failed');
            //$scope.iserror = false;
            //$scope.success = false;
@@ -46,7 +38,19 @@ app.controller('myRideCtrl', function ($scope, $http, $window) {
     }
 });
 
+function getAllRideDetails($scope, $http,userid) {
+    document.getElementById("Loading").style.display = "block";
+    $http.get("http://wiprocarpool.azurewebsites.net/getallridedetails/" + userid)
+    .success(function (response) {
+        $scope.rides = response[0].rides;
+        document.getElementById("Loading").style.display = "none";
 
+    })
+    .error(function (data, status) {
+        //alert('failed');
+        document.getElementById("Loading").style.display = "none";
+    });
+}
 function navigationLinks($scope, $http, $window) {
 
     var isowner = window.localStorage.getItem("isowner");
