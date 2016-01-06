@@ -9,8 +9,8 @@
     <meta name="author" content="">
     <!--<link rel="icon" href="../../favicon.ico">-->
     <link rel="shortcut icon" href="about:blank">
-
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-inline'; style-src 'self' 'unsafe-inline'; media-src *">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'unsafe-eval' *; style-src 'unsafe-inline' *; img-src * data:">
+    <!--<meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-inline'; style-src 'self' 'unsafe-inline'; media-src *">-->
     <title>Wipro Car Pool App</title>
 
     <!-- CarPoolApp references -->
@@ -110,7 +110,7 @@
                                         <div class="col-md-3 col-sm-6">
                                             <div class="service-item">
                                                 <h4>
-                                                    <a href="#" class="btn btn-light" ng-click="MyNotifications()"><i class="fa fa-bullhorn fa-5x"></i><br />Notications</a>
+                                                    <a href="#" id="MyNotifications" class="btn btn-light" ng-click="MyNotifications()"><i class="fa fa-bullhorn fa-5x"></i><br />Notications</a>
                                                 </h4>
                                                 <p>Listen notifications from wiproites</p>
                                             </div>

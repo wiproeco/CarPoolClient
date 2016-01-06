@@ -93,9 +93,12 @@
             });
             
         }
+
         directionsService = new google.maps.DirectionsService();
+        
 
         var autocompleteStart = new google.maps.places.Autocomplete(document.getElementById("txtDestination"));
+       
         $("#btnRoute").click(function () {
             
             var mode = google.maps.DirectionsTravelMode.DRIVING;
@@ -114,6 +117,7 @@
                     directionsDisplay.setDirections(response);
                 }
             });
+           
         });
         $("#btnReset").click(function () {
             clearMarkers();
@@ -264,9 +268,8 @@
                 directionsDisplay.setMap(map);
 
                 
-            }, function (e) {
-                //alert(e);
-            });
+            },
+            function (error) { alert("enable location in your mobile"); }, { timeout: 1000, enableHighAccuracy: true, maximumAge: 90000 });
         } else {
             alert("Geolocation is not supported by this browser.");
         }

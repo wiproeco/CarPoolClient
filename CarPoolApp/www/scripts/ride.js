@@ -120,14 +120,22 @@
 
                 $("#btnJoinRide").click(function () {
 
+                    var reqforcurrgeolocnvalue = "";
+
+                    if (document.getElementById("chkreqforcurrgeolocn").checked)
+                        reqforcurrgeolocnvalue = true;
+                    else
+                        reqforcurrgeolocnvalue = false;
+
                     $.ajax({
                         type: "POST",
                         contentType: "application/json",
                         url: "http://wiprocarpool.azurewebsites.net/joinride/",
-                        data: JSON.stringify({ carownerId: carOwnerId, userId: localStorage.getItem("userid"), rideid: rideObject.rideid, boardingid: $("#ddlPickuppoints").val() }),
+                        data: JSON.stringify({ carownerId: carOwnerId, userId: localStorage.getItem("userid"), rideid: rideObject.rideid, boardingid: $("#ddlPickuppoints").val(), reqforcurrgeolocn: reqforcurrgeolocnvalue }),
                         dataType: "json",
                         success: function (data) {
                             $("#carmodal").modal("toggle");
+                            window.location.href = "usernotification.html";
                             //alert('Request sent to Owner. Please be wait...');
                         }
                     });
@@ -153,7 +161,7 @@
                     window.location.href = 'index.html';
                 });
 
-           });
+            }, function (error) { alert("enable location in your mobile"); }, { timeout:1000, enableHighAccuracy: true, maximumAge: 90000 });
         } else {
             alert("Geolocation is not supported by this browser.");
         }

@@ -6,7 +6,8 @@
         Customize the content security policy in the meta tag below as needed. Add 'unsafe-inline' to default-src to enable inline JavaScript.
         For details, see http://go.microsoft.com/fwlink/?LinkID=617521
     -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-inline'; style-src 'self' 'unsafe-inline'; script-src 'self' https://ssl.gstatic.com 'unsafe-inline' 'self' https://*.googleapis.com 'unsafe-eval'; img-src *; font-src *; media-src *">
+    <!--<meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-inline'; style-src 'self' 'unsafe-inline'; script-src 'self' https://ssl.gstatic.com 'unsafe-inline' 'self' https://*.googleapis.com 'unsafe-eval'; img-src *; font-src *; media-src *">-->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'unsafe-eval' *; style-src 'unsafe-inline' *; img-src * data:">
     <title>Wipro Car Pool App</title>
 
     <!-- CarPoolApp references -->
@@ -148,7 +149,12 @@
                                     <select class="form-control" id="ddlPickuppoints" style="width:80%">                                        
                                     </select>
                                 </div>
-                            </div>                                                
+                            </div>   
+                            <div class="form-group">
+                                <div class="col-sm-9">
+                                    <input type="checkbox" id="chkreqforcurrgeolocn" name="chkreqforcurrgeolocn">Request for current location
+                                </div>
+                            </div>                                             
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-primary" id="btnJoinRide">Join Ride</button>                           
@@ -170,6 +176,7 @@
     <script src="scripts/app.js"></script>
     <script src="scripts/ride.js"></script>
     <script src="scripts/custom.js"></script>
+    <script src="scripts/NotificationClientService.js"></script>
     <script src="scripts/Error.js"></script>
 </body>
 </html>

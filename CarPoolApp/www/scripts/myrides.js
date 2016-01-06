@@ -165,6 +165,10 @@ app.controller('myRideDetailsCtrl', function ($scope, $http, $window, $filter) {
         try {
             $http.post("http://wiprocarpool.azurewebsites.net/updateroute/", { userid: localStorage.getItem("userid"), ride: rideObject })
            .success(function (response) {
+               //to update current location
+               $http.post("http://wiprocarpool.azurewebsites.net/updatecarlocation/", {
+                   userid: localStorage.getItem("userid"), currgeolocnaddress: rideObject.startpoint, currgeolocnlat: rideObject.startlat, currgeolocnlong: rideObject.startlng
+               });
                /* $scope.rides = response[0].rides;  */
                $scope.iserror = true;
                $scope.success = true;

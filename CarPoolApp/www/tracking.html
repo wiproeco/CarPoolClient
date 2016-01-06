@@ -7,48 +7,44 @@
         For details, see http://go.microsoft.com/fwlink/?LinkID=617521
     -->
     <!--<meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; script-src 'self' https://ssl.gstatic.com 'unsafe-eval' 'self' https://*.googleapis.com 'unsafe-eval'; img-src *; font-src *; media-src *">-->
+
     <meta http-equiv="Content-Security-Policy" content="default-src 'unsafe-eval' *; style-src 'unsafe-inline' *; img-src * data:">
+    
     <title>Wipro Car Pool App</title>
 
     <!-- CarPoolApp references -->
     <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:400,100,300,500">
     <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
+    <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <!--<script src="http://maps.googleapis.com/maps/api/js">-->
+    <!--</script>-->
     <style>
         #wrapper {
             position: relative;
         }
 
-        /*#over_map {
+        #over_map {
             position: absolute;
-            top: 80px;
-            left: 10px;
-            width: 97%;
-        }*/
-
-        #over_map_button {
-            position: absolute;
-            bottom: 10px;
+            top: 10px;
             left: 10px;
             z-index: 99;
             width: 97%;
         }
 
-         .menuLink {
+        .menuLink {
             color: #FFF;
             cursor: pointer;
         }
 
-        .menuLink:hover{
-            color:black;
-            background-color:#808080;
-        }
+            .menuLink:hover {
+                color: black;
+                background-color: #808080;
+            }
     </style>
-
 </head>
-<body ng-app="myApp" ng-controller="newRideCtrl">
+<body ng-app="myApp" ng-controller="dashboardCtrl">
     <!-- Navigation -->
-    <!-- Navigation -->
+    <!--<a id="menu-toggle" href="#" class="btn btn-dark btn-lg toggle"><i class="fa fa-bars"></i></a>-->
     <nav class="navbar navbar-inverse">
         <div class="container-fluid">
             <div class="navbar-header">
@@ -62,20 +58,13 @@
                     <div><img src="images/icon-36-ldpi.png" />&nbsp;Wipro Carpool App!</div>
                 </a>
             </div>
-            <div id="errordiv" class="row">
-                <div class="col-lg-12">
-                    <div id="errormsg" class="alert alert-danger">
-                    </div>
-                </div>
-            </div>
+
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-2">
                 <ul class="nav navbar-nav">
                     <li style="background-color:white;line-height:50px;">
                         <span style="padding-left:15px;"><b>Welcome {{ userName }}!</b></span> <!--<i class="fa fa-pencil fa-fw"></i>-->
                     </li>
                     <li class="divider"></li>
-                    <!--<li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>
-                    <li><a href="#">Link</a></li>-->
                     <li><a href="#" ng-click="MyDashboard()">Dashboard</a></li>
                     <li><a id="carownerShow2" href="#" ng-click="MyRides()">My Rides</a></li>
                     <li><a id="passangerShow2" href="#" ng-click="JoinRide()">Join Ride</a></li>
@@ -85,31 +74,14 @@
             </div>
         </div>
     </nav>
-  
+
     <div class="container-fluid">
         <div class="row">
             <div class="wrapper">
-                <div id="over_map">
-                    <input type="text" id="txtDestination" class="form-control" />
-                    <div id="demo"></div>
-                </div>
                 <div id="map" data-tap-disabled="true"></div>
-                <div id="over_map_button">
-                    <input type="button" id="btnRoute" value="Get Route" class="btn btn-primary" />
-                    <input type="button" id="btnReset" value="Reset" class="btn btn-primary" />
-                    <input type="button" id="btnSubmit" value="Submit" class="btn btn-primary" />
-                </div>
             </div>
         </div>
-        <footer>
-            <div class="row">
-                <div class="col-lg-12">
-                    © 2015 - Wipro Technologies
-                </div>
-            </div>
-        </footer>
     </div>
-   
     <!-- Cordova reference, this is added to your app when it's built. -->
     <script src="cordova.js"></script>
     <script src="scripts/platformOverrides.js"></script>
@@ -118,10 +90,11 @@
     <script src="scripts/jquery.backstretch.min.js"></script>
     <script src="scripts/scripts.js"></script>
     <script src="scripts/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.1/angular-route.min.js"></script>
     <script src="scripts/common.js"></script>
-    <script src="scripts/marker.js"></script>
+    <script src="scripts/tracking.js"></script>
     <script src="scripts/app.js"></script>
     <script src="scripts/custom.js"></script>
-    <script src="scripts/Error.js"></script>
+    <script src="scripts/NotificationClientService.js"></script>
 </body>
 </html>
