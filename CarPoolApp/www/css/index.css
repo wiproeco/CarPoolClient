@@ -241,3 +241,7 @@ hr.small {
 footer {
     padding: 10px 0;
 }
+
+.form-bottom form .input-error {
+	border-color: #de615e;
+}

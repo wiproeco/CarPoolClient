@@ -1,6 +1,15 @@
 ﻿var app = angular.module('myApp1', []);
 
-app.controller('myRideCtrl', function ($scope, $http, $window) {
+app.controller('myRideCtrl', function ($scope, $http, $window, $filter) {
+    $("#errormsg").hide();
+    $("#errordiv").hide();
+    var logdetails = {
+        userID: "",
+        logdescription: "",
+        logDate: $filter('date')(new Date(), 'dd/MM/yyyy'),
+        logTime: $filter('date')(new Date(), 'HH:mm'),
+        type: 'Diagnostic'
+    }
     document.getElementById("Loading").style.display = "block";
     navigationLinks($scope, $http, $window);
 
@@ -14,20 +23,30 @@ app.controller('myRideCtrl', function ($scope, $http, $window) {
     getAllRideDetails($scope, $http, userid);
     $scope.cancel = function (rideId) {
         document.getElementById("Loading").style.display = "block";
-        $http.post("http://wiprocarpool.azurewebsites.net/cancelride", { id: localStorage.getItem("userid"), rideid: rideId })
-       .success(function (response) {
-           getAllRideDetails($scope, $http, localStorage.getItem("userid"));
-           document.getElementById("Loading").style.display = "none";
-           //alert(rideId + " has been cancelled");
-           $scope.iserror = true;
-           $scope.success = true;
-       })
-       .error(function (data, status) {
-           document.getElementById("Loading").style.display = "none";
-           //alert('failed');
-           //$scope.iserror = false;
-           //$scope.success = false;
-       });          
+        try {
+            $http.post("http://wiprocarpool.azurewebsites.net/cancelride", { id: localStorage.getItem("userid"), rideid: rideId })
+           .success(function (response) {
+               getAllRideDetails($scope, $http, localStorage.getItem("userid"));
+               document.getElementById("Loading").style.display = "none";
+               //alert(rideId + " has been cancelled");
+               $scope.iserror = true;
+               $scope.success = true;
+           })
+           .error(function (data, status) {
+               document.getElementById("Loading").style.display = "none";
+               //alert('failed');
+               //$scope.iserror = false;
+               //$scope.success = false;
+               logdetails.userID = userid;
+               logdetails.logdescription = status;
+               Errorlog($http, logdetails, true);
+           });
+        }
+        catch (e) {
+            logdetails.userID = userid;
+            logdetails.logdescription = e.message;
+            Errorlog($http, logdetails);
+        }
     }
     $scope.getDetails = function (rideId) {
         localStorage.setItem("currentRideId", rideId);
@@ -106,7 +125,16 @@ function navigationLinks($scope, $http, $window) {
     }
 }
 
-app.controller('myRideDetailsCtrl', function ($scope, $http, $window) {
+app.controller('myRideDetailsCtrl', function ($scope, $http, $window, $filter) {
+    $("#errormsg").hide();
+    $("#errordiv").hide();
+    var logdetails = {
+        userID: "",
+        logdescription: "",
+        logDate: $filter('date')(new Date(), 'dd/MM/yyyy'),
+        logTime: $filter('date')(new Date(), 'HH:mm'),
+        type: 'Diagnostic'
+    }
     navigationLinks($scope, $http, $window);
     $scope.rideId = "";
     if (getUrlParameter('rideid') !== undefined) {
@@ -134,19 +162,30 @@ app.controller('myRideDetailsCtrl', function ($scope, $http, $window) {
         $scope.iserror = true;
         $scope.success = false;
         //alert(JSON.stringify(rideObject));
-
-        $http.post("http://wiprocarpool.azurewebsites.net/updateroute/", { userid: localStorage.getItem("userid"), ride: rideObject })
-       .success(function (response) {
-          /* $scope.rides = response[0].rides;  */         
-           $scope.iserror = true;
-           $scope.success = true;
-           window.location.href = 'myrides.html';
-       })
-       .error(function (data, status) {
-           //$scope.iserror = false;
-           //$scope.success = false;
-           //alert('failed');
-       });
+        try {
+            $http.post("http://wiprocarpool.azurewebsites.net/updateroute/", { userid: localStorage.getItem("userid"), ride: rideObject })
+           .success(function (response) {
+               /* $scope.rides = response[0].rides;  */
+               $scope.iserror = true;
+               $scope.success = true;
+               window.location.href = 'myrides.html';
+           })
+           .error(function (data, status) {
+               //$scope.iserror = false;
+               //$scope.success = false;
+               //alert('failed');
+               var userid = localStorage.getItem("userid");
+               logdetails.userID = userid;
+               logdetails.logdescription = status;
+               Errorlog($http, logdetails, true);
+           });
+        }
+        catch (e) {
+            var userid = localStorage.getItem("userid");
+            logdetails.userID = userid;
+            logdetails.logdescription = e.message;
+            Errorlog($http, logdetails,true);
+        }
     }
 });
 
