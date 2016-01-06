@@ -6,8 +6,8 @@
         Customize the content security policy in the meta tag below as needed. Add 'unsafe-inline' to default-src to enable inline JavaScript.
         For details, see http://go.microsoft.com/fwlink/?LinkID=617521
     -->
-    <meta http-equiv="Content-Security-Policy" content="default-src * data: gap: https://ssl.gstatic.com 'unsafe-inline'; style-src * 'unsafe-inline'; media-src *; script-src *; frame-src * https://cordova.apache.org">
-
+    <!--<meta http-equiv="Content-Security-Policy" content="default-src * data: gap: https://ssl.gstatic.com 'unsafe-inline'; style-src * 'unsafe-inline'; media-src *; script-src *; frame-src * https://cordova.apache.org">-->
+    <meta http-equiv="Content-Security-Policy" content="'unsafe-inline' *"> 
     <!--<meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-inline'; style-src 'self' 'unsafe-inline'; script-src 'self' https://ssl.gstatic.com 'unsafe-inline' 'self' https://*.googleapis.com 'unsafe-eval'; img-src *; font-src *; media-src *">-->
     <title>Wipro Car Pool App</title>
     <!-- CarPoolApp references -->
@@ -105,16 +105,25 @@
                             <thead>
                                 <tr>
                                     <th>S.No</th>
+                                    <th>Photo</th>
                                     <th>Car Holder</th>
-                                    <!--<th>Boarding Point</th>-->
                                     <th>Status</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr ng-repeat="data in notificationdata">
                                     <td>{{$index + 1}}</td>
-                                    <td>{{data.ownername }}</td>
-                                    <!--<td>{{data.address}}</td>-->
+                                    <td>
+                                        <img ng-src="{{data.photo}}" alt="Alternate Text" height="50" width="50" />
+                                    </td>                                    
+                                    <td>
+                                    <div>
+                                        <a ng-href="tel: {{data.mobile}}" target="_blank">
+                                            <img border="0" alt="MakeCall" src="images/makecall.png" width="25" height="25">
+                                            {{data.ownername }}                                            
+                                        </a>
+                                    </div>
+                                    
                                     <td>{{data.status}}</td>
                                 </tr>
                             </tbody>

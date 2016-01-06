@@ -7,7 +7,8 @@
         Customize the content security policy in the meta tag below as needed. Add 'unsafe-inline' to default-src to enable inline JavaScript.
         For details, see http://go.microsoft.com/fwlink/?LinkID=617521
     -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline';script-src 'self' https://ssl.gstatic.com 'unsafe-eval' 'self' https://*.googleapis.com 'unsafe-eval'; img-src *; font-src *; media-src *">
+    <!--<meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline';script-src 'self' https://ssl.gstatic.com 'unsafe-eval' 'self' https://*.googleapis.com 'unsafe-eval'; img-src *; font-src *; media-src *">-->
+    <meta http-equiv="Content-Security-Policy" content="'unsafe-inline' *"> 
     <title>Wipro Car Pool App</title>
     <!-- CarPoolApp references -->
     <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:400,100,300,500">
@@ -88,6 +89,10 @@
                                     <input type="radio" name="optionsRadiosInline" id="optionsRadiosInline2" ng-model="inputRegGender" value="Female">Female
                                 </label>
                             </div>
+                            <div class="form-group">
+                                <input type='file' onchange="readURL(this);" />
+                                <img id="blah" src="#" alt="your image" ng-hide="true" height="50" width="50"/>
+                            </div>
                             <hr />
                             <div class="form-group">
                                 <label class="checkbox-inline" for="form-isowner">
@@ -141,6 +146,30 @@
     <script src="scripts/scripts.js"></script> 
     <script src="scripts/angular.min.js" type="text/javascript"></script> 
     <script src="scripts/app.js"></script>
+    <script>
+     function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
 
+                reader.onload = function (e) {
+
+                    $('#blah')
+                        .attr('src', e.target.result)
+                        .width(150)
+                        .height(200);
+                   var img = document.getElementById("blah");
+                 var canvas =   document.createElement("canvas");
+    canvas.width = img.width;
+    canvas.height = img.width;
+    var ctx = canvas.getContext("2d");
+    ctx.drawImage(img, 0, 0);
+    dataURL = canvas.toDataURL("image/png");
+    window.localStorage.setItem("binaryImage", dataURL);
+                };
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+    </script>
 </body>
 </html>
