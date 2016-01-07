@@ -380,7 +380,7 @@ function PushNotifications() {
         notificationurl = notificationurl + "receivenotitifications/" + userId;
     }
 
-    $("#MyNotifications").css("backgroundColor", "green");
+    $("#MyNotifications").css("color", "green");
     NotificationClientService.AutomaticNotifications(notificationurl, 2, totaltimeout, null, NoticationCallback);
 }
 
@@ -389,15 +389,15 @@ function NoticationCallback(data) {
 
     if (data != undefined && data != null && data.data.length > 0) {
         if (isowner == "true") {
-            $("#MyNotifications").css("backgroundColor", "red");
+            $("#MyNotifications").css("color", "red");
             CancelNotification.Clear(NotificationClientService.RefreshIntervalId);
         }
         else {
             if (data.data[0].status == "pending") {
-                $("#MyNotifications").css("backgroundColor", "yellow");
+                $("#MyNotifications").css("color", "yellow");
             }
             else {
-                $("#MyNotifications").css("backgroundColor", "red");
+                $("#MyNotifications").css("color", "red");
                 CancelNotification.Clear(NotificationClientService.RefreshIntervalId);
             }
         }

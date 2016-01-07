@@ -11,14 +11,10 @@
     <title>Wipro Car Pool App</title>
 
     <!-- CarPoolApp references -->
-    <link rel="stylesheet" href="css/index.css" />
     <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:400,100,300,500">
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
-    <link rel="stylesheet" href="css/form-elements.css">
-    <!--<link rel="stylesheet" href="css/style.css">-->
-
-
+    <link rel="stylesheet" href="css/index.css"> 
 </head>
 <body ng-app="myApp1" ng-controller="myRideDetailsCtrl">
     <nav class="navbar navbar-inverse">
@@ -29,105 +25,86 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
                 </button>
                 <a class="navbar-brand" href="#">
-                    Wipro Car Pool App
+                    <div><i class="fa fa-car fa-2x"></i>&nbsp;Wipro Carpool App!</div>
                 </a>
-            </div>
-            <div id="errordiv" class="row">
-                <div class="col-lg-12">
-                    <div id="errormsg" class="alert alert-danger">
-                    </div>
-                </div>
             </div>
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-2">
                 <ul class="nav navbar-nav">
-                    <li style="background-color:white;line-height:50px;"><span style="padding-left:15px;"></span></li>
+                    <li style="background-color:white;line-height:50px;">
+                        <span style="padding-left:15px;"><b>Welcome {{ userName }}!</b></span> <i class="fa fa-gear fa-fw"></i>
+                    </li>
                     <li class="divider"></li>
-                    <!--<li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>
-                    <li><a href="#">Link</a></li>-->
                     <li><a href="#" ng-click="MyDashboard()">Dashboard</a></li>
+                    <li><a href="#" ng-click="MyNotifications()">Notifications</a></li>
                     <li><a id="carownerShow2" href="#" ng-click="MyRides()">My Rides</a></li>
                     <li><a id="passangerShow2" href="#" ng-click="JoinRide()">Join Ride</a></li>
-                    <li><a href="#" ng-click="MyNotifications()">Notifications</a></li>
+                    <li><a href="#">Rides History</a></li>
+                    <li><a href="#">Help</a></li>
                     <li><a href="#" ng-click="logOut()">Log Out</a></li>
                 </ul>
             </div>
         </div>
     </nav>
-    <!-- Services -->
-    <!-- The circle icons use Font Awesome's stacked icon classes. For more information, visit http://fontawesome.io/examples/ -->
-    <section id="services" class="services bg-primary">
-        <div class="container">
-            <div class="row text-center">
-                <div class="col-lg-10 col-lg-offset-1">
-                    <h3>Ride details required</h3>
-                    <hr class="small">
-                    <div class="row">
-                        <div class="col-md-4 pull-left">No.of Seats</div>
-                        <div class="col-md-6">
-                            <select class="form-noOfseats form-control" id="form-noOfseats" name="form-noOfseats" ng-model="seats" placeholder="No.of Seats..." required>
-                                <option>1</option>
-                                <option>2</option>
-                                <option>3</option>
-                                <option>4</option>
-                                <option>5</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-4 pull-left">Start Date</div>
-                        <div class="col-md-6">
-                            <input type="datetime-local" name="form-destination" placeholder="Start Date..." class="form-destination form-control" id="form-destination" ng-model="date.startdate" required>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-4 pull-left">End Date</div>
-                        <div class="col-md-6">
-                            <input type="datetime-local" name="form-destination" placeholder="End Date..." class="form-destination form-control" id="form-destination" ng-model="date.enddate" required>
-                        </div>
-                    </div>
-                    <hr class="small">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <button type="button" class="btn" ng-click="updateRide()">Submit</button>
-                            <!--<div class="alert alert-danger" ng-hide="iserror">
 
-                                OOPS!.....Status not updated.
+    <div class="container-fluid">
+        <div class="row">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <div style="display:table-cell">
+                        <h3 style="display:table-cell" class="panel-title">Ride Details &nbsp;</h3>
+                    </div>
+                    <div style="display:table-cell" ng-show="processing">
+                        <div><img src="./images/spinner.gif" /></div>
+                    </div>
+
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <!--<div class="alert alert-danger" >
 
                             </div>-->
-
                             <div class="alert alert-success" ng-show="success">
-
-                                Success. <a href="myrides.html" style="color:black;">Click <u>here to see updated status</u></a>
-
-                            </div> 
+                                Ride details saved. Navigate to <a href="myrides.html"><b>My Rides!</b></a> to see all your rides.
+                            </div>
                         </div>
                     </div>
+                    <div class="form-bottom">
+                        <form role="form" class="login-form">
+                            <div class="form-group">
+                                <label for="form-noOfseats">No.of Seats</label>
+                                <select class="form-noOfseats form-control" id="form-noOfseats" name="form-noOfseats" ng-model="seats" placeholder="No.of Seats..." required>
+                                    <option>1</option>
+                                    <option>2</option>
+                                    <option>3</option>
+                                    <option>4</option>
+                                    <option>5</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="form-startDate">Start Date</label>
+                                <input type="datetime-local" name="form-startDate" placeholder="Start Date..." class="form-destination form-control" id="form-startDate" ng-model="date.startdate" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="form-EndDate">End Date</label>
+                                <input type="datetime-local" name="form-EndDate" placeholder="End Date..." class="form-destination form-control" id="form-EndDate" ng-model="date.enddate" required>
+                            </div>
+                            <button type="button" class="btn btn-primary" ng-click="updateRide()">Submit</button>
+                        </form>
+                    </div>
                 </div>
-                <!-- /.row (nested) -->
             </div>
-            <!-- /.col-lg-10 -->
         </div>
-        <!-- /.row -->
-        </div>
-        <!-- /.container -->
-    </section>
-    <!-- Callout -->
-    <!--<aside class="callout">
-        <div class="text-vertical-center">
-            <h1>Our Wipro...</h1>
-        </div>
-    </aside>-->
-    <!-- Footer -->
-    <footer>
-        <div class="row">
-            <div class="col-lg-12">
-                © 2015 - Wipro Technologies
-            </div>
+    </div>
+    <footer class="footer">
+        <div class="container">
+            <p class="text-muted"> Powered By - Wipro Technologies Ltd.</p>
         </div>
     </footer>
-
     <script src="cordova.js"></script>
     <script src="scripts/platformOverrides.js"></script>
     <script src="scripts/jquery-1.11.1.min.js"></script>

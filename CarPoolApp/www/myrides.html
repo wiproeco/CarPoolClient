@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:400,100,300,500">
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/index.css"> 
 </head>
 <body ng-app="myApp1" ng-controller="myRideCtrl">
     <nav class="navbar navbar-inverse">
@@ -24,22 +25,25 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
                 </button>
                 <a class="navbar-brand" href="#">
-                    <div><img src="images/icon-36-ldpi.png" />&nbsp;Wipro Carpool App!</div>
+                    <div><i class="fa fa-car fa-2x"></i>&nbsp;Wipro Carpool App!</div>
                 </a>
             </div>
-
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-2">
                 <ul class="nav navbar-nav">
                     <li style="background-color:white;line-height:50px;">
-                        <span style="padding-left:15px;"><b>Welcome {{ userName }}!</b></span> <!--<i class="fa fa-pencil fa-fw"></i>-->
+                        <span style="padding-left:15px;"><b>Welcome {{ userName }}!</b></span> <i class="fa fa-gear fa-fw"></i>
                     </li>
                     <li class="divider"></li>
                     <li><a href="#" ng-click="MyDashboard()">Dashboard</a></li>
+                    <li><a href="#" ng-click="MyNotifications()">Notifications</a></li>
                     <li><a id="carownerShow2" href="#" ng-click="MyRides()">My Rides</a></li>
                     <li><a id="passangerShow2" href="#" ng-click="JoinRide()">Join Ride</a></li>
-                    <li><a href="#" ng-click="MyNotifications()">Notifications</a></li>
+                    <li><a href="#">Rides History</a></li>
+                    <li><a href="#">Help</a></li>
                     <li><a href="#" ng-click="logOut()">Log Out</a></li>
                 </ul>
             </div>
@@ -74,7 +78,7 @@
                             </div>
                         </div>
                     </div>
-                    <a href="#" alt="New Ride" ng-click="newRide()"><i class="fa fa-plus fa-2x"></i></a>
+                    <a href="#" alt="New Ride" ng-click="newRide()"><h4><i class="fa fa-plus fa-2x"></i><b style="font-size:16px">&nbsp;Offer A Ride</b></h4></a>
                     <div class="table-responsive">
                         
                         <table class="table table-striped table-bordered table-hover">
@@ -91,7 +95,7 @@
                                 <tr ng-repeat="ride in rides">
                                     <td>
                                         <a href="#" alt="Ride Details" ng-click="getDetails(ride.rideid)"><i class="fa fa-list-alt fa-2x"></i></a>
-                                        <a href="#" alt="Cancel Ride" ng-click="cancel(ride.rideid)"><i class="fa fa-thumbs-down fa-2x"></i></a>
+                                        <a href="#" alt="Cancel Ride" ng-click="cancel(ride.rideid)"><i class="fa fa-remove fa-2x"></i></a>
                                     </td>
                                     <td>{{ride.ridestatus}}</td>
                                     <td>{{ride.startdatetime | date:"MM/dd/yyyy 'at' h:mma"}}</td>
@@ -105,15 +109,13 @@
                 </div>
             </div>
         </div>
-        <!-- Footer -->
-        <footer>
-            <div class="row">
-                <div class="col-lg-12">
-                    © 2015 - Wipro Technologies
-                </div>
-            </div>
-        </footer>
     </div>
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p class="text-muted"> Powered By - Wipro Technologies Ltd.</p>
+        </div>
+    </footer>
    
   
     <script src="cordova.js"></script>
