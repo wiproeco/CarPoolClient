@@ -364,7 +364,7 @@ function navigationLinks($scope, $http, $window) {
 }
 
 function PushNotifications() {
-    var notificationurl = "http://localhost:1513/";
+    var notificationurl = "http://wiprocarpool.azurewebsites.net/";
     var isowner = window.localStorage.getItem("isowner");
     var userId = window.localStorage.getItem("userid");
     var todayDate = new Date();
