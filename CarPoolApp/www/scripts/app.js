@@ -364,7 +364,7 @@ function navigationLinks($scope, $http, $window) {
 }
 
 function PushNotifications() {
-    var notificationurl = "http://wiprocarpool.azurewebsites.net/";
+    var notificationurl = "http://localhost:1513/";
     var isowner = window.localStorage.getItem("isowner");
     var userId = window.localStorage.getItem("userid");
     var todayDate = new Date();
@@ -377,21 +377,20 @@ function PushNotifications() {
         var longitude = "";
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(function (position) {
-                latitude = position.coords.latitude;
-                longitude = position.coords.longitude;
-               // alert(latitude +","+ longitude);
+                latitude = position.coords.latitude.toString();
+                longitude = position.coords.longitude.toString();
+                notificationurl = notificationurl + "getnotitifications/" + userId + "/" + date.toString() + "/" + latitude + "/" + longitude;                
+                totaltimeout = 15;
+                $("#MyNotifications").css("color", "green");
+                NotificationClientService.AutomaticNotifications(notificationurl, 2, totaltimeout, null, NoticationCallback);
             });
         }
-        //notificationurl = notificationurl + "getnotitifications/" + userId + "/" + date.toString() + "/" + latitide + "/" + longitude;
-        notificationurl = notificationurl + "getnotitifications/" + userId + "/" + date.toString();
-        totaltimeout = 15;
     }
-    else {
+    else {        
         notificationurl = notificationurl + "receivenotitifications/" + userId;
+        $("#MyNotifications").css("color", "green");
+        NotificationClientService.AutomaticNotifications(notificationurl, 2, totaltimeout, null, NoticationCallback);
     }
-
-    $("#MyNotifications").css("color", "green");
-    NotificationClientService.AutomaticNotifications(notificationurl, 2, totaltimeout, null, NoticationCallback);
 }
 
 function NoticationCallback(data) {
