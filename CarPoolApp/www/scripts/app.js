@@ -373,6 +373,16 @@ function PushNotifications() {
     var totaltimeout = 5;
 
     if (isowner == "true") {
+        var latitude = "";
+        var longitude = "";
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function (position) {
+                latitude = position.coords.latitude;
+                longitude = position.coords.longitude;
+               // alert(latitude +","+ longitude);
+            });
+        }
+        //notificationurl = notificationurl + "getnotitifications/" + userId + "/" + date.toString() + "/" + latitide + "/" + longitude;
         notificationurl = notificationurl + "getnotitifications/" + userId + "/" + date.toString();
         totaltimeout = 15;
     }
