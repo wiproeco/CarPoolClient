@@ -72,6 +72,11 @@
                                 <label class="sr-only" for="form-password">Password</label>
                                 <input type="password" name="form-password" ng-model="txtPassword" placeholder="Password" class="form-password form-control" id="form-password">
                             </div>
+                            <div class="form-group">
+                                <label class="checkbox-inline" for="form-isowner">
+                                    <input type="checkbox" id="loginasowner" ng-model="Owner" ng-change="change(Owner)" name="loginasowner" />Login as owner
+                                </label>
+                            </div>
                             <button type="submit" class="btn btn-primary" id="signin" ng-click="login()">Sign In!</button>
                         </form>
                     </div>
@@ -100,6 +105,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.1/angular.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.1/angular-route.min.js"></script>
     <script src="scripts/NotificationClientService.js"></script>
+    <!--<script src="scripts/Config.js"></script>-->
     <script src="scripts/app.js"></script>
     <script src="scripts/Error.js"></script>
 </body>

@@ -1,6 +1,8 @@
 
 var app = angular.module('myApp', []);
-app.controller('userCtrl', function ($scope, $http, $window, $filter) {
+app.constant('Serviceurl', 'http://wiprocarpool.azurewebsites.net');
+
+app.controller('userCtrl', function ($scope, $http, $window, $filter, Serviceurl) {
     $scope.authenticated = false;
     $scope.errormsg = false;
     $scope.iserror = false;
@@ -34,6 +36,12 @@ app.controller('userCtrl', function ($scope, $http, $window, $filter) {
                                 var userid = result[0].id;
                                 var isowner = result[0].isowner;
                                 var username = result[0].userName;
+
+                                if (isowner)
+                                {
+                                    isowner = $scope.edit;
+                                }
+
                                 window.localStorage.setItem("userid", userid);
                                 window.localStorage.setItem("isowner", isowner);
                                 window.localStorage.setItem("username", username);
