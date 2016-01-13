@@ -59,7 +59,8 @@ app.controller('myRideCtrl', function ($scope, $http, $window, $filter) {
 
 function getAllRideDetails($scope, $http,userid) {
     document.getElementById("Loading").style.display = "block";
-    $http.get("http://wiprocarpool.azurewebsites.net/getallridedetails/" + userid)
+    var currentdate = moment().format('MM-DD-YYYY');
+    $http.get("http://wiprocarpool.azurewebsites.net/getallridedetails/" + userid + "/" + currentdate)
     .success(function (response) {
         $scope.rides = response[0].rides;
         document.getElementById("Loading").style.display = "none";
@@ -141,27 +142,31 @@ app.controller('myRideDetailsCtrl', function ($scope, $http, $window, $filter) {
         $scope.rideId = getUrlParameter('rideid');
         var rideJSON = localStorage.getItem("currentRideObject");
         var rideObject = JSON.parse(rideJSON);
-        $scope.seats = rideObject.seatsavailable;
-        $scope.date.startdate = new Date(rideObject.startdatetime);
-        $scope.date.enddate = new Date(rideObject.enddatetime);
+        $scope.seats = rideObject.totalseats;
+        //$scope.date.startdate = new Date(rideObject.startdatetime);
+        //$scope.date.enddate = new Date(rideObject.enddatetime);
     }
+    var now = new Date();
     $scope.date = {
-        startdate: new Date(),
-        enddate: new Date()
+
+        startdate: new Date(now.getFullYear(), now.getMonth(), now.getDate(), now.getHours(), now.getMinutes()),
+        enddate: new Date(now.getFullYear(), now.getMonth(), now.getDate(), now.getHours(), now.getMinutes()),
+        //startdate: moment(),
+        //enddate: new Date()
     }
-    $scope.updateRide = function () {
+    $scope.updateRide = function (date) {
         var rideJSON = localStorage.getItem("currentRideObject");
         var rideObject = JSON.parse(rideJSON);
         rideObject.seatsavailable = $scope.seats;
-        //rideObject.startdatetime = "2015-12-24"; //JSON.parse(JSON.stringify($scope.date.startdate));
-        // rideObject.enddatetime = "2015-12-24"; //JSON.parse(JSON.stringify($scope.date.enddate));
-        
-        rideObject.startdatetime = formatDate();
-        rideObject.enddatetime = formatDate();
-        //console.log(rideObject.startdatetime);
+        rideObject.totalseats = $scope.seats;
+        rideObject.startdatetime = moment(date.startdate).valueOf();  // Milliseconds
+        rideObject.startdate = moment(date.startdate).format('MM-DD-YYYY');
+        rideObject.starttime = moment(date.startdate).format('HH:mm');
+        rideObject.enddatetime = moment(date.enddate).valueOf();
+        rideObject.enddate = moment(date.enddate).format('MM-DD-YYYY');
+        rideObject.endtime = moment(date.enddate).format('HH:mm');
         $scope.iserror = true;
         $scope.success = false;
-        //alert(JSON.stringify(rideObject));
         try {
             $http.post("http://wiprocarpool.azurewebsites.net/updateroute/", { userid: localStorage.getItem("userid"), ride: rideObject })
            .success(function (response) {

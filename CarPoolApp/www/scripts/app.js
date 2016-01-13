@@ -374,9 +374,7 @@ function PushNotifications() {
     var notificationurl = "http://wiprocarpool.azurewebsites.net/";
     var isowner = window.localStorage.getItem("isowner");
     var userId = window.localStorage.getItem("userid");
-    var todayDate = new Date();
-    var date = todayDate.getFullYear() + "-" + (todayDate.getMonth() + 1) + "-" + todayDate.getDate();
-
+    var currentdate = moment().format('MM-DD-YYYY');
     var totaltimeout = 5;
 
     if (isowner == "true") {
@@ -386,7 +384,7 @@ function PushNotifications() {
             navigator.geolocation.getCurrentPosition(function (position) {
                 latitude = position.coords.latitude.toString();
                 longitude = position.coords.longitude.toString();
-                notificationurl = notificationurl + "getnotitifications/" + userId + "/" + date.toString() + "/" + latitude + "/" + longitude;                                
+                notificationurl = notificationurl + "getnotitifications/" + userId + "/" + currentdate + "/" + latitude + "/" + longitude;
                 totaltimeout = 15;
                 $("#MyNotifications").css("color", "green");
                 NotificationClientService.AutomaticNotifications(notificationurl, 2, totaltimeout, null, NoticationCallback);
@@ -480,10 +478,7 @@ app.controller('ownernotificationCtrl', function ($scope, $http, $window, $filte
     $scope.notificationdata = "";
     var userId = window.localStorage.getItem("userid");
     $scope.userName = localStorage.getItem("username");
-    var todayDate = new Date();
-    var date = todayDate.getFullYear() + "-" + (todayDate.getMonth() + 1) + "-" + todayDate.getDate(); 
-    //var date = todayDate.getFullYear() + "-" + ("0" + (todayDate.getMonth() + 1)).slice(-2) + "-" + ("0" + (todayDate.getDate())).slice(-2);
-    //var url = "http://wiprocarpool.azurewebsites.net/getnotitifications/bae03711-08e6-7d8f-8101-457caa0368a8/2011-07-14";
+    var currentdate = moment().format('MM-DD-YYYY');
     var latitude = "";
     var longitude = "";
     if (navigator.geolocation) {
@@ -491,7 +486,7 @@ app.controller('ownernotificationCtrl', function ($scope, $http, $window, $filte
             latitude = position.coords.latitude.toString();
             longitude = position.coords.longitude.toString();            
 
-            var url = "http://wiprocarpool.azurewebsites.net/getnotitifications/" + userId + "/" + date.toString() + "/" + latitude + "/" + longitude;
+            var url = "http://wiprocarpool.azurewebsites.net/getnotitifications/" + userId + "/" + currentdate + "/" + latitude + "/" + longitude;
             try {
                 $http.get(url)
                         .success(function (response) {

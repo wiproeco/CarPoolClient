@@ -62,8 +62,13 @@
         endlat: null,
         endlng: null,
         startdatetime: null,
+        startdate: null,
+        starttime: null,
+        enddate: null,
+        endtime: null,
         enddatetime: null,
         seatsavailable: null,
+        totalseats: null,
         ridestatus: "open",
         isfavouiteride: true,
         boardingpoints: [],
@@ -157,6 +162,9 @@
                 ride.rideid = currentRideObject.rideid;
                 ride.startpoint = currentRideObject.startpoint;
                 ride.endpoint = currentRideObject.endpoint;
+                ride.startdatetime = currentRideObject.startdatetime;
+                ride.enddatetime = currentRideObject.enddatetime;
+                ride.totalseats = currentRideObject.totalseats;
             }
 
             localStorage.setItem("currentRideObject", JSON.stringify(ride));

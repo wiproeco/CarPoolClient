@@ -16,38 +16,11 @@
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="css/index.css"> 
-    <!--<link rel="stylesheet" href="css/form-elements.css">-->
-    <!--<link rel="stylesheet" href="css/style.css">-->
-    <!--<script src="cordova.js"></script>-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js"> </script>
     <style>
         #wrapper {
             position: relative;
         }
-
-        #over_map {
-            position: absolute;
-            top: 9%;            
-            z-index: 99;
-            width: 99%;
-        }
-         #over_map_button {
-            position: absolute;
-            bottom: 10px;
-            left: 10%;
-            z-index: 99;
-            width: 97%;
-        }
-
-         .menuLink {
-            color: #FFF;
-            cursor: pointer;
-        }
-
-        .menuLink:hover{
-            color:black;
-            background-color:#808080;
-        }
-
     </style>   
 </head>
 <body ng-app="myApp" ng-controller="dashboardCtrl">
@@ -93,11 +66,11 @@
                 </div>
             </div>
             <div class="wrapper">
-                <div id="map" data-tap-disabled="true"></div>
                 <div id="over_map">
                     <input type="text" id="txtDestination" class="form-control"/>
                     <div id="demo"></div>
                 </div>
+                <div id="map" data-tap-disabled="true"></div>
                 <!--<div id="over_map_button">
                     <input type="button" id="btnRide" class="btn btn-primary" style="width:100%;" value="Ride Now" data-toggle="modal" data-target="#carmodal" />
                     
