@@ -97,9 +97,9 @@ app.controller('userCtrl', function ($scope, $http, $window, $filter, Serviceurl
         }
     }
     $scope.edit = false;
-    $scope.change = function () {
+    $scope.change = function (isowner) {
 
-        if ($scope.isCarOwner == true)
+        if (isowner == true)
             $scope.edit = true;
         else
             $scope.edit = false;
@@ -392,7 +392,7 @@ function PushNotifications() {
         }
     }
     else {        
-        notificationurl = notificationurl + "receivenotitifications/" + userId;
+        notificationurl = notificationurl + "receivenotitifications/" + userId + "/" + currentdate;
         $("#MyNotifications").css("color", "green");
         NotificationClientService.AutomaticNotifications(notificationurl, 2, totaltimeout, null, NoticationCallback);
     }
@@ -433,10 +433,11 @@ app.controller('usernotificationCtrl', function ($scope, $http, $window, $filter
     $scope.notificationdata = "";
     var userId = window.localStorage.getItem("userid");
     $scope.userName = localStorage.getItem("username");
+    var currentdate = moment().format('MM-DD-YYYY');
 
     //var url = "http://wiprocarpool.azurewebsites.net/receivenotitifications/53946907-3b48-6904-f599-db29de2e74e6";
     try {
-        var url = "http://wiprocarpool.azurewebsites.net/receivenotitifications/" + userId;
+        var url = "http://wiprocarpool.azurewebsites.net/receivenotitifications/" + userId + "/" + currentdate;
         $http.get(url)
                 .success(function (response) {
 
@@ -558,7 +559,6 @@ app.controller('ownernotificationCtrl', function ($scope, $http, $window, $filte
             Errorlog($http, logdetails, true);
         }
     }
-
 });
 
 

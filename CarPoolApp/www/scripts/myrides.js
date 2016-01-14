@@ -62,7 +62,9 @@ function getAllRideDetails($scope, $http,userid) {
     var currentdate = moment().format('MM-DD-YYYY');
     $http.get("http://wiprocarpool.azurewebsites.net/getallridedetails/" + userid + "/" + currentdate)
     .success(function (response) {
-        $scope.rides = response[0].rides;
+        if (response.length > 0) {
+            $scope.rides = response[0].rides;
+        }
         document.getElementById("Loading").style.display = "none";
 
     })

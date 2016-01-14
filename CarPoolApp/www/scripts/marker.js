@@ -96,7 +96,8 @@
                     getLocationByRideId(data[0]);
                 }
             });
-            
+            $('#over_map_button').hide();
+            $('#over_map').hide();
         }
 
         directionsService = new google.maps.DirectionsService();
