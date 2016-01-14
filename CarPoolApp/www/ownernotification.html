@@ -101,17 +101,17 @@
                                             <input type="checkbox" id="chkuserreqforcurrgeolocn" name="chkuserreqforcurrgeolocn" ng-model="data.reqforcurrgeolocn" ng-disabled="data.status!='pending'">Requested for current location
                                             <br />
                                         </div>
-                                        <a href="#" alt="Accept" ng-click="updateRideNotification(data.ownerid, data.rideid, data.passengerid,'accepted');"><i class="fa fa-thumbs-up fa-2x"></i></a>
-                                        <a href="#" alt="Reject" ng-click="updateRideNotification(data.ownerid, data.rideid, data.passengerid,'rejected');"><i class="fa fa-thumbs-down fa-2x"></i></a>
+                                        <a href="#" alt="Accept" ng-click="updateRideNotification(data.ownerid, data.rideid, data.passengerid,'accepted');"><i class="fa fa-check fa-2x"></i></a>
+                                        <a href="#" alt="Reject" ng-click="updateRideNotification(data.ownerid, data.rideid, data.passengerid,'rejected');"><i class="fa fa-close fa-2x"></i></a>
                                     </td>
                                     <td>
                                         <img ng-src="{{data.photo}}" height="50" width="50" />
                                     </td>
                                     <td>
                                         <div>
+                                            {{data.passengername}}
                                             <a ng-href="tel: {{data.mobile}}" target="_blank">
                                                 <img border="0" alt="MakeCall" src="images/makecall.png" width="25" height="25">
-                                                {{data.passengername}}
                                             </a>
                                         </div>
                                     <td>{{data.status}}</td>

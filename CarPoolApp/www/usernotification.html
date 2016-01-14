@@ -103,23 +103,20 @@
                                 <tr ng-repeat="data in notificationdata">
                                     <td>{{$index + 1}}</td>
                                     <td>
-                                        <img ng-src="{{data.photo}}" alt="Alternate Text" height="50" width="50" />
+                                        <img ng-src="{{data.photo}}" alt="pic" height="50" width="50" />
                                     </td>                                    
                                     <td>
-                                    <div>
-                                        <a ng-href="tel: {{data.mobile}}" target="_blank">
-                                            <img border="0" alt="MakeCall" src="images/makecall.png" width="25" height="25">
-                                            {{data.ownername }}                                            
-                                        </a>
-                                    </div>
-                                    
-                                    <td>
-                                        {{data.status}}
-                                        <div ng-if="data.isownercurrentlocnallowed">
-                                            <br />
-                                            <a ng-click="trackownerlocation(data.ownerid);" href="#" class="btn btn-sm btn-success">Track the Car</a>
+                                        <div>
+                                            {{data.ownername }}
+                                            <a ng-href="tel: {{data.mobile}}" target="_blank">
+                                                <img border="0" alt="MakeCall" src="images/makecall.png" width="25" height="25">
+                                            </a>
+                                            <div ng-if="data.isownercurrentlocnallowed && data.status == 'accepted'">
+                                                <a ng-click="trackownerlocation(data.ownerid);" href="#" title="Track location" class="fa fa-map-marker fa-2x"></a>
+                                            </div>
                                         </div>
                                     </td>
+                                    <td>{{data.status}}</td>
                                 </tr>
                             </tbody>
                         </table>

@@ -107,11 +107,18 @@
                         //data: JSON.stringify(service),
                         dataType: "json",
                         success: function (data) {
+                            var latlngbounds = new google.maps.LatLngBounds();
                             $(data).each(function (index, obj) {
                                 var vehicleLatLng = new google.maps.LatLng(obj.lat, obj.lng);
                                 var querystring = obj.id + "/" + obj.rideid;
                                 addMarker(vehicleLatLng, map, querystring);
+                                latlngbounds.extend(vehicleLatLng);
                             });
+
+                            latlngbounds.extend(geoLocation);
+                            map.setCenter(latlngbounds.getCenter());
+                            map.fitBounds(latlngbounds);
+
                             directionsDisplay.setMap(map);
                         }
                     });

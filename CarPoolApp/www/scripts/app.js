@@ -203,6 +203,8 @@ app.controller('userCtrl', function ($scope, $http, $window, $filter, Serviceurl
                                 $scope.carno = '';
                                 $scope.processing = false;
                                 window.localStorage.removeItem("binaryImage");
+                                document.getElementById('selfieImage').style.border = "2px dotted #808080";
+                                document.getElementById('selfieImage').innerHTML = "120 X 90";
                             });
                             res.error(function (data, status, headers, config) {
                                 $scope.iserror = true;
@@ -523,8 +525,13 @@ app.controller('ownernotificationCtrl', function ($scope, $http, $window, $filte
 
         var userreqforcurrgeolocnvalue = "";
 
-        if (document.getElementById("chkuserreqforcurrgeolocn").checked)
-            userreqforcurrgeolocnvalue = true;
+        if (document.getElementById("chkuserreqforcurrgeolocn"))
+        {
+            if (document.getElementById("chkuserreqforcurrgeolocn").checked)
+                userreqforcurrgeolocnvalue = true;
+            else
+                userreqforcurrgeolocnvalue = false;
+        }
         else
             userreqforcurrgeolocnvalue = false;
 
