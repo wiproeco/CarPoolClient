@@ -97,9 +97,9 @@ app.controller('userCtrl', function ($scope, $http, $window, $filter, Serviceurl
         }
     }
     $scope.edit = false;
-    $scope.change = function () {
+    $scope.change = function (Owner) {
 
-        if ($scope.isCarOwner == true)
+        if (Owner == true)
             $scope.edit = true;
         else
             $scope.edit = false;
