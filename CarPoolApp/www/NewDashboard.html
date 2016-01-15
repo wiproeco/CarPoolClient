@@ -7,25 +7,29 @@
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <meta name="description" content="">
     <meta name="author" content="">
-    <!--<link rel="icon" href="../../favicon.ico">-->
     <link rel="shortcut icon" href="about:blank">
     <meta http-equiv="Content-Security-Policy" content="default-src 'unsafe-eval' *; style-src 'unsafe-inline' *; img-src * data:">
-    <!--<meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-inline'; style-src 'self' 'unsafe-inline'; media-src *">-->
     <title>Wipro Car Pool App</title>
 
-    <!-- CarPoolApp references -->
-    <!--<link href="css/index.css" rel="stylesheet" />-->
-    <!--<link href="css/googleapifonts.css" rel="stylesheet" />-->
     <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:400,100,300,500">
-    <!-- <link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">-->
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <!-- Custom Fonts -->
     <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="css/index.css"> 
-    <!-- <link rel="stylesheet" href="css/form-elements.css">
-     <link rel="stylesheet" href="css/style.css">-->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js"> </script>
+    <!-- Cordova reference, this is added to your app when it's built. -->
+    <script src="scripts/moment.min.js"></script>
+    <script src="cordova.js"></script>
+    <script src="scripts/platformOverrides.js"></script>
+    <script src="scripts/jquery-1.11.1.min.js"></script>
+    <script src="scripts/bootstrap.min.js"></script>
+    <script src="scripts/jquery.backstretch.min.js"></script>
+    <script src="scripts/scripts.js"></script>
+    <script src="scripts/angular.min.js"></script>
+    <script src="scripts/NotificationClientService.js"></script>
+    <script src="scripts/app.js"></script>
 
+    <script src="scripts/custom.js"></script>
+    <script src="scripts/Error.js"></script>
 </head>
 <body ng-app="myApp" ng-controller="dashboardCtrl">
     <!-- Navigation -->
@@ -140,19 +144,7 @@
         </div>
     </footer>
 
-    <!-- Cordova reference, this is added to your app when it's built. -->
-    <script src="cordova.js"></script>
-    <script src="scripts/platformOverrides.js"></script>
-    <script src="scripts/jquery-1.11.1.min.js"></script>
-    <script src="scripts/bootstrap.min.js"></script>
-    <script src="scripts/jquery.backstretch.min.js"></script>
-    <script src="scripts/scripts.js"></script>
-    <script src="scripts/angular.min.js"></script>
-    <script src="scripts/NotificationClientService.js"></script>
-    <script src="scripts/app.js"></script>
- 
-    <script src="scripts/custom.js"></script>
-    <script src="scripts/Error.js"></script>
+   
   
 </body>
 </html>

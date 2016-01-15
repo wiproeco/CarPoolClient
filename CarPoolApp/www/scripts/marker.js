@@ -217,7 +217,7 @@
             map.setCenter(latlngbounds.getCenter());
             map.fitBounds(latlngbounds);
 
-            google.maps.event.addListener(map, 'mousedown', function (event) {
+            google.maps.event.addListener(map, 'click', function (event) {
                 var latLong = event.latLng;
                 var geocoder = new google.maps.Geocoder;
                 waypoints.push({ location: latLong, stopover: true });

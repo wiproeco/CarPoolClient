@@ -2,14 +2,8 @@
 <html>
 <head>
     <meta charset="utf-8" />
-    <!--
-        Customize the content security policy in the meta tag below as needed. Add 'unsafe-inline' to default-src to enable inline JavaScript.
-        For details, see http://go.microsoft.com/fwlink/?LinkID=617521
-    -->
-    <!--<meta http-equiv="Content-Security-Policy" content="default-src * data: gap: https://ssl.gstatic.com 'unsafe-inline'; style-src * 'unsafe-inline'; media-src *; script-src *; frame-src * https://cordova.apache.org">-->
     <meta http-equiv="Content-Security-Policy" content="default-src 'unsafe-eval' *; style-src 'unsafe-inline' *; img-src * data:">
 
-    <!--<meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-inline'; style-src 'self' 'unsafe-inline'; script-src 'self' https://ssl.gstatic.com 'unsafe-inline' 'self' https://*.googleapis.com 'unsafe-eval'; img-src *; font-src *; media-src *">-->
     <title>Wipro Car Pool App</title>
     <!-- CarPoolApp references -->
     <link rel="stylesheet" href="css/index.css" />
@@ -17,8 +11,18 @@
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="css/index.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js"> </script>
-
+    <!-- Cordova reference, this is added to your app when it's built. -->
+    <script src="scripts/moment.min.js"></script>
+    <script src="cordova.js"></script>
+    <script src="scripts/platformOverrides.js"></script>
+    <script src="scripts/jquery-1.11.1.min.js"></script>
+    <script src="scripts/bootstrap.min.js"></script>
+    <script src="scripts/jquery.backstretch.min.js"></script>
+    <script src="scripts/scripts.js"></script>
+    <script src="scripts/angular.min.js"></script>
+    <script src="scripts/app.js"></script>
+    <script src="scripts/custom.js"></script>
+    <script src="scripts/Error.js"></script>
 </head>
 <body ng-app="myApp" ng-controller="ownernotificationCtrl">
 
@@ -133,22 +137,6 @@
         </div>
     </footer>
 
-    <!-- Cordova reference, this is added to your app when it's built. -->
-    <script src="cordova.js"></script>
-    <script src="scripts/platformOverrides.js"></script>
-    <!--<script src="scripts/require.js"></script>-->
-    <script src="scripts/jquery-1.11.1.min.js"></script>
-    <script src="scripts/bootstrap.min.js"></script>
-    <script src="scripts/jquery.backstretch.min.js"></script>
-    <script src="scripts/scripts.js"></script>
-    <script src="scripts/angular.min.js"></script>
-    <script src="scripts/app.js"></script>
-    <!--<script src="scripts/NotificationClientService.js"></script>-->
-    <!--<script src="scripts/notification.js"></script>-->
-    <!-- jQuery -->
-    <!-- <script src="js/jquery.js"></script>-->
-    <!-- Custom Theme JavaScript -->
-    <script src="scripts/custom.js"></script>
-    <script src="scripts/Error.js"></script>
+  
 </body>
 </html>
