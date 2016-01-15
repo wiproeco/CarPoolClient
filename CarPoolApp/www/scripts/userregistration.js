@@ -5,41 +5,59 @@
 // and then run "window.location.reload()" in the JavaScript Console.
 (function (global) {
     "use strict";
+    var pictureSource;
+    var destinationType;
 
     //document.addEventListener( 'deviceready', onDeviceReady.bind( this ), false );
 
     function onDeviceReady() {
-        loadCamera();
+        pictureSource = navigator.camera.PictureSourceType;
+        destinationType = navigator.camera.DestinationType;
 
+        loadCamera();
+        loadGallery();
     };
 
     function loadCamera() {
         document.getElementById('btnTakenPhoto').onclick = function () {
+            navigator.camera.getPicture(onSuccess, onFail, {
+                quality: 50,
+                destinationType: Camera.DestinationType.DATA_URL
+            });
 
-            navigator.camera.getPicture(function (imageUri) {
-                var dataURL = encodeImageUri(imageUri);
+            function onSuccess(imageData) {
                 document.getElementById('selfieImage').style.border = "0";
-                document.getElementById('selfieImage').innerHTML = "<img id='blah' style='height:120px;width:90px;border: 2px dotted #808080' src='" + imageUri + "' />";
-                window.localStorage.setItem("binaryImage", dataURL);
-            }, null, null);
+                document.getElementById('selfieImage').innerHTML = "<img id='blah' style='height:120px;width:90px;border: 2px dotted #808080' src='data:image/jpeg;base64," + imageData + "' />";
+                window.localStorage.setItem("binaryImage", "data:image/jpeg;base64," + imageData);
+            }
 
-
+            function onFail(message) {
+                console.log('Failed to capture photo');
+            }
         };
     }
 
-    function encodeImageUri(imageUri) {
-        var c = document.createElement('canvas');
-        var ctx = c.getContext("2d");
-        var img = new Image();
-        img.onload = function () {
-            c.width = this.width;
-            c.height = this.height;
-            ctx.drawImage(img, 0, 0);
-        };
-        img.src = imageUri;
-        var dataURL = c.toDataURL("image/jpeg");
-        return dataURL;
+    //To access data from galley
+    function loadGallery() {
+        document.getElementById('btnGallery').onclick = function () {
+            navigator.camera.getPicture(onPhotoURISuccess, onFail, {
+                quality: 50,
+                destinationType: destinationType.DATA_URL,
+                sourceType: pictureSource.PHOTOLIBRARY
+            });
+
+            function onPhotoURISuccess(imageData) {
+                document.getElementById('selfieImage').style.border = "0";
+                document.getElementById('selfieImage').innerHTML = "<img id='blah' style='height:120px;width:90px;border: 2px dotted #808080' src='data:image/jpeg;base64," + imageData + "' />";
+                window.localStorage.setItem("binaryImage", "data:image/jpeg;base64," + imageData);
+            }
+
+            function onFail(imageData) {
+                console.log('failed');
+            }
+        }
     }
+
 
     document.addEventListener("deviceready", onDeviceReady, false);
 })(window);
