@@ -23,6 +23,12 @@
     <script src="scripts/custom.js"></script>
     <script src="scripts/Error.js"></script>
     <script src="scripts/EditProfile.js"></script>
+    <style>
+        a.disabled {
+            cursor: not-allowed;
+            opacity: .65;
+        }
+    </style>
 </head>
 <body ng-app="myApp" ng-controller="usernotificationCtrl">
 
@@ -67,7 +73,7 @@
                         <h3 style="display:table-cell" class="panel-title">Notifications &nbsp;</h3>
                     </div>
                     <div style="display:table-cell">
-                        <div class="panel-title"><a href="usernotification.html" alt="Refresh"><i class="fa fa-refresh fa-1x"></i></a> &nbsp;</div>
+                        <div class="panel-title"><a href="usernotification.html" alt="Refresh" title="Refresh" data-toggle="tooltip"><i class="fa fa-refresh fa-1x"></i></a> &nbsp;</div>
                     </div>
                     <div style="display:table-cell" >
                         <div id="Loading" style="display:none"><img src="./images/spinner.gif" /> &nbsp;</div>
@@ -110,11 +116,11 @@
                                     <td>
                                         <div>
                                             {{data.ownername }}
-                                            <a ng-href="tel: {{data.mobile}}" target="_blank">
+                                            <a ng-href="tel: {{data.mobile}}" target="_blank" title="Call to {{data.ownername}}" data-toggle="tooltip">
                                                 <img border="0" alt="MakeCall" src="images/makecall.png" width="25" height="25">
                                             </a>
                                             <div ng-if="data.isownercurrentlocnallowed && data.status == 'accepted'">
-                                                <a ng-click="trackownerlocation(data.ownerid);" href="#" title="Track location" class="fa fa-map-marker fa-2x"></a>
+                                                <a ng-class="{'disabled': data.status!='accepted'}" ng-click="trackownerlocation(data.ownerid);" href="#" title="Track location" data-toggle="tooltip" class="fa fa-map-marker fa-2x"></a>
                                             </div>
                                         </div>
                                     </td>
