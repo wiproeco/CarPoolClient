@@ -169,8 +169,8 @@ app.controller('myRideDetailsCtrl', function ($scope, $http, $window, $filter) {
     $scope.updateRide = function (date) {
         var rideJSON = localStorage.getItem("currentRideObject");
         var rideObject = JSON.parse(rideJSON);
-        rideObject.seatsavailable = $scope.seats;
-        rideObject.totalseats = $scope.seats;
+        rideObject.seatsavailable = parseInt($scope.seats);
+        rideObject.totalseats = parseInt($scope.seats);
         rideObject.startdatetime = moment(date.startdate).valueOf();  // Milliseconds
         rideObject.startdate = moment(date.startdate).format('MM-DD-YYYY');
         rideObject.starttime = moment(date.startdate).format('HH:mm');

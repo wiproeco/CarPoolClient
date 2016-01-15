@@ -99,10 +99,12 @@
                 google.maps.event.addListener(autocompleteStart, 'place_changed', function () {
                     clearMarkers();
                     var searchLocation = autocompleteStart.getPlace();
+                    var userId = localStorage.getItem("userid");
+                    var currentdate = moment().format('MM-DD-YYYY');
                     $.ajax({
                         type: "GET",
                         contentType: "application/json",
-                        url: "http://wiprocarpool.azurewebsites.net/searchrides/" + searchLocation.vicinity,
+                        url: "http://wiprocarpool.azurewebsites.net/searchrides/" + searchLocation.vicinity + "/" + userId + "/" + currentdate,
                         //url: "http://carpooltestapp.azurewebsites.net/searchrides/" + searchLocation.vicinity,
                         //data: JSON.stringify(service),
                         dataType: "json",
