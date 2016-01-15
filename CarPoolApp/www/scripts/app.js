@@ -25,6 +25,8 @@ app.controller('userCtrl', function ($scope, $http, $window, $filter, Serviceurl
             if (emailReg.test($scope.txtEmail)) {
                 var email = $scope.txtEmail;
                 var pass = $scope.txtPassword;
+                var owner = $scope.Owner;
+                window.localStorage.setItem("owner", owner);
                 document.getElementById("Loading").style.display = "block";
                 if (email != "" && pass != "" && email != undefined && pass != undefined) {
                     try {
@@ -61,7 +63,7 @@ app.controller('userCtrl', function ($scope, $http, $window, $filter, Serviceurl
                                     //$scope.authenticated = true;
                                     logdetails.userid = $scope.txtEmail;
                                     logdetails.logdescription = $scope.txtEmail + " login attempt failed more than 3 times....";
-                                    Errorlog($http, logdetails, false);
+                                    Errorlog($http,$scope, logdetails, false);
                                     numofLoginAttempts = 0;
                                 }
                             }
@@ -258,11 +260,10 @@ app.controller('searchCtrl', function ($scope, $http, $window, $rootScope, $filt
                 Errorlog($http, logdetails, true);
             });
     }
-    catch (e) {
-        alert(e);
+    catch (e) {        
         logdetails.userid = userid;
         logdetails.logdescription = e.message;
-        Errorlog($http, logdetails);
+        Errorlog($http, logdetails,true);
     }
 
     //click on join link
@@ -293,7 +294,9 @@ app.controller('searchCtrl', function ($scope, $http, $window, $rootScope, $filt
             else { return false; }
         }
         catch (e) {
-            //alert(e);
+            logdetails.userid = userid;
+            logdetails.logdescription = e.message;
+            Errorlog($http, logdetails, true);
         }
 
     }
@@ -361,9 +364,20 @@ function navigationLinks($scope, $http, $window) {
         window.location.href = "myrides.html";
     }
 
+    $scope.UpdateProfile = function (name) {
+
+        window.location.href = "UpdateProfile.html";
+    }
+
+
     $scope.JoinRide = function () {
 
         window.location.href = "ride.html";
+    }
+
+    $scope.RidesHistory = function () {
+
+        window.location.href = "rideshistory.html"
     }
 
     $scope.logOut = function () {
@@ -568,4 +582,49 @@ app.controller('ownernotificationCtrl', function ($scope, $http, $window, $filte
     }
 });
 
+app.controller('ridesHistoryCtrl', function ($scope, $http, $window, $filter) {
+    var isowner;
+    var email = window.localStorage.getItem("email", email);
+    var id = window.localStorage.getItem("userid");
+    $scope.userName = localStorage.getItem("username");
+    var username = $scope.userName;
+    if (window.localStorage.getItem("owner") === "true") {
+        isowner = true;
+        $scope.ridehistoryas = "As a Owner"
+    } else {
+        isowner = false;
+        $scope.ridehistoryas = "As a User"
+    }
+    $http.get("http://wiprocarpool.azurewebsites.net/getrideshistory/" + id + "/" + isowner)
+        .success(function (response) {
+            if (response.rides.length > 0) {
+                var ridesHistory = { rides: [] };
+                for (var i = 0; i < response.rides.length; i++) {
+                    var date = new Date(response.rides[i].EndDate);
+                    var rideDateTime = date.toDateString() + " " + addZero(date.getHours()) + ":" + addZero(date.getMinutes()) + ":" + addZero(date.getSeconds());
+                    ridesHistory.rides.push({ "EndDate": rideDateTime, "StartPoint": response.rides[i].StartPoint, "EndPoint": response.rides[i].EndPoint });
+                }
+                $scope.ridesavailable = true;
+            }
+            else {
+                var ridesHistory = "no rides";
+                //ridesHistory.push("no rides");
+                $scope.ridesavailable = false;
+            }
+            $scope.rides = ridesHistory;
+        }).error(function (data, status) {
+            $scope.authenticated = true;
+            document.getElementById("Loading").style.display = "none";
+            logdetails.userid = $scope.txtEmail;
+            logdetails.logdescription = status;
+            Errorlog($http, logdetails, true);
 
+        });
+    function addZero(i) {
+        if (i < 10) {
+            i = "0" + i;
+        }
+        return i;
+    }
+    navigationLinks($scope, $http, $window);
+});

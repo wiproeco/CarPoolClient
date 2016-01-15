@@ -30,6 +30,7 @@
 
     <script src="scripts/custom.js"></script>
     <script src="scripts/Error.js"></script>
+    <script src="scripts/EditProfile.js"></script>
 </head>
 <body ng-app="myApp" ng-controller="dashboardCtrl">
     <!-- Navigation -->
@@ -45,20 +46,20 @@
                     <span class="icon-bar"></span>
                 </button>
                 <a class="navbar-brand" href="#">
-                    <div><i class="fa fa-car fa-2x"></i>&nbsp;Wipro Carpool App!</div>
+                    <div><i class="fa fa-car fa-2x"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Wipro Carpool App!</div>
                 </a>
             </div>
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-2">
                 <ul class="nav navbar-nav">
                     <li style="background-color:white;line-height:50px;">
-                        <span style="padding-left:15px;"><b>Welcome {{ userName }}!</b></span> <i class="fa fa-gear fa-fw"></i>
+                        <span style="padding-left:15px;"><b>Welcome {{ userName }}!</b></span> <img class="updatelink" ng-src="images/editpng.png" ng-click="UpdateProfile(userName)" /> <!--<i class="fa fa-gear fa-fw"></i>-->
                     </li>
                     <li class="divider"></li>
                     <li><a href="#" ng-click="MyDashboard()">Dashboard</a></li>
                     <li><a href="#" ng-click="MyNotifications()">Notifications</a></li>
                     <li><a id="carownerShow2" href="#" ng-click="MyRides()">My Rides</a></li>
                     <li><a id="passangerShow2" href="#" ng-click="JoinRide()">Join Ride</a></li>
-                    <li><a href="#">Rides History</a></li>
+                    <li><a href="#" ng-click="RidesHistory()">Rides History</a></li>
                     <li><a href="#">Help</a></li>
                     <li><a href="#" ng-click="logOut()">Log Out</a></li>
                 </ul>

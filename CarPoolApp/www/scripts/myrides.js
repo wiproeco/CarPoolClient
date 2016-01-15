@@ -117,9 +117,19 @@ function navigationLinks($scope, $http, $window) {
         window.location.href = "myrides.html";
     }
 
+    $scope.UpdateProfile = function (name) {
+
+        window.location.href = "UpdateProfile.html";
+    }
+
     $scope.JoinRide = function () {
 
         window.location.href = "ride.html";
+    }
+
+    $scope.RidesHistory = function () {
+
+        window.location.href = "rideshistory.html"
     }
 
     $scope.logOut = function () {
