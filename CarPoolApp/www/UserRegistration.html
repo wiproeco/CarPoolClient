@@ -55,6 +55,13 @@
 
                 </div>
                 <div class="panel-body">
+
+                    <div ng-if="gender" class="alert alert-danger ">Please select Gender. </div>
+                    <div ng-if="EmailId" class="alert alert-danger ">Email ID already exists. </div>
+                    <div ng-if="UserNameerror" class="alert alert-danger ">UserName already exists. </div>
+                    <div ng-if="termsandcond" class="alert alert-danger ">Accept Terms and conditions. </div>
+                    <div ng-if="passworderror" class="alert alert-danger ">Enter valid password.</div>
+
                     <div class="row">
                         <div id="errordiv1" class="row" ng-if="iserror">
                             <div class="col-lg-12">
@@ -75,11 +82,13 @@
                         <form role="form" class="login-form">
                             <div class="form-group">
                                 <label class="sr-only" for="form-username">Username</label>
-                                <input type="text" name="form-username" placeholder="Username" ng-model="txtRegUserName" class="form-control" id="form-username">
+                                <input type="text" name="form-username" placeholder="Username" ng-model="txtRegUserName" ng-blur="checkUserName(txtRegUserName)" class="form-control" id="form-username">
+                                <span ng-hide="checkuser">User already exists</span>
                             </div>
                             <div class="form-group">
                                 <label class="sr-only" for="form-password">Password</label>
-                                <input type="password" name="form-password" placeholder="Password" ng-model="txtRegPwd" class="form-control" id="form-password">
+                                <input type="password" name="form-password" placeholder="Password" ng-model="txtRegPwd" ng-blur="passwordValidation(txtRegPwd)" class="form-control" id="form-password">
+                                <span ng-hide="validpassword">Password must be Minimum 6 characters at least one number, one lowercase and one uppercase letter</span>
                             </div>
                             <div class="form-group">
                                 <label class="sr-only" for="form-confirm-password">Confirm Password</label>
@@ -90,6 +99,7 @@
                                 <label class="sr-only" for="form-emailId">Email Id</label>
                                 <input type="text" name="form-emailId" placeholder="Email Id" ng-model="txtRegEmail" ng-blur="checkEmail(txtRegEmail)" class="form-control" id="form-emailId">
                                 <span ng-hide="validEmail">Invalid Email</span>
+                                <span ng-hide="checkemail">Email ID already exists</span>
                             </div>
                             <div class="form-group">
                                 <label class="sr-only" for="form-mobileno">Mobile No</label>
@@ -140,6 +150,13 @@
                                     </select>
                                 </div>
                             </div>
+
+                            <div>
+                                <label class="checkbox-inline" for="form-termsandconditions">
+                                    <input type="checkbox" ng-model="termsandconditions" id="form-termsandconditions" name="form-termsandconditions" />
+                                    <a ng-click="accepttermsandconditions()">Accept terms and conditions</a>
+                                </label>
+                            </div>
                             <button type="submit" class="btn btn-primary" id="signup" ng-click="AddUser()">Sign Up</button>
 
                         </form>
@@ -147,6 +164,32 @@
                     </div>
                 </div>
                 <div class="panel-footer"><a href="index.html"><b>Already a member? Sign In!</b></a></div>
+            </div>
+        </div>
+        <div class="modal fade" id="termsandconditions">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                        <h4 class="modal-title">Terms and conditions</h4>
+                    </div>
+                    <div class="modal-body">
+                        <ul>
+                            <b><u>For Rider:</u></b>
+                            <li>Should have valid driving license</li>
+                            <li>Should not smoke</li>
+                            <li>Should maintain timings</li>
+                            <li>Should not cause disturbance for others</li>
+                        </ul>
+                        <ul>
+                            <b><u>For Seeker:</u></b>
+                            <li>Should not smoke</li>
+                            <li>Should maintain timings</li>
+                            <li>Pets are not allowed</li>
+                            <li>Should not cause disturbance for others</li>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
         <footer class="footer">

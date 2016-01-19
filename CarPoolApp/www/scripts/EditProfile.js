@@ -12,6 +12,7 @@ app.controller('UpdateCntrl', function ($scope, $http, $window, $filter) {
     $scope.processing = false;
     $scope.userName = localStorage.getItem("username");
     var id = localStorage.getItem('userid');
+
     try {
         $http.get("http://wiprocarpool.azurewebsites.net/UpdateProfileDetails/" + id)
         .success(function (data) {
@@ -36,6 +37,15 @@ app.controller('UpdateCntrl', function ($scope, $http, $window, $filter) {
         window.location.href = "Changepassword.html";
     }
 
+    $scope.validpassword = true;
+
+    $scope.passwordValidation = function (password) {
+        $scope.passworderror = false;
+        if (password !== undefined) {
+            var passwordReg = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/;
+            $scope.validpassword = passwordReg.test(password);
+        }
+    }
     // change passowrd screen 
     $scope.UpdatePassword = function () {
 
@@ -51,6 +61,10 @@ app.controller('UpdateCntrl', function ($scope, $http, $window, $filter) {
             $scope.ismatchpswd = false;
 
             if (password !== "" && confirmpassowrd !== "" && password !== undefined && confirmpassowrd !== undefined) {
+                if (!$scope.validpassword) {
+                    $scope.passworderror = true;
+                    $("#form-confirm-password").focus();
+                } else {
                 var updatepswd = {
                     password: $scope.txtnewpswd,
                     id: localStorage.getItem('userid')
@@ -73,6 +87,7 @@ app.controller('UpdateCntrl', function ($scope, $http, $window, $filter) {
                     logdetails.logdescription = e.message;
                     Errorlog($http, logdetails, true);
                 }
+            }
             }
             else {
 

@@ -101,14 +101,26 @@
                     var searchLocation = autocompleteStart.getPlace();
                     var userId = localStorage.getItem("userid");
                     var currentdate = moment().format('MM-DD-YYYY');
+                    var searchText = '';
+                    if (searchLocation.vicinity) {
+                        searchText = searchLocation.name + "," + searchLocation.vicinity;
+                    } else {
+                        searchText = searchLocation.name;
+                    }
+
                     $.ajax({
                         type: "GET",
                         contentType: "application/json",
-                        url: "http://wiprocarpool.azurewebsites.net/searchrides/" + searchLocation.vicinity + "/" + userId + "/" + currentdate,
+                        url: "http://wiprocarpool.azurewebsites.net/searchrides/" + searchText + "/" + userId + "/" + currentdate,
                         //url: "http://carpooltestapp.azurewebsites.net/searchrides/" + searchLocation.vicinity,
                         //data: JSON.stringify(service),
                         dataType: "json",
                         success: function (data) {
+                            if (data.length <= 0 || data.isArray == false) {
+                                $("#errormsg").html(data);
+                                $("#errormsg").show();
+                                return;
+                            }
                             var latlngbounds = new google.maps.LatLngBounds();
                             $(data).each(function (index, obj) {
                                 var vehicleLatLng = new google.maps.LatLng(obj.lat, obj.lng);

@@ -57,7 +57,7 @@ app.controller('myRideCtrl', function ($scope, $http, $window, $filter) {
     }
 });
 
-function getAllRideDetails($scope, $http,userid) {
+function getAllRideDetails($scope, $http, userid) {
     document.getElementById("Loading").style.display = "block";
     var currentdate = moment().format('MM-DD-YYYY');
     $http.get("http://wiprocarpool.azurewebsites.net/getallridedetails/" + userid + "/" + currentdate)
@@ -94,11 +94,11 @@ function navigationLinks($scope, $http, $window) {
         //alert("kuhuh");
         window.location.href = "NewDashboard.html";
     }
-   
+
     $scope.MyNotifications = function () {
 
         var isowner = window.localStorage.getItem("isowner");
-        var notificationurl= '';
+        var notificationurl = '';
         if (isowner == "true")
             notificationurl = "ownernotification.html";
         else
@@ -141,6 +141,8 @@ function navigationLinks($scope, $http, $window) {
 app.controller('myRideDetailsCtrl', function ($scope, $http, $window, $filter) {
     $("#errormsg").hide();
     $("#errordiv").hide();
+    $scope.datevalidation = false;
+    $scope.validation = false;
     var logdetails = {
         userID: "",
         logdescription: "",
@@ -167,67 +169,80 @@ app.controller('myRideDetailsCtrl', function ($scope, $http, $window, $filter) {
         //enddate: new Date()
     }
     $scope.updateRide = function (date) {
-        var rideJSON = localStorage.getItem("currentRideObject");
-        var rideObject = JSON.parse(rideJSON);
-        rideObject.seatsavailable = parseInt($scope.seats);
-        rideObject.totalseats = parseInt($scope.seats);
-        rideObject.startdatetime = moment(date.startdate).valueOf();  // Milliseconds
-        rideObject.startdate = moment(date.startdate).format('MM-DD-YYYY');
-        rideObject.starttime = moment(date.startdate).format('HH:mm');
-        rideObject.enddatetime = moment(date.enddate).valueOf();
-        rideObject.enddate = moment(date.enddate).format('MM-DD-YYYY');
-        rideObject.endtime = moment(date.enddate).format('HH:mm');
-        $scope.iserror = true;
-        $scope.success = false;
-        try {
-            $http.post("http://wiprocarpool.azurewebsites.net/updateroute/", { userid: localStorage.getItem("userid"), ride: rideObject })
-           .success(function (response) {
-               //to update current location
-               $http.post("http://wiprocarpool.azurewebsites.net/updatecarlocation/", {
-                   userid: localStorage.getItem("userid"), currgeolocnaddress: rideObject.startpoint, currgeolocnlat: rideObject.startlat, currgeolocnlong: rideObject.startlng
-               });
-               /* $scope.rides = response[0].rides;  */
-               $scope.iserror = true;
-               $scope.success = true;
-               window.location.href = 'myrides.html';
-           })
-           .error(function (data, status) {
-               //$scope.iserror = false;
-               //$scope.success = false;
-               //alert('failed');
-               var userid = localStorage.getItem("userid");
-               logdetails.userID = userid;
-               logdetails.logdescription = status;
-               Errorlog($http, logdetails, true);
-           });
+        if ($scope.seats != "" && $scope.seats != undefined && $scope.date.startdate != "" && $scope.date.startdate != undefined && $scope.date.enddate != "" && $scope.date.enddate != undefined) {
+            $scope.validation = false;
+            var rideJSON = localStorage.getItem("currentRideObject");
+            var rideObject = JSON.parse(rideJSON);
+            rideObject.seatsavailable = parseInt($scope.seats);
+            rideObject.totalseats = parseInt($scope.seats);
+            rideObject.startdatetime = moment(date.startdate).valueOf();  // Milliseconds
+            rideObject.startdate = moment(date.startdate).format('MM-DD-YYYY');
+            rideObject.starttime = moment(date.startdate).format('HH:mm');
+            rideObject.enddatetime = moment(date.enddate).valueOf();
+            rideObject.enddate = moment(date.enddate).format('MM-DD-YYYY');
+            rideObject.endtime = moment(date.enddate).format('HH:mm');
+            $scope.iserror = true;
+            $scope.success = false;
+            if (rideObject.startdatetime >= rideObject.enddatetime) {
+                $scope.datevalidation = true;
+
+            } else {
+                $scope.datevalidation = false;
+                try {
+                    $http.post("http://wiprocarpool.azurewebsites.net/updateroute/", { userid: localStorage.getItem("userid"), ride: rideObject })
+                   .success(function (response) {
+                       //to update current location
+                       $http.post("http://wiprocarpool.azurewebsites.net/updatecarlocation/", {
+                           userid: localStorage.getItem("userid"), currgeolocnaddress: rideObject.startpoint, currgeolocnlat: rideObject.startlat, currgeolocnlong: rideObject.startlng
+                       });
+                       /* $scope.rides = response[0].rides;  */
+                       $scope.iserror = true;
+                       $scope.success = true;
+                       window.location.href = 'myrides.html';
+                   })
+                   .error(function (data, status) {
+                       //$scope.iserror = false;
+                       //$scope.success = false;
+                       //alert('failed');
+                       var userid = localStorage.getItem("userid");
+                       logdetails.userID = userid;
+                       logdetails.logdescription = status;
+                       Errorlog($http, logdetails, true);
+                   });
+                }
+                catch (e) {
+                    var userid = localStorage.getItem("userid");
+                    logdetails.userID = userid;
+                    logdetails.logdescription = e.message;
+                    Errorlog($http, logdetails, true);
+                }
+            }
         }
-        catch (e) {
-            var userid = localStorage.getItem("userid");
-            logdetails.userID = userid;
-            logdetails.logdescription = e.message;
-            Errorlog($http, logdetails,true);
+        else {
+            $scope.validation = true;
+            return false;
         }
     }
 });
 
 
 function GetStartDate() {
-        return (new Date()).toString();
-    }
-   function GetEndDate() {
-        return (new Date()).toString();
+    return (new Date()).toString();
+}
+function GetEndDate() {
+    return (new Date()).toString();
 
-    }
-   function formatDate() {
-       var d = new Date(),
-           month = '-' + (d.getMonth() + 1),
-           day = '-' + d.getDate(),
-           year = d.getFullYear();
+}
+function formatDate() {
+    var d = new Date(),
+        month = '-' + (d.getMonth() + 1),
+        day = '-' + d.getDate(),
+        year = d.getFullYear();
 
-       var strDate = year + month + day;
+    var strDate = year + month + day;
 
-      //2015-12-24
+    //2015-12-24
 
-       return strDate;
-   }
+    return strDate;
+}
 

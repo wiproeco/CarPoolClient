@@ -72,6 +72,8 @@
                     <div class="form-bottom">
                         <form role="form" class="login-form">
                             <div class="form-group">
+                                <div ng-if="validation" class="alert alert-danger ">Please select no.of seats </div>
+                                <div ng-if="datevalidation" class="alert alert-danger">Start time and end time should not be same and should not be less than start time.</div>
                                 <label for="form-noOfseats">No.of Seats</label>
                                 <select class="form-noOfseats form-control" id="form-noOfseats" name="form-noOfseats" ng-model="seats" placeholder="No.of Seats..." required>
                                     <option>1</option>

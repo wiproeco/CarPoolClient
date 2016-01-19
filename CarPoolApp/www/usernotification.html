@@ -124,7 +124,11 @@
                                             </div>
                                         </div>
                                     </td>
-                                    <td>{{data.status}}</td>
+                                    <td>
+                                        {{data.status}}<br />
+                                        <a href="#" alt="Cancel" ng-class="{'disabled': data.status=='canceled'}" ng-click="cancelRideNotification(data.ownerid, data.rideid, data.passengerid,'canceled');"><i class="fa fa-remove fa-2x"></i></a>
+                                    </td>
+
                                 </tr>
                             </tbody>
                         </table>
