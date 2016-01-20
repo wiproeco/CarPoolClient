@@ -18,8 +18,8 @@ app.controller('userCtrl', function ($scope, $http, $window, $filter, Serviceurl
     }
     var numofLoginAttempts;
     $scope.login = function () {
-        //$("#errordiv").hide();
-        //$("#errormsg").hide();
+        $scope.errormsg = false;
+        $scope.authenticated = false; 
         var emailReg = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         if ($scope.txtEmail != undefined) {
             if (emailReg.test($scope.txtEmail)) {
