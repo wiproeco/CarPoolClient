@@ -101,7 +101,7 @@ app.controller('UpdateCntrl', function ($scope, $http, $window, $filter) {
 
     //save/update profile in update screen.
     $scope.saveProfile = function () {
-        var usrname = $scope.username;
+        var usrname = $scope.username.toLowerCase();
         var password = $scope.password;
         var emailId = $scope.email;
         var mobileno = $scope.mobile;
@@ -112,7 +112,7 @@ app.controller('UpdateCntrl', function ($scope, $http, $window, $filter) {
 
             var updatedetails = {
                 id: localStorage.getItem('userid'),
-                username: $scope.username,
+                username: $scope.username.toLowerCase(),
                 password: $scope.password,
                 email: $scope.email,
                 mobile: $scope.mobile,
