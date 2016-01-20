@@ -727,13 +727,13 @@ app.controller('ridesHistoryCtrl', function ($scope, $http, $window, $filter) {
                     ridesHistory.rides.push({ "EndDate": rideDateTime, "StartPoint": response.rides[i].StartPoint, "EndPoint": response.rides[i].EndPoint });
                 }
                 $scope.ridesavailable = true;
-                $scope.processing = false;
             }
             else {
                 var ridesHistory = "no rides";
                 //ridesHistory.push("no rides");
                 $scope.ridesavailable = false;
             }
+            $scope.processing = false;
             $scope.rides = ridesHistory;
         }).error(function (data, status) {
             $scope.authenticated = true;
