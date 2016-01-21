@@ -20,7 +20,9 @@ app.controller('UpdateCntrl', function ($scope, $http, $window, $filter) {
             $scope.password = data[0].password;
             $scope.email = data[0].email;
             $scope.mobile = data[0].mobile;
-            $scope.photo = data[0].photo;
+            $scope.isCarOwner = data[0].isowner;
+            $scope.change(data[0].isowner);
+            $scope.carno = data[0].carNo;
         }).error(function (result, status) {
             logdetails.userid = localStorage.getItem("username");
             logdetails.logdescription = status;
@@ -31,6 +33,14 @@ app.controller('UpdateCntrl', function ($scope, $http, $window, $filter) {
         logdetails.userid = localStorage.getItem("username");
         logdetails.logdescription = e.message;
         Errorlog($http, logdetails, true);
+    }
+
+    $scope.change = function (isowner) {
+
+        if (isowner == true)
+            $scope.edit = true;
+        else
+            $scope.edit = false;
     }
 
     $scope.ChangePassword = function () {
@@ -101,45 +111,57 @@ app.controller('UpdateCntrl', function ($scope, $http, $window, $filter) {
 
     //save/update profile in update screen.
     $scope.saveProfile = function () {
-        var usrname = $scope.username;
-        var password = $scope.password;
-        var emailId = $scope.email;
-        var mobileno = $scope.mobile;
-        //var photo = $scope.photo;
+        $scope.carnumber = false;
+        if ($scope.edit && $scope.carno === "") {
+            $scope.carnumber = true;
+            $("#form-carnumber").focus();
+        } else {
+            var usrname = $scope.username;
+            var password = $scope.password;
+            var emailId = $scope.email;
+            var mobileno = $scope.mobile;
+            var isCarOwner = $scope.edit;
+            var carNo = "";
+            if (isCarOwner) {
+                carNo = $scope.carno;
+            }
 
-        if (usrname !== "" && password !== "" && emailId !== "" && mobileno !== "" &&
-            usrname !== undefined && password !== undefined && emailId !== undefined && mobileno !== undefined) {
+            if (usrname !== "" && password !== "" && emailId !== "" && mobileno !== "" &&
+                usrname !== undefined && password !== undefined && emailId !== undefined && mobileno !== undefined) {
 
-            var updatedetails = {
-                id: localStorage.getItem('userid'),
-                username: $scope.username,
-                password: $scope.password,
-                email: $scope.email,
-                mobile: $scope.mobile,
-                //photo: $scope.photo
-            };
-            $scope.processing = true;
-            try {
-                var url = $http.post('http://wiprocarpool.azurewebsites.net/SaveProfile', updatedetails,
-                                          { headers: { 'Content-Type': 'application/json' } });
-                url.success(function (result) {
-                    if (result !== "" && result !== undefined) {
-                        $scope.success = true;
-                        $scope.processing = false;
-                        $("#updateform").hide();
-                        //window.location.href = "NewDashboard.html";
-                    }
-                }).error(function (data, status) {
+                var updatedetails = {
+                    id: localStorage.getItem('userid'),
+                    username: $scope.username,
+                    password: $scope.password,
+                    mobile: $scope.mobile,
+                    isowner: isCarOwner,
+                    carNo: carNo
+                    //photo: $scope.photo
+                };
+                $scope.processing = true;
+                try {
+                    var url = $http.post('http://wiprocarpool.azurewebsites.net/SaveProfile', updatedetails,
+                                              { headers: { 'Content-Type': 'application/json' } });
+                    url.success(function (result) {
+                        if (result !== "" && result !== undefined) {
+                            $scope.success = true;
+                            $scope.processing = false;
+                            $("#updateform").hide();
+                            //window.location.href = "NewDashboard.html";
+                        }
+                    }).error(function (data, status) {
+                        logdetails.userid = localStorage.getItem("username");
+                        logdetails.logdescription = status;
+                        Errorlog($http, logdetails, true);
+                    });
+                }
+                catch (e) {
                     logdetails.userid = localStorage.getItem("username");
-                    logdetails.logdescription = status;
+                    logdetails.logdescription = e.message;
                     Errorlog($http, logdetails, true);
-                });
+                }
             }
-            catch (e) {
-                logdetails.userid = localStorage.getItem("username");
-                logdetails.logdescription = e.message;
-                Errorlog($http, logdetails, true);
-            }
+            return false;
         }
     }
 

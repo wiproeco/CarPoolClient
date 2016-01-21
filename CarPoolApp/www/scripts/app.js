@@ -181,6 +181,7 @@ app.controller('userCtrl', function ($scope, $http, $window, $filter, Serviceurl
         $scope.UserNameerror = false;
         $scope.termsandcond = false;
         $scope.passworderror = false;
+        $scope.carnumber = false;
 
         //$("#errordiv").hide();
         //$("#errormsg").hide();
@@ -226,8 +227,12 @@ app.controller('userCtrl', function ($scope, $http, $window, $filter, Serviceurl
                                         $scope.termsandcond = true;
                                         //$("#errormsg").html("Accept Terms and Conditions");
                                         $("#form-termsandconditions").focus();
-                                    } else {
-
+                                    }else
+                                        if ($scope.edit && $scope.carno === undefined) {
+                                            $scope.carnumber = true;
+                                            $("#form-carnumber").focus();
+                                        }
+                                    else {
 
                                         var UserName = $scope.txtRegUserName.toLowerCase();
                                         var Password = $scope.txtRegPwd;
@@ -238,7 +243,7 @@ app.controller('userCtrl', function ($scope, $http, $window, $filter, Serviceurl
                                         var isCarOwner = $scope.edit;
                                         var binaryImage = window.localStorage.getItem("binaryImage");
                                         var carNo = "";
-                                        var seatCap = "";
+                                        //var seatCap = "";
                                         if (Password != ConfirmPwd) {
                                             $scope.ismatch = false;
                                         } else {
@@ -246,7 +251,7 @@ app.controller('userCtrl', function ($scope, $http, $window, $filter, Serviceurl
                                         }
                                         if (isCarOwner) {
                                             carNo = $scope.carno;
-                                            seatCap = $scope.seats;
+                                            //seatCap = $scope.seats;
                                         }
                                         //$window.alert(UserName + ',' + Password + ',' + Email + ',' + Mobile + ',' + Gender + ',' + isCarOwner + ',' + carNo + ',' + seatCap + ',' + spoint + ',' + epoint);
                                         if ($scope.ismatch && UserName != "" && Password != "" && ConfirmPwd != "" && Email != "" && Mobile != "" && Gender != ""
@@ -262,7 +267,7 @@ app.controller('userCtrl', function ($scope, $http, $window, $filter, Serviceurl
                                                 gender: Gender,
                                                 isowner: isCarOwner,
                                                 carNo: carNo,
-                                                totalseats: seatCap,
+                                                //totalseats: seatCap,
                                                 photo: binaryImage,
                                                 currgeolocnaddress: "",
                                                 currgeolocnlat: "",
@@ -735,6 +740,7 @@ app.controller('ridesHistoryCtrl', function ($scope, $http, $window, $filter) {
                 $scope.ridesavailable = false;
             }
             $scope.rides = ridesHistory;
+            document.getElementById("Loading").style.display = "none";
         }).error(function (data, status) {
             $scope.authenticated = true;
             document.getElementById("Loading").style.display = "none";

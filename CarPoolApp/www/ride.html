@@ -15,13 +15,13 @@
     <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:400,100,300,500">
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
-    <link rel="stylesheet" href="css/index.css"> 
+    <link rel="stylesheet" href="css/index.css">
     <script src="scripts/moment.min.js"></script>
     <style>
         #wrapper {
             position: relative;
         }
-    </style>   
+    </style>
 </head>
 <body ng-app="myApp" ng-controller="dashboardCtrl">
     <!-- Navigation -->
@@ -57,7 +57,7 @@
             </div>
         </div>
     </nav>
-    <div class="container-fluid">              
+    <div class="container-fluid">
         <div class="row">
             <div id="errordiv" class="row">
                 <div class="col-lg-12">
@@ -67,16 +67,33 @@
             </div>
             <div class="wrapper">
                 <div id="over_map">
-                    <input type="text" id="txtDestination" class="form-control"/>
+                    <input type="text" id="txtDestination" class="form-control" />
                     <div id="demo"></div>
                 </div>
                 <div id="map" data-tap-disabled="true"></div>
                 <!--<div id="over_map_button">
                     <input type="button" id="btnRide" class="btn btn-primary" style="width:100%;" value="Ride Now" data-toggle="modal" data-target="#carmodal" />
-                    
+
                 </div>-->
             </div>
         </div>
+        <div class="modal fade" id="validationmodal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form class="form-horizontal" role="form">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            <h4 class="modal-title">Message</h4>
+                        </div>
+                        <div class="modal-body">
+                            <span id="validationMsg"></span>
+                        </div>
+                    </form>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+            <!--<span id="validationMsg"></span>-->
+        
         <div class="modal fade" id="carmodal">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -86,7 +103,6 @@
                             <h4 class="modal-title">Car Details</h4>
                         </div>
                         <div class="modal-body">
-
                             <div class="form-group">
                                 <label class="control-label col-sm-4" for="email">Car Owner: </label>
                                 <div class="col-sm-8">
@@ -98,40 +114,39 @@
                                 <div class="col-sm-8">
                                     <span id="carNumber"></span>
                                 </div>
-                            </div>      
+                            </div>
                             <div class="form-group">
                                 <label class="control-label col-sm-4" for="pwd">No. of seats available:</label>
                                 <div class="col-sm-8">
                                     <span id="carSeatsCount"></span>
                                 </div>
-                            </div> 
+                            </div>
                             <div class="form-group">
                                 <label class="control-label col-sm-4" for="pwd">From:</label>
                                 <div class="col-sm-8">
                                     <span id="carFrom"></span>
                                 </div>
-                            </div>    
+                            </div>
                             <div class="form-group">
                                 <label class="control-label col-sm-4" for="pwd">To:</label>
                                 <div class="col-sm-6">
                                     <span id="carTo"></span>
                                 </div>
-                            </div>  
+                            </div>
                             <div class="form-group">
                                 <label class="control-label col-sm-4" for="pwd">Pick up points:</label>
                                 <div class="col-sm-6">
-                                    <select class="form-control" id="ddlPickuppoints" style="width:80%">                                        
-                                    </select>
+                                    <select class="form-control" id="ddlPickuppoints" style="width:80%"></select>
                                 </div>
-                            </div>   
+                            </div>
                             <div class="form-group">
                                 <div class="col-sm-9">
                                     <input type="checkbox" id="chkreqforcurrgeolocn" name="chkreqforcurrgeolocn">Request for current location
                                 </div>
-                            </div>                                             
+                            </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-primary" id="btnJoinRide">Join Ride</button>                           
+                            <button type="button" class="btn btn-primary" id="btnJoinRide">Join Ride</button>
                         </div>
                     </form>
                 </div><!-- /.modal-content -->

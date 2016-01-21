@@ -141,6 +141,8 @@
 
                 $("#btnJoinRide").click(function () {
 
+
+
                     var reqforcurrgeolocnvalue = "";
 
                     if (document.getElementById("chkreqforcurrgeolocn").checked)
@@ -213,21 +215,39 @@
                 //data: JSON.stringify(service),
                 dataType: "json",
                 success: function (response) {
-                    
-                    $("#ddlPickuppoints").html("");
-                    var data = response[0];
-                    rideObject = response[0];
-                    $("#carmodal").modal("toggle");                    
-                    $("#carOwner").text(response[0].userName);
-                    $("#carNumber").text(response[0].carNo);
-                    $("#carSeatsCount").text(response[0].seatsavailable);
-                    $("#carFrom").text(response[0].startpoint);
-                    $("#carTo").text(response[0].endpoint);
-                    $(data.boardingpoints).each(function (index, obj) {
-                        var option = $("<option></option>");
-                        option.attr("value", obj.boardingid).text(obj.address);
-                        $("#ddlPickuppoints").append(option);
-                    });                                       
+                    var dirtyFlag = false;
+
+                    if (response[0].seatsavailable <= 0) {
+                        $("#validationmodal").modal("toggle");
+                        $("#validationMsg").text("No seats are available. Try other Rider")
+                        dirtyFlag = true;
+                    }
+                    else if (response[0].passengers.length > 0) {
+                        $(response[0].passengers).each(function (index, obj) {
+                            if (obj.userid === localStorage.getItem("userid") && (obj.status === "pending" || obj.status === "acepted")) {
+                                //alert("You have already sent a request to the rider.");
+                                $("#validationmodal").modal("toggle");
+                                $("#validationMsg").text("You have already sent a request to the rider.");
+                                dirtyFlag = true;
+                            }
+                        });
+                    }
+                    if (dirtyFlag === false) {
+                        $("#ddlPickuppoints").html("");
+                        var data = response[0];
+                        rideObject = response[0];
+                        $("#carmodal").modal("toggle");
+                        $("#carOwner").text(response[0].userName);
+                        $("#carNumber").text(response[0].carNo);
+                        $("#carSeatsCount").text(response[0].seatsavailable);
+                        $("#carFrom").text(response[0].startpoint);
+                        $("#carTo").text(response[0].endpoint);
+                        $(data.boardingpoints).each(function (index, obj) {
+                            var option = $("<option></option>");
+                            option.attr("value", obj.boardingid).text(obj.address);
+                            $("#ddlPickuppoints").append(option);
+                        });
+                    }
                 }
             });
             

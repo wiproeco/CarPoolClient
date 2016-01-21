@@ -61,6 +61,7 @@
                     <div ng-if="UserNameerror" class="alert alert-danger ">UserName already exists. </div>
                     <div ng-if="termsandcond" class="alert alert-danger ">Accept Terms and conditions. </div>
                     <div ng-if="passworderror" class="alert alert-danger ">Enter valid password.</div>
+                    <div ng-if="carnumber" class="alert alert-danger ">Enter Car Number.</div>
 
                     <div class="row">
                         <div id="errordiv1" class="row" ng-if="iserror">
@@ -139,7 +140,7 @@
                                     <label class="sr-only" for="form-carnumber">Car Number</label>
                                     <input type="text" name="form-carnumber" placeholder="Car Number" ng-model="carno" class="form-carnumber form-control" id="form-carnumber">
                                 </div>
-                                <div class="form-group">
+                                <!--<div class="form-group">
                                     <h4>Seating Capacity</h4>
                                     <select class="form-noOfseats form-control" id="form-noOfseats" name="form-noOfseats" ng-model="seats">
                                         <option>1</option>
@@ -148,7 +149,7 @@
                                         <option>4</option>
                                         <option>5</option>
                                     </select>
-                                </div>
+                                </div>-->
                             </div>
 
                             <div>
