@@ -10,13 +10,15 @@ app.controller('UpdateCntrl', function ($scope, $http, $window, $filter) {
         type: 'Diagnostic'
     }
     $scope.processing = false;
+    $scope.checkuser = true;
     $scope.userName = localStorage.getItem("username");
     var id = localStorage.getItem('userid');
-
+    var prevUsername;
     try {
         $http.get("http://wiprocarpool.azurewebsites.net/UpdateProfileDetails/" + id)
         .success(function (data) {
             $scope.username = data[0].userName;
+            prevUsername = data[0].userName;            
             $scope.password = data[0].password;
             $scope.email = data[0].email;
             $scope.mobile = data[0].mobile;
@@ -109,6 +111,22 @@ app.controller('UpdateCntrl', function ($scope, $http, $window, $filter) {
         window.location.href = "UpdateProfile.html";
     }
 
+    $scope.checkUserName = function (username) {
+        $scope.checkuser = true;
+        var userName = username.toLowerCase();
+        if (username !== undefined && username!==prevUsername) {
+            $http.get("http://wiprocarpool.azurewebsites.net/CheckUsername/" + userName)
+                .success(function (response) {
+                    if (response.length > 0) {
+                        $scope.checkuser = false;
+                        $("#form-username").focus();
+                    }
+                }).error(function (data, status) {
+                    //  Errorlog($http, logdetails, true);
+                });
+        }
+    }
+
     //save/update profile in update screen.
     $scope.saveProfile = function () {
         $scope.carnumber = false;
@@ -116,7 +134,8 @@ app.controller('UpdateCntrl', function ($scope, $http, $window, $filter) {
             $scope.carnumber = true;
             $("#form-carnumber").focus();
         } else {
-            var usrname = $scope.username;
+
+            var usrname = $scope.username.toLowerCase();
             var password = $scope.password;
             var emailId = $scope.email;
             var mobileno = $scope.mobile;
@@ -128,40 +147,43 @@ app.controller('UpdateCntrl', function ($scope, $http, $window, $filter) {
 
             if (usrname !== "" && password !== "" && emailId !== "" && mobileno !== "" &&
                 usrname !== undefined && password !== undefined && emailId !== undefined && mobileno !== undefined) {
-
-                var updatedetails = {
-                    id: localStorage.getItem('userid'),
-                    username: $scope.username,
-                    password: $scope.password,
-                    mobile: $scope.mobile,
-                    isowner: isCarOwner,
-                    carNo: carNo
-                    //photo: $scope.photo
-                };
-                $scope.processing = true;
-                try {
-                    var url = $http.post('http://wiprocarpool.azurewebsites.net/SaveProfile', updatedetails,
-                                              { headers: { 'Content-Type': 'application/json' } });
-                    url.success(function (result) {
-                        if (result !== "" && result !== undefined) {
-                            $scope.success = true;
-                            $scope.processing = false;
-                            $("#updateform").hide();
-                            //window.location.href = "NewDashboard.html";
-                        }
-                    }).error(function (data, status) {
+                $scope.checkUserName(usrname);
+                if ($scope.checkuser) {
+                    var updatedetails = {
+                        id: localStorage.getItem('userid'),
+                        username: $scope.username.toLowerCase(),
+                        password: $scope.password,
+                        mobile: $scope.mobile,
+                        isowner: isCarOwner,
+                        carNo: carNo
+                        //photo: $scope.photo
+                    };
+                    $scope.processing = true;
+                    try {
+                        var url = $http.post('http://wiprocarpool.azurewebsites.net/SaveProfile', updatedetails,
+                                                  { headers: { 'Content-Type': 'application/json' } });
+                        url.success(function (result) {
+                            if (result !== "" && result !== undefined) {
+                                $scope.success = true;
+                                $scope.processing = false;
+                                $("#updateform").hide();
+                                $(".collapsed").prop("disabled", true);
+                                //window.location.href = "NewDashboard.html";
+                            }
+                        }).error(function (data, status) {
+                            logdetails.userid = localStorage.getItem("username");
+                            logdetails.logdescription = status;
+                            Errorlog($http, logdetails, true);
+                        });
+                    }
+                    catch (e) {
                         logdetails.userid = localStorage.getItem("username");
-                        logdetails.logdescription = status;
+                        logdetails.logdescription = e.message;
                         Errorlog($http, logdetails, true);
-                    });
+                    }
                 }
-                catch (e) {
-                    logdetails.userid = localStorage.getItem("username");
-                    logdetails.logdescription = e.message;
-                    Errorlog($http, logdetails, true);
-                }
+                return false;
             }
-            return false;
         }
     }
 

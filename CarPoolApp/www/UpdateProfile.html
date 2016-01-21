@@ -83,30 +83,31 @@
                     </div>
                     <div id="updateform" class="form-bottom">
                         <form role="form" class="login-form">
-                            <div class="form-group">
+                            <div class="form-group">                                
                                 <label>Username</label>
-                                <input type="text" name="form-username" placeholder="Username" ng-model="username" class="form-control" id="form-username" disabled="disabled">
+                                <input type="text" name="form-username" placeholder="Username" ng-blur="checkUserName(username)" ng-model="username" class="form-control" id="form-username">                                
+                                <span ng-hide="checkuser">User already exists</span>                               
                             </div>
-                            <!--<div class="form-group">
+                            <!--<div class="form-group">                           
                                 <label>Password</label>
-                                <input type="password" name="form-password" placeholder="Password"  ng-model="password" class="form-control" id="form-password">
+                                <input type="password" name="form-password" placeholder="Password"  ng-model="password" class="form-control" id="form-password">                                
                             </div>-->
-                            <div class="form-group">
+                            <div class="form-group">  
                                 <div class="change-group">
                                     <label>Change Password</label>
                                     <input type="password" name="form-confirm-password" placeholder="Change Password" ng-model="password" class="form-control changepswd" id="form-confirm-password">
                                     <img class="changelink" ng-click="ChangePassword()" ng-src="images/editpng.png" />
-                                </div>
+                                </div>                                                              
                             </div>
                             <!-- <div ng-hide="ismatch" class="alert alert-danger"> Password and confirm password must be matched.</div>-->
-                            <div class="form-group">
+                            <div class="form-group">                                
                                 <label>Email Id</label>
                                 <input type="text" name="form-emailId" placeholder="Email Id" ng-model="email" class="form-control" id="form-emailId" disabled="disabled">
                             </div>
-                            <div class="form-group">
+                            <div class="form-group">                                
                                 <label>Mobile Number</label>
                                 <input type="text" name="form-mobileno" placeholder="Mobile No" ng-model="mobile" ng-blur="checkPhoneNumber(mobile)" class="form-control" id="form-mobileno">
-                                <span ng-hide="validPhone">Invalid Phone Number</span>
+                                <span ng-hide="validPhone">Invalid Phone Number</span>                             
                             </div>
                             <div class="form-group">
                                 <label class="checkbox-inline" for="form-isowner">

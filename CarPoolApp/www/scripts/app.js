@@ -18,8 +18,8 @@ app.controller('userCtrl', function ($scope, $http, $window, $filter, Serviceurl
     }
     var numofLoginAttempts;
     $scope.login = function () {
-        //$("#errordiv").hide();
-        //$("#errormsg").hide();
+        $scope.errormsg = false;
+        $scope.authenticated = false; 
         var emailReg = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         if ($scope.txtEmail != undefined) {
             if (emailReg.test($scope.txtEmail)) {
@@ -732,13 +732,13 @@ app.controller('ridesHistoryCtrl', function ($scope, $http, $window, $filter) {
                     ridesHistory.rides.push({ "EndDate": rideDateTime, "StartPoint": response.rides[i].StartPoint, "EndPoint": response.rides[i].EndPoint });
                 }
                 $scope.ridesavailable = true;
-                $scope.processing = false;
             }
             else {
                 var ridesHistory = "no rides";
                 //ridesHistory.push("no rides");
                 $scope.ridesavailable = false;
             }
+            $scope.processing = false;
             $scope.rides = ridesHistory;
             document.getElementById("Loading").style.display = "none";
         }).error(function (data, status) {
