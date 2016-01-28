@@ -2,11 +2,24 @@
 var app = angular.module('myApp', []);
 app.constant('Serviceurl', 'http://wiprocarpool.azurewebsites.net');
 
+//$(document).ready(function () {
+
+//    $('#divLoginfailed').removeClass('hide');
+//    $('#errordiv').removeClass('hide');
+//    $('#dvSuccess').removeClass('hide');
+//    $('alert alert-danger').removeClass('hide');
+//    var allSpanElements = $("span");
+//    allSpanElements.removeClass("hide");
+//});
+
+
 app.controller('userCtrl', function ($scope, $http, $window, $filter, Serviceurl) {
+
     $scope.authenticated = false;
     $scope.errormsg = false;
     $scope.iserror = false;
     $scope.success = false;
+    $scope.inputRegGender = 'Male';
     //$("#errormsg").hide();
     //$("#errordiv").hide();
     var logdetails = {
@@ -19,7 +32,7 @@ app.controller('userCtrl', function ($scope, $http, $window, $filter, Serviceurl
     var numofLoginAttempts;
     $scope.login = function () {
         $scope.errormsg = false;
-        $scope.authenticated = false; 
+        $scope.authenticated = false;
         var emailReg = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         if ($scope.txtEmail != undefined) {
             if (emailReg.test($scope.txtEmail)) {
@@ -106,7 +119,7 @@ app.controller('userCtrl', function ($scope, $http, $window, $filter, Serviceurl
             $scope.edit = false;
     }
     $scope.iserror = false;
-    $scope.success = false;
+    $scope.issuccess = false;
     $scope.ismatch = true;
 
     $scope.validEmail = true;
@@ -227,99 +240,100 @@ app.controller('userCtrl', function ($scope, $http, $window, $filter, Serviceurl
                                         $scope.termsandcond = true;
                                         //$("#errormsg").html("Accept Terms and Conditions");
                                         $("#form-termsandconditions").focus();
-                                    }else
+                                    } else
                                         if ($scope.edit && $scope.carno === undefined) {
                                             $scope.carnumber = true;
                                             $("#form-carnumber").focus();
                                         }
-                                    else {
+                                        else {
 
-                                        var UserName = $scope.txtRegUserName.toLowerCase();
-                                        var Password = $scope.txtRegPwd;
-                                        var ConfirmPwd = $scope.txtRegConfirmPwd;
-                                        var Email = $scope.txtRegEmail.toLowerCase();
-                                        var Mobile = $scope.txtRegMobile;
-                                        var Gender = $scope.inputRegGender;
-                                        var isCarOwner = $scope.edit;
-                                        var binaryImage = window.localStorage.getItem("binaryImage");
-                                        var carNo = "";
-                                        //var seatCap = "";
-                                        if (Password != ConfirmPwd) {
-                                            $scope.ismatch = false;
-                                        } else {
-                                            $scope.ismatch = true;
-                                        }
-                                        if (isCarOwner) {
-                                            carNo = $scope.carno;
-                                            //seatCap = $scope.seats;
-                                        }
-                                        //$window.alert(UserName + ',' + Password + ',' + Email + ',' + Mobile + ',' + Gender + ',' + isCarOwner + ',' + carNo + ',' + seatCap + ',' + spoint + ',' + epoint);
-                                        if ($scope.ismatch && UserName != "" && Password != "" && ConfirmPwd != "" && Email != "" && Mobile != "" && Gender != ""
-                                           && UserName != undefined && Password != undefined && ConfirmPwd != undefined && Email != undefined && Mobile != undefined && Gender != undefined) {
-
-
-                                            var user = JSON.stringify({
-                                                type: "user",
-                                                userName: UserName,
-                                                password: Password,
-                                                email: Email,
-                                                mobile: Mobile,
-                                                gender: Gender,
-                                                isowner: isCarOwner,
-                                                carNo: carNo,
-                                                //totalseats: seatCap,
-                                                photo: binaryImage,
-                                                currgeolocnaddress: "",
-                                                currgeolocnlat: "",
-                                                currgeolocnlong: "",
-                                                rides: [
-                                                ]
-                                            });
-                                            $scope.processing = true;
-                                            try {
-                                                var res = $http.post('http://wiprocarpool.azurewebsites.net/register', user,
-                                                          { headers: { 'Content-Type': 'application/json' } });
-                                                res.success(function (data, status, headers, config) {
-                                                    $scope.iserror = false;
-                                                    $scope.success = true;
-                                                    $scope.txtRegUserName = '';
-                                                    $scope.txtRegPwd = '';
-                                                    $scope.txtRegConfirmPwd = '';
-                                                    $scope.txtRegEmail = '';
-                                                    $scope.txtRegMobile = '';
-                                                    $scope.termsandconditions = '';
-                                                    $scope.inputRegGender = '';
-                                                    $scope.carno = '';
-                                                    $scope.processing = false;
-                                                    window.localStorage.removeItem("binaryImage");
-                                                    document.getElementById('selfieImage').style.border = "2px dotted #808080";
-                                                    document.getElementById('selfieImage').innerHTML = "120 X 90";
-                                                });
-                                                res.error(function (data, status, headers, config) {
-                                                    $scope.iserror = true;
-                                                    $scope.success = false;
-                                                    $scope.Error = data;
-                                                    $scope.txtRegUserName = '';
-                                                    $scope.txtRegPwd = '';
-                                                    $scope.txtRegConfirmPwd = '';
-                                                    $scope.txtRegEmail = '';
-                                                    $scope.txtRegMobile = '';
-                                                    $scope.termsandconditions = '';
-                                                    $scope.inputRegGender = '';
-                                                    $scope.carno = '';
-                                                    $scope.processing = false;
-                                                    logdetails.userid = $scope.txtRegEmail;
-                                                    logdetails.logdescription = status;
-                                                    Errorlog($http, logdetails, true);
-                                                });
-                                            } catch (ex) {
-                                                logdetails.userid = $scope.txtRegEmail;
-                                                logdetails.logdescription = ex.message;
-                                                Errorlog($http, logdetails, true);
+                                            var UserName = $scope.txtRegUserName.toLowerCase();
+                                            var Password = $scope.txtRegPwd;
+                                            var ConfirmPwd = $scope.txtRegConfirmPwd;
+                                            var Email = $scope.txtRegEmail.toLowerCase();
+                                            var Mobile = $scope.txtRegMobile;
+                                            var Gender = $scope.inputRegGender;
+                                            var isCarOwner = $scope.edit;
+                                            var binaryImage = window.localStorage.getItem("binaryImage");
+                                            var carNo = "";
+                                            //var seatCap = "";
+                                            if (Password != ConfirmPwd) {
+                                                $scope.ismatch = false;
+                                            } else {
+                                                $scope.ismatch = true;
                                             }
+                                            if (isCarOwner) {
+                                                carNo = $scope.carno;
+                                                //seatCap = $scope.seats;
+                                            }
+                                            //$window.alert(UserName + ',' + Password + ',' + Email + ',' + Mobile + ',' + Gender + ',' + isCarOwner + ',' + carNo + ',' + seatCap + ',' + spoint + ',' + epoint);
+                                            if ($scope.ismatch && UserName != "" && Password != "" && ConfirmPwd != "" && Email != "" && Mobile != "" && Gender != ""
+                                               && UserName != undefined && Password != undefined && ConfirmPwd != undefined && Email != undefined && Mobile != undefined && Gender != undefined) {
+
+
+                                                var user = JSON.stringify({
+                                                    type: "user",
+                                                    userName: UserName,
+                                                    password: Password,
+                                                    email: Email,
+                                                    mobile: Mobile,
+                                                    gender: Gender,
+                                                    isowner: isCarOwner,
+                                                    carNo: carNo,
+                                                    //totalseats: seatCap,
+                                                    photo: binaryImage,
+                                                    currgeolocnaddress: "",
+                                                    currgeolocnlat: "",
+                                                    currgeolocnlong: "",
+                                                    rides: [
+                                                    ]
+                                                });
+                                                $scope.processing = true;
+                                                try {
+                                                    var res = $http.post('http://wiprocarpool.azurewebsites.net/register', user,
+                                                              { headers: { 'Content-Type': 'application/json' } });
+                                                    res.success(function (data, status, headers, config) {
+                                                        $scope.iserror = false;
+                                                        $scope.issuccess = true;
+                                                        $scope.txtRegUserName = '';
+                                                        $scope.txtRegPwd = '';
+                                                        $scope.txtRegConfirmPwd = '';
+                                                        $scope.txtRegEmail = '';
+                                                        $scope.txtRegMobile = '';
+                                                        $scope.termsandconditions = '';
+                                                        $scope.inputRegGender = '';
+                                                        $scope.carno = '';
+                                                        $scope.processing = false;
+                                                        window.localStorage.removeItem("binaryImage");
+                                                        document.getElementById('selfieImage').style.border = "2px dotted #808080";
+                                                        document.getElementById('selfieImage').innerHTML = "";
+                                                    });
+                                                    res.error(function (data, status, headers, config) {
+                                                        $scope.iserror = true;
+                                                        $scope.issuccess = false;
+                                                        $scope.Error = data;
+                                                        $scope.txtRegUserName = '';
+                                                        $scope.txtRegPwd = '';
+                                                        $scope.txtRegConfirmPwd = '';
+                                                        $scope.txtRegEmail = '';
+                                                        $scope.txtRegMobile = '';
+                                                        $scope.termsandconditions = '';
+                                                        $scope.inputRegGender = '';
+                                                        $scope.carno = '';
+                                                        document.getElementById('selfieImage').innerHTML = '';
+                                                        $scope.processing = false;
+                                                        logdetails.userid = $scope.txtRegEmail;
+                                                        logdetails.logdescription = status;
+                                                        Errorlog($http, logdetails, true);
+                                                    });
+                                                } catch (ex) {
+                                                    logdetails.userid = $scope.txtRegEmail;
+                                                    logdetails.logdescription = ex.message;
+                                                    Errorlog($http, logdetails, true);
+                                                }
+                                            }
+                                            return false;
                                         }
-                                        return false;
-                                    }
         }
 
     }
@@ -472,6 +486,7 @@ function navigationLinks($scope, $http, $window) {
     $scope.logOut = function () {
         window.localStorage.setItem("userid", 0);
         window.location.href = 'index.html';
+        window.localStorage.Clear();
     }
 }
 
@@ -757,3 +772,5 @@ app.controller('ridesHistoryCtrl', function ($scope, $http, $window, $filter) {
     }
     navigationLinks($scope, $http, $window);
 });
+
+

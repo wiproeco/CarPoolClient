@@ -18,6 +18,12 @@
         .form-bottom form .input-error {
             border-color: #de615e;
         }
+
+        /*.hide 
+        {
+            display:none;
+            visibility:hidden;
+        }*/
     </style>
     <!-- Cordova reference, this is added to your app when it's built. -->
     <script src="cordova.js"></script>
@@ -36,7 +42,7 @@
         <div class="container-fluid">
             <div class="navbar-header">
                 <a class="navbar-brand" href="#">
-                    <div><i class="fa fa-car fa-2x"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Wipro Carpool App!</div>
+                    <div><i class="fa fa-car fa-2x"></i>&nbsp;&nbsp; Wipro Carpool App!</div>
                 </a>
             </div>
         </div>
@@ -64,7 +70,7 @@
                     <div ng-if="carnumber" class="alert alert-danger ">Enter Car Number.</div>
 
                     <div class="row">
-                        <div id="errordiv1" class="row" ng-if="iserror">
+                        <div id="errordiv" class="row" ng-if="iserror">
                             <div class="col-lg-12">
                                 <div id="errormsg" class="alert alert-danger">
                                 </div>
@@ -74,7 +80,7 @@
 
                         </div>
                         <div class="col-lg-12">                           
-                            <div class="alert alert-success" ng-if="success">
+                            <div class="alert alert-success" id="dvSuccess" ng-if="issuccess">
                                 Your account is created. <a href="index.html"><b>Sign In!</b></a>
                             </div>
                         </div>
@@ -82,9 +88,15 @@
                     <div class="form-bottom">
                         <form role="form" class="login-form">
                             <div class="form-group">
-                                <label class="sr-only" for="form-username">Username</label>
-                                <input type="text" name="form-username" placeholder="Username" ng-model="txtRegUserName" ng-blur="checkUserName(txtRegUserName)" class="form-control" id="form-username">
+                                <label class="sr-only" for="form-username">Name</label>
+                                <input type="text" name="form-username" placeholder="Name" ng-model="txtRegUserName" ng-blur="checkUserName(txtRegUserName)" class="form-control" id="form-username">
                                 <span ng-hide="checkuser">User already exists</span>
+                            </div>
+                            <div class="form-group">
+                                <label class="sr-only" for="form-emailId">Email Id</label>
+                                <input type="text" name="form-emailId" placeholder="Email Id" ng-model="txtRegEmail" ng-blur="checkEmail(txtRegEmail)" class="form-control" id="form-emailId">
+                                <span ng-hide="validEmail">Invalid Email</span>
+                                <span ng-hide="checkemail">Email ID already exists</span>
                             </div>
                             <div class="form-group">
                                 <label class="sr-only" for="form-password">Password</label>
@@ -95,13 +107,7 @@
                                 <label class="sr-only" for="form-confirm-password">Confirm Password</label>
                                 <input type="password" name="form-confirm-password" placeholder="Confirm Password" ng-model="txtRegConfirmPwd" class="form-control" id="form-confirm-password">
                             </div>
-                            <div ng-hide="ismatch" class="alert alert-danger"> Password and confirm password must be matched.</div>
-                            <div class="form-group">
-                                <label class="sr-only" for="form-emailId">Email Id</label>
-                                <input type="text" name="form-emailId" placeholder="Email Id" ng-model="txtRegEmail" ng-blur="checkEmail(txtRegEmail)" class="form-control" id="form-emailId">
-                                <span ng-hide="validEmail">Invalid Email</span>
-                                <span ng-hide="checkemail">Email ID already exists</span>
-                            </div>
+                            <div ng-hide="ismatch" class="alert alert-danger hide"> Password and confirm password must be matched.</div>                            
                             <div class="form-group">
                                 <label class="sr-only" for="form-mobileno">Mobile No</label>
                                 <input type="text" name="form-mobileno" placeholder="Mobile No" ng-model="txtRegMobile" ng-blur="checkPhoneNumber(txtRegMobile)" class="form-control" id="form-mobileno">

@@ -46,7 +46,7 @@
                     <span class="icon-bar"></span>
                 </button>
                 <a class="navbar-brand" href="#">
-                    <div><i class="fa fa-car fa-2x"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Wipro Carpool App!</div>
+                    <div><i class="fa fa-car fa-2x"></i>&nbsp;&nbsp; Wipro Carpool App!</div>
                 </a>
             </div>
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-2">
@@ -96,40 +96,54 @@
                         <table class="table table-striped table-bordered table-hover">
                             <thead>
                                 <tr>
+                                    <th>Detail</th>
                                     <th>Actions</th>
-                                    <th>Photo</th>
-                                    <th>Username</th>
-                                    <th>Status</th>
-                                    <th>Date</th>
-                                    <th>Boarding At</th>
+                                    <!--<th>Photo</th>-->
+                                    <!--<th>Status</th>
+                <th>Date</th>-->
+                                    <!--<th>Boarding At</th>-->
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr ng-repeat="data in notificationdata">
+                            <tbody ng-repeat="data in notificationdata">
+                                <tr rowspan="2">
                                     <!--<td>{{$index + 1}}</td>-->
                                     <td>
-                                        <div ng-if="data.reqforcurrgeolocn">
-                                            <input type="checkbox" id="chkuserreqforcurrgeolocn" name="chkuserreqforcurrgeolocn" ng-model="data.reqforcurrgeolocn" ng-disabled="data.status!='pending'">
-                                             Requested for <br /> current location
-                                            <br />
-                                        </div>
-                                        <a href="#" alt="Accept" title="Accept" data-toggle="tooltip" ng-class="{'disabled': data.status!='pending'}" ng-click="updateRideNotification(data.ownerid, data.rideid, data.passengerid,'accepted');"><i class="fa fa-check fa-2x"></i></a>
-                                        <a href="#" alt="Reject" title="Reject" data-toggle="tooltip" ng-class="{'disabled': data.status!='pending'}" ng-click="updateRideNotification(data.ownerid, data.rideid, data.passengerid,'rejected');"><i class="fa fa-close fa-2x"></i></a>
-                                    </td>
-                                    <td>
                                         <img ng-src="{{data.photo}}" height="50" width="50" />
-                                    </td>
-                                    <td>
+                                        <br />
                                         <div>
                                             {{data.passengername}}
                                             <a ng-href="tel: {{data.mobile}}" target="_blank" title="Call to {{data.passengername}}" data-toggle="tooltip">
-                                                <img border="0" alt="MakeCall" src="images/makecall.png" width="25" height="25">
+                                                <img border="0" alt="MakeCall" src="images/makecall.png" width="25" height="25"/> Call
                                             </a>
                                         </div>
-                                    <td>{{data.status}}</td>
-                                    <td>{{data.startdatetime | date:"MM/dd/yyyy 'at' h:mma"}}</td>
-                                    <td style="text-wrap:normal">{{data.address}}</td>
+                                    </td>
+                                    <td>
+                                        <div ng-if="data.reqforcurrgeolocn">
+                                            <label class="checkbox-inline" for="chkuserreqforcurrgeolocn">
+                                                <input type="checkbox" id="chkuserreqforcurrgeolocn" name="chkuserreqforcurrgeolocn" ng-model="data.reqforcurrgeolocn" ng-disabled="data.status!='pending'">
+                                                Requested for <br /> current location
+                                                <br />
+                                            </label>
+                                        </div>
+                                        <a href="#" alt="Accept" title="Accept" data-toggle="tooltip" ng-class="{'disabled': data.status!='pending'}" ng-click="updateRideNotification(data.ownerid, data.rideid, data.passengerid,'accepted');"><i class="fa fa-check fa-2x"></i> Accept</a>
+                                        <a href="#" alt="Reject" title="Reject" data-toggle="tooltip" ng-class="{'disabled': data.status!='pending'}" ng-click="updateRideNotification(data.ownerid, data.rideid, data.passengerid,'rejected');"><i class="fa fa-close fa-2x"></i> Reject</a>
+                                    </td>
+                                    <!--<td>
+                    <img ng-src="{{data.photo}}" height="50" width="50" />
+                </td>-->
 
+                                </tr>
+                                <tr>
+                                    <td>Status</td>
+                                    <td>{{data.status}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Boarding On</td>
+                                    <td>{{data.startdatetime | date:"MM/dd/yyyy 'at' h:mma"}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Boarding Point</td>
+                                    <td style="white-space: -o-pre-wrap;word-wrap: break-word;white-space: pre-wrap;white-space: -moz-pre-wrap;white-space: -pre-wrap; ">{{data.address}}</td>
                                 </tr>
                             </tbody>
                         </table>

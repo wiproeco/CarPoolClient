@@ -135,6 +135,7 @@ function navigationLinks($scope, $http, $window) {
     $scope.logOut = function () {
         window.localStorage.setItem("userid", 0);
         window.location.href = 'index.html';
+        window.localStorage.Clear();
     }
 }
 

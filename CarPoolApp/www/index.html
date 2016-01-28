@@ -8,20 +8,26 @@
         For details, see http://go.microsoft.com/fwlink/?LinkID=617521
     -->
     <!--<meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-inline'; style-src 'self' 'unsafe-inline';script-src 'self' https://ssl.gstatic.com 'unsafe-inline' 'self' https://*.googleapis.com 'unsafe-eval'; img-src *; font-src *; media-src *">-->
-    <!--<meta http-equiv="Content-Security-Policy" content="'unsafe-inline' *">--> 
+    <!--<meta http-equiv="Content-Security-Policy" content="'unsafe-inline' *">-->
     <meta http-equiv="Content-Security-Policy" content="default-src 'unsafe-eval' *; style-src 'unsafe-inline' *; img-src * data:">
     <title>Wipro Car Pool App</title>
 
     <!-- CarPoolApp references -->
     <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:400,100,300,500">
     <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
-    <link rel="stylesheet" href="css/bootstrap.min.css">    
-    <link rel="stylesheet" href="css/index.css"> 
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/index.css">
     <style>
         .form-bottom form .input-error {
             border-color: #de615e;
         }
-    </style>  
+        /*.hide 
+        {
+            display:none;
+            visibility:hidden;
+        }*/
+
+    </style>
 
     <script src="cordova.js"></script>
     <script src="scripts/platformOverrides.js"></script>
@@ -40,7 +46,7 @@
         <div class="container-fluid">
             <div class="navbar-header">
                 <a class="navbar-brand" href="#">
-                    <div><i class="fa fa-car fa-2x"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Wipro Carpool App!</div>
+                    <div><i class="fa fa-car fa-2x"></i>&nbsp;&nbsp; Wipro Carpool App!</div>
                 </a>
             </div>
         </div>
@@ -69,7 +75,7 @@
                         <div class="col-lg-12">
                         </div>
                         <div class="col-lg-12">
-                            <div class="alert alert-danger" ng-if="authenticated">
+                            <div class="alert alert-danger" id="divLoginfailed" ng-if="authenticated">
                                 Login failed.
                             </div>
                         </div>
@@ -79,7 +85,7 @@
                             <div class="form-group">
                                 <label class="sr-only" for="form-username">Username</label>
                                 <input type="text" name="form-username" ng-model="txtEmail" placeholder="Email Id" ng-blur="checkEmail(txtEmail)" class="form-username form-control" id="form-username">
-                                <span ng-if="!validEmail">Please enter valid Email Id.</span>     
+                                <span ng-if="!validEmail">Please enter valid Email Id.</span>
                             </div>
                             <div class="form-group">
                                 <label class="sr-only" for="form-password">Password</label>
@@ -98,7 +104,7 @@
 
             </div>
         </div>
-       
+
     </div>
     <!-- Footer -->
     <footer class="footer">
@@ -107,7 +113,6 @@
         </div>
     </footer>
 
-    <!-- Cordova reference, this is added to your app when it's built. -->
-   
+    <!-- Cordova reference, this is added to your app when it's built. -->    
 </body>
 </html>
