@@ -53,13 +53,13 @@
     };
     var nearVehicles = [];
     var rideObject = null;
-    var carOwnerId = null;   
+    var carOwnerId = null;
 
     global.intilize = function () {
-        
+
         getLocation();
     }
-    
+
     function getLocation() {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(function (position) {
@@ -124,8 +124,10 @@
                             var latlngbounds = new google.maps.LatLngBounds();
                             $(data).each(function (index, obj) {
                                 var vehicleLatLng = new google.maps.LatLng(obj.lat, obj.lng);
-                                var querystring = obj.id + "/" + obj.rideid;
-                                addMarker(vehicleLatLng, map, querystring);
+                                //Key value pair info with pick up point details
+                                var pickupdetails = { "userid": obj.id, "rideid": obj.rideid, "lat": obj.lat, "lng": obj.lng, "address": obj.address };
+
+                                addMarker(vehicleLatLng, map, pickupdetails);
                                 latlngbounds.extend(vehicleLatLng);
                             });
 
@@ -141,7 +143,7 @@
 
                 $("#btnJoinRide").click(function () {
 
-
+                    $("#btnJoinRide").prop("disabled", true);
 
                     var reqforcurrgeolocnvalue = "";
 
@@ -184,35 +186,34 @@
                     window.location.href = 'index.html';
                 });
 
-            }, function (error) { alert("enable location in your mobile"); }, { timeout:1000, enableHighAccuracy: true, maximumAge: 90000 });
+            }, function (error) { alert("enable location in your mobile"); }, { timeout: 1000, enableHighAccuracy: true, maximumAge: 90000 });
         } else {
             alert("Geolocation is not supported by this browser.");
         }
     }
 
     function showPosition() {
-        
+
     }
 
-    function addMarker(latlng, map1, docId) {
+    function addMarker(latlng, map1, pickupdetails) {
         var marker = new google.maps.Marker({
             position: latlng,
             map: map1
             //icon: "/images/car-image.png"
             //title: docId
         });
-        marker.setTitle(docId);
-        marker.addListener('click', function () {            
+        marker.setTitle(pickupdetails.address);
+        marker.setValues(pickupdetails);
+        marker.addListener('click', function () {
             var position = marker.getPosition();
-            var docId = marker.getTitle();
-            carOwnerId = docId.split("/")[0];
-            
+            var docId = marker.userid + "/" + marker.rideid;
+            carOwnerId = pickupdetails.userid;
+
             $.ajax({
                 type: "GET",
                 contentType: "application/json",
                 url: "http://wiprocarpool.azurewebsites.net/getridedetails/" + docId,
-                //url: "http://carpooltestapp.azurewebsites.net/getcarowner/" + docId,
-                //data: JSON.stringify(service),
                 dataType: "json",
                 success: function (response) {
                     var dirtyFlag = false;
@@ -245,12 +246,17 @@
                         $(data.boardingpoints).each(function (index, obj) {
                             var option = $("<option></option>");
                             option.attr("value", obj.boardingid).text(obj.address);
+
+                            if (obj.address == pickupdetails.address)
+                                option.attr("selected", "selected");
+
                             $("#ddlPickuppoints").append(option);
                         });
+                        $("#ddlPickuppoints").prop("disabled", true);
                     }
                 }
             });
-            
+
         });
         markers.push(marker);
     }

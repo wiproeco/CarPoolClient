@@ -41,7 +41,7 @@
     <nav class="navbar navbar-inverse">
         <div class="container-fluid">
             <div class="navbar-header">
-                <a class="navbar-brand" href="#">
+                <a class="navbar-brand" href="#" id="topHeader">
                     <div><i class="fa fa-car fa-2x"></i>&nbsp;&nbsp; Wipro Carpool App!</div>
                 </a>
             </div>
@@ -68,6 +68,7 @@
                     <div ng-if="termsandcond" class="alert alert-danger ">Accept Terms and conditions. </div>
                     <div ng-if="passworderror" class="alert alert-danger ">Enter valid password.</div>
                     <div ng-if="carnumber" class="alert alert-danger ">Enter Car Number.</div>
+                    <div ng-if="confirmpassword" class="alert alert-danger ">Confirm Password Mismatch.</div>
 
                     <div class="row">
                         <div id="errordiv" class="row" ng-if="iserror">
@@ -80,8 +81,8 @@
 
                         </div>
                         <div class="col-lg-12">                           
-                            <div class="alert alert-success" id="dvSuccess" ng-if="issuccess">
-                                Your account is created. <a href="index.html"><b>Sign In!</b></a>
+                            <div class="alert alert-success" id="dvSuccess" ng-show="issuccess">
+                                Your account is created. <a href="index.html" id="aSignin"><b>Sign In!</b></a>
                             </div>
                         </div>
                     </div>
@@ -89,28 +90,28 @@
                         <form role="form" class="login-form">
                             <div class="form-group">
                                 <label class="sr-only" for="form-username">Name</label>
-                                <input type="text" name="form-username" placeholder="Name" ng-model="txtRegUserName" ng-blur="checkUserName(txtRegUserName)" class="form-control" id="form-username">
+                                <input type="text" name="form-username" placeholder="Name" ng-model="txtRegUserName" maxlength="20" ng-blur="checkUserName(txtRegUserName)" class="form-control" id="form-username">
                                 <span ng-hide="checkuser">User already exists</span>
                             </div>
                             <div class="form-group">
                                 <label class="sr-only" for="form-emailId">Email Id</label>
-                                <input type="text" name="form-emailId" placeholder="Email Id" ng-model="txtRegEmail" ng-blur="checkEmail(txtRegEmail)" class="form-control" id="form-emailId">
+                                <input type="text" name="form-emailId" placeholder="Email Id" maxlength="100" ng-model="txtRegEmail" ng-blur="checkEmail(txtRegEmail)" class="form-control" id="form-emailId">
                                 <span ng-hide="validEmail">Invalid Email</span>
                                 <span ng-hide="checkemail">Email ID already exists</span>
                             </div>
                             <div class="form-group">
                                 <label class="sr-only" for="form-password">Password</label>
-                                <input type="password" name="form-password" placeholder="Password" ng-model="txtRegPwd" ng-blur="passwordValidation(txtRegPwd)" class="form-control" id="form-password">
+                                <input type="password" name="form-password" placeholder="Password" ng-model="txtRegPwd" maxlength="20" ng-blur="passwordValidation(txtRegPwd)" class="form-control" id="form-password">
                                 <span ng-hide="validpassword">Password must be Minimum 6 characters at least one number, one lowercase and one uppercase letter</span>
                             </div>
                             <div class="form-group">
                                 <label class="sr-only" for="form-confirm-password">Confirm Password</label>
-                                <input type="password" name="form-confirm-password" placeholder="Confirm Password" ng-model="txtRegConfirmPwd" class="form-control" id="form-confirm-password">
+                                <input type="password" name="form-confirm-password" placeholder="Confirm Password"  maxlength="20" ng-model="txtRegConfirmPwd" class="form-control" id="form-confirm-password">
                             </div>
                             <div ng-hide="ismatch" class="alert alert-danger hide"> Password and confirm password must be matched.</div>                            
                             <div class="form-group">
                                 <label class="sr-only" for="form-mobileno">Mobile No</label>
-                                <input type="text" name="form-mobileno" placeholder="Mobile No" ng-model="txtRegMobile" ng-blur="checkPhoneNumber(txtRegMobile)" class="form-control" id="form-mobileno">
+                                <input type="text" name="form-mobileno" placeholder="Mobile No" maxlength="10" ng-model="txtRegMobile" ng-blur="checkPhoneNumber(txtRegMobile)" class="form-control" id="form-mobileno">
                                 <span ng-hide="validPhone">Invalid Phone Number</span>
                             </div>
                             <div class="form-group">
@@ -144,7 +145,7 @@
                                 <h4>Car Details</h4>
                                 <div class="form-group">
                                     <label class="sr-only" for="form-carnumber">Car Number</label>
-                                    <input type="text" name="form-carnumber" placeholder="Car Number" ng-model="carno" class="form-carnumber form-control" id="form-carnumber">
+                                    <input type="text" name="form-carnumber" maxlength="20" placeholder="Car Number" ng-model="carno" class="form-carnumber form-control" id="form-carnumber">
                                 </div>
                                 <!--<div class="form-group">
                                     <h4>Seating Capacity</h4>
@@ -161,9 +162,10 @@
                             <div>
                                 <label class="checkbox-inline" for="form-termsandconditions">
                                     <input type="checkbox" ng-model="termsandconditions" id="form-termsandconditions" name="form-termsandconditions" />
-                                    <a ng-click="accepttermsandconditions()">Accept terms and conditions</a>
+                                    Accept <a ng-click="accepttermsandconditions()">terms and conditions</a>
                                 </label>
                             </div>
+                            <br />
                             <button type="submit" class="btn btn-primary" id="signup" ng-click="AddUser()">Sign Up</button>
 
                         </form>
@@ -196,6 +198,10 @@
                             <li>Should not cause disturbance for others</li>
                         </ul>
                     </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+
                 </div>
             </div>
         </div>

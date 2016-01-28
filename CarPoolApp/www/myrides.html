@@ -91,7 +91,7 @@
                             </div>
                         </div>
                     </div>
-                    <a href="#" alt="New Ride" ng-click="newRide()"><h4><i class="fa fa-plus fa-2x"></i><b style="font-size:16px">&nbsp;Offer A Ride</b></h4></a>
+                    <a href="#" alt="New Ride" ng-click="newRide()"><h4><i class="fa fa-plus fa-2x"></i>&nbsp; <b style="font-size:16px">Offer A Ride</b></h4></a>
                     <div class="table-responsive">
                         
                         <table class="table table-striped table-bordered table-hover">
@@ -107,8 +107,9 @@
                             <tbody>
                                 <tr ng-repeat="ride in rides">
                                     <td>
-                                        <a href="#" alt="Ride Details" ng-click="getDetails(ride.rideid)"><i class="fa fa-list-alt fa-2x"></i></a>
-                                        <a href="#" alt="Cancel Ride" ng-click="cancel(ride.rideid)"><i class="fa fa-remove fa-2x"></i></a>
+                                        <button class="btn btn-info btn-circle" type="button" ng-click="getDetails(ride.rideid)"><i class="fa fa-list-alt"></i></button>
+                                        &nbsp;&nbsp;
+                                        <button class="btn btn-danger btn-circle" type="button" ng-click="cancel(ride.rideid)"><i class="fa fa-remove"></i></button>
                                     </td>
                                     <td>{{ride.ridestatus}}</td>
                                     <td>{{ride.startdatetime | date:"MM/dd/yyyy 'at' h:mma"}}</td>

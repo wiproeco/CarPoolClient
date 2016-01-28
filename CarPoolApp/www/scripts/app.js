@@ -127,6 +127,8 @@ app.controller('userCtrl', function ($scope, $http, $window, $filter, Serviceurl
     $scope.validpassword = true;
     $scope.checkuser = true;
     $scope.checkemail = true;
+ //   $scope.confirmpassword = false;
+
 
     $scope.checkEmail = function (email) {
         $scope.checkemail = true;
@@ -195,6 +197,7 @@ app.controller('userCtrl', function ($scope, $http, $window, $filter, Serviceurl
         $scope.termsandcond = false;
         $scope.passworderror = false;
         $scope.carnumber = false;
+        $scope.confirmpassword = false;
 
         //$("#errordiv").hide();
         //$("#errormsg").hide();
@@ -206,44 +209,69 @@ app.controller('userCtrl', function ($scope, $http, $window, $filter, Serviceurl
                 //$("#errormsg").show();
                 $("#errormsg").html("Enter valid email");
                 $("#form-emailId").focus();
-            } else
+                $("#topHeader").focus();
+
+                
+            }
+
+            else if ($scope.txtRegPwd != $scope.txtRegConfirmPwd)
+            {
+                $scope.confirmpassword = true;
+                $("#topHeader").focus();
+                
+            }
+            else
                 if (!phoneReg.test($scope.txtRegMobile)) {
                     //$("#errordiv").show();
                     //$("#errormsg").show();
                     $("#errormsg").html("Enter valid phone number");
                     $("#form-mobileno").focus();
+                    $("#topHeader").focus();
+
                 } else
                     if (!$scope.checkemail) {
                         //$scope.iserror = true;
                         $scope.EmailId = false;
                         // $("#errormsg").html("Email ID already exists");
                         $("#form-emailId").focus();
+                        $("#topHeader").focus();
+
                     } else
                         if (!$scope.checkuser) {
                             //$scope.iserror = true;
                             $scope.UserNameerror = false;
                             //$("#errormsg").html("User already exists");
                             $("#form-username").focus();
+                            $("#topHeader").focus();
+
                         } else
                             if ($scope.inputRegGender === undefined) {
                                 //$scope.error = false;
                                 $scope.gender = true;
                                 //$("#errormsg").html("Select Gender");
                                 $("#optionsRadiosInline1").focus();
+                                $("#topHeader").focus();
+
                             } else
                                 if (!$scope.validpassword) {
                                     $scope.passworderror = true;
                                     $("#form-password").focus();
+                                    $("#topHeader").focus();
+
                                 } else
                                     if ($scope.termsandconditions === undefined || $scope.termsandconditions === false) {
                                         //$scope.iserror = true;
                                         $scope.termsandcond = true;
                                         //$("#errormsg").html("Accept Terms and Conditions");
                                         $("#form-termsandconditions").focus();
+                                        $("#topHeader").focus();
+
                                     } else
                                         if ($scope.edit && $scope.carno === undefined) {
                                             $scope.carnumber = true;
                                             $("#form-carnumber").focus();
+                                            $("#topHeader").focus();
+
                                         }
                                         else {
 
@@ -289,6 +317,7 @@ app.controller('userCtrl', function ($scope, $http, $window, $filter, Serviceurl
                                                     ]
                                                 });
                                                 $scope.processing = true;
+                                                $("#topHeader").focus();
                                                 try {
                                                     var res = $http.post('http://wiprocarpool.azurewebsites.net/register', user,
                                                               { headers: { 'Content-Type': 'application/json' } });
@@ -301,12 +330,13 @@ app.controller('userCtrl', function ($scope, $http, $window, $filter, Serviceurl
                                                         $scope.txtRegEmail = '';
                                                         $scope.txtRegMobile = '';
                                                         $scope.termsandconditions = '';
-                                                        $scope.inputRegGender = '';
+                                                        $scope.inputRegGender = 'Male';
                                                         $scope.carno = '';
                                                         $scope.processing = false;
                                                         window.localStorage.removeItem("binaryImage");
                                                         document.getElementById('selfieImage').style.border = "2px dotted #808080";
-                                                        document.getElementById('selfieImage').innerHTML = "";
+                                                        document.getElementById('selfieImage').innerHTML = "120 X 90";
+                                                        $("#aSignin").focus();
                                                     });
                                                     res.error(function (data, status, headers, config) {
                                                         $scope.iserror = true;

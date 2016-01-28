@@ -5,10 +5,10 @@
     <meta http-equiv="Content-Security-Policy" content="default-src 'unsafe-eval' *; style-src 'unsafe-inline' *; img-src * data:">
     <title>Wipro Car Pool App</title>
     <!-- CarPoolApp references -->
-    <link rel="stylesheet" href="css/index.css"/>
+    <link rel="stylesheet" href="css/index.css" />
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
-    <link rel="stylesheet" href="css/index.css"> 
+    <link rel="stylesheet" href="css/index.css">
 
     <script src="scripts/moment.min.js"></script>
     <!-- Cordova reference, this is added to your app when it's built. -->
@@ -75,10 +75,10 @@
                     <div style="display:table-cell">
                         <div class="panel-title"><a href="usernotification.html" alt="Refresh" title="Refresh" data-toggle="tooltip"><i class="fa fa-refresh fa-1x"></i></a> &nbsp;</div>
                     </div>
-                    <div style="display:table-cell" >
+                    <div style="display:table-cell">
                         <div id="Loading" style="display:none"><img src="./images/spinner.gif" /> &nbsp;</div>
                     </div>
-                    
+
                 </div>
                 <div class="panel-body">
                     <div class="row">
@@ -101,7 +101,7 @@
                         <table class="table table-striped table-bordered table-hover">
                             <thead>
                                 <tr>
-                                    <th>S.No</th>
+                                    <!--<th>S.No</th>-->
                                     <th>Photo</th>
                                     <th>Car Holder</th>
                                     <th>Status</th>
@@ -109,24 +109,34 @@
                             </thead>
                             <tbody>
                                 <tr ng-repeat="data in notificationdata">
-                                    <td>{{$index + 1}}</td>
+                                    <!--<td>{{$index + 1}}</td>-->
                                     <td>
                                         <img ng-src="{{data.photo}}" alt="pic" height="50" width="50" />
-                                    </td>                                    
-                                    <td>
-                                        <div>
-                                            {{data.ownername }}
-                                            <a ng-href="tel: {{data.mobile}}" target="_blank" title="Call to {{data.ownername}}" data-toggle="tooltip">
-                                                <img border="0" alt="MakeCall" src="images/makecall.png" width="25" height="25">
-                                            </a>
-                                            <div ng-if="data.isownercurrentlocnallowed && data.status == 'accepted'">
-                                                <a ng-class="{'disabled': data.status!='accepted'}" ng-click="trackownerlocation(data.ownerid);" href="#" title="Track location" data-toggle="tooltip" class="fa fa-map-marker fa-2x"></a>
-                                            </div>
-                                        </div>
                                     </td>
-                                    <td>
+                                    <td align="center">
+                                        <div >
+                                            {{data.ownername }} <br />
+                                            <!--<a ng-href="tel: {{data.mobile}}" target="_blank" title="Call to {{data.ownername}}" data-toggle="tooltip">
+                                                <img border="0" alt="MakeCall" src="images/makecall.png" width="25" height="25">
+                                            </a>-->    
+                                            <div ng-if="data.isownercurrentlocnallowed && data.status == 'accepted'">
+                                                <a class="btn btn-sm btn-success" ng-class="{'disabled': data.status!='accepted'}" ng-click="trackownerlocation(data.ownerid);" href="#" title="Track location">
+                                                    <i class="fa fa--map-marker"></i> Track car
+                                                </a>
+                                             </div>
+                                                &nbsp;
+                                                <a class="btn btn-info btn-circle" ng-href="tel: {{data.mobile}}" target="_blank" title="Call to {{data.ownername}}" data-toggle="tooltip">
+                                                    <i class="fa fa-phone"></i>
+                                                </a>
+                                            </div>
+                                    </td>
+                                    <td align="center">
                                         {{data.status}}<br />
-                                        <a href="#" alt="Cancel" ng-class="{'disabled': data.status=='canceled'}" ng-click="cancelRideNotification(data.ownerid, data.rideid, data.passengerid,'canceled');"><i class="fa fa-remove fa-2x"></i></a>
+                                        <button class="btn btn-danger btn-circle" type="button" ng-class="{'disabled': data.status=='canceled'}" ng-click="data.status=='canceled' || cancelRideNotification(data.ownerid, data.rideid, data.passengerid,'canceled'); $event.stopPropagation();"><i class="fa fa-times"></i></button>
+                                        
+                                      <!--  <a href="#" alt="Cancel" ng-class="{'disabled': data.status=='canceled'}" ng-click="data.status=='canceled' || cancelRideNotification(data.ownerid, data.rideid, data.passengerid,'canceled'); $event.stopPropagation();"><i class="fa fa-remove fa-2x"></i></a>-->
+
+
                                     </td>
 
                                 </tr>
@@ -142,7 +152,7 @@
             </div>
         </footer>
     </div>
-    
+
 
 </body>
 </html>
