@@ -33,6 +33,8 @@ app.controller('userCtrl', function ($scope, $http, $window, $filter, Serviceurl
     $scope.login = function () {
         $scope.errormsg = false;
         $scope.authenticated = false;
+        window.localStorage.clear();
+
         var emailReg = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         if ($scope.txtEmail != undefined) {
             if (emailReg.test($scope.txtEmail)) {
@@ -294,6 +296,7 @@ app.controller('userCtrl', function ($scope, $http, $window, $filter, Serviceurl
                                                 carNo = $scope.carno;
                                                 //seatCap = $scope.seats;
                                             }
+                                            $scope.Errors = "";
                                             //$window.alert(UserName + ',' + Password + ',' + Email + ',' + Mobile + ',' + Gender + ',' + isCarOwner + ',' + carNo + ',' + seatCap + ',' + spoint + ',' + epoint);
                                             if ($scope.ismatch && UserName != "" && Password != "" && ConfirmPwd != "" && Email != "" && Mobile != "" && Gender != ""
                                                && UserName != undefined && Password != undefined && ConfirmPwd != undefined && Email != undefined && Mobile != undefined && Gender != undefined) {
@@ -323,6 +326,8 @@ app.controller('userCtrl', function ($scope, $http, $window, $filter, Serviceurl
                                                               { headers: { 'Content-Type': 'application/json' } });
                                                     res.success(function (data, status, headers, config) {
                                                         $scope.iserror = false;
+
+
                                                         $scope.issuccess = true;
                                                         $scope.txtRegUserName = '';
                                                         $scope.txtRegPwd = '';
@@ -339,18 +344,25 @@ app.controller('userCtrl', function ($scope, $http, $window, $filter, Serviceurl
                                                         $("#aSignin").focus();
                                                     });
                                                     res.error(function (data, status, headers, config) {
+                                                       
                                                         $scope.iserror = true;
+
+                                                        if (status == '404' || status == '403')
+                                                            $scope.Errors = "Error : Server is down try after some time!!";
+                                                        else
+                                                            $scope.Errors = "Getting some fatal error please try again.";
+
                                                         $scope.issuccess = false;
                                                         $scope.Error = data;
-                                                        $scope.txtRegUserName = '';
-                                                        $scope.txtRegPwd = '';
-                                                        $scope.txtRegConfirmPwd = '';
-                                                        $scope.txtRegEmail = '';
-                                                        $scope.txtRegMobile = '';
-                                                        $scope.termsandconditions = '';
-                                                        $scope.inputRegGender = '';
-                                                        $scope.carno = '';
-                                                        document.getElementById('selfieImage').innerHTML = '';
+                                                        //$scope.txtRegUserName = '';
+                                                        //$scope.txtRegPwd = '';
+                                                        //$scope.txtRegConfirmPwd = '';
+                                                        //$scope.txtRegEmail = '';
+                                                        //$scope.txtRegMobile = '';
+                                                        //$scope.termsandconditions = '';
+                                                        //$scope.inputRegGender = '';
+                                                        //$scope.carno = '';
+                                                        //document.getElementById('selfieImage').innerHTML = '';
                                                         $scope.processing = false;
                                                         logdetails.userid = $scope.txtRegEmail;
                                                         logdetails.logdescription = status;
@@ -526,6 +538,13 @@ function PushNotifications() {
     var userId = window.localStorage.getItem("userid");
     var currentdate = moment().format('MM-DD-YYYY');
     var totaltimeout = 5;
+    $("#MyNotifications").css("color", "green");
+
+    if (window.localStorage.getItem("notificationCount") == null)
+        window.localStorage.setItem("notificationCount", 0);
+    else if (window.localStorage.getItem("notificationCount") != "0") {
+        $("#MyNotifications").css("color", "red");
+    }
 
     if (isowner == "true") {
         var latitude = "";
@@ -536,36 +555,63 @@ function PushNotifications() {
                 longitude = position.coords.longitude.toString();
                 notificationurl = notificationurl + "getnotitifications/" + userId + "/" + currentdate + "/" + latitude + "/" + longitude;
                 totaltimeout = 15;
-                $("#MyNotifications").css("color", "green");
-                NotificationClientService.AutomaticNotifications(notificationurl, 2, totaltimeout, null, NoticationCallback);
+                NotificationClientService.AutomaticNotifications(notificationurl, 2, totaltimeout, null, NotificationCallback);
             });
         }
     }
     else {
         notificationurl = notificationurl + "receivenotitifications/" + userId + "/" + currentdate;
-        $("#MyNotifications").css("color", "green");
-        NotificationClientService.AutomaticNotifications(notificationurl, 2, totaltimeout, null, NoticationCallback);
+        NotificationClientService.AutomaticNotifications(notificationurl, 2, totaltimeout, null, NotificationCallback);
     }
 }
 
-function NoticationCallback(data) {
+function NotificationCallback(notifications) {
     var isowner = window.localStorage.getItem("isowner");
+    var nCount = window.localStorage.getItem("notificationCount");
 
-    if (data != undefined && data != null && data.data.length > 0) {
+    if (notifications != undefined && notifications != null && notifications.data.length > 0 && nCount != notifications.data.length) {
+        window.localStorage.setItem("notificationCount", notifications.data.length);
+
         if (isowner == "true") {
             $("#MyNotifications").css("color", "red");
+            playAudio();
+
             CancelNotification.Clear(NotificationClientService.RefreshIntervalId);
         }
         else {
-            if (data.data[0].status == "pending") {
+            if (pendingCheck(notifications)) {
                 $("#MyNotifications").css("color", "yellow");
             }
             else {
                 $("#MyNotifications").css("color", "red");
+                playAudio();
+
                 CancelNotification.Clear(NotificationClientService.RefreshIntervalId);
             }
         }
     }
+}
+
+function pendingCheck(notifications) {
+    for (var i = 0; i < notifications.data.length; i++) {
+        if (notifications.data[i].status == "pending")
+            return true;
+    }
+    return false;
+}
+
+function playAudio() {
+
+    var my_media = new Media('/android_asset/www/audio/alert.mp3');
+
+    my_media.play();
+
+    navigator.notification.alert(
+      'You have received a new message!',  // message
+      '',         // callback
+      'Notification',            // title
+      'Done'                  // buttonName
+    );
 }
 
 app.controller('usernotificationCtrl', function ($scope, $http, $window, $filter) {
@@ -595,6 +641,7 @@ app.controller('usernotificationCtrl', function ($scope, $http, $window, $filter
                     var result = JSON.parse(data);
                     if (result.length > 0) {
                         $scope.notificationdata = result;
+
                     }
                     document.getElementById("Loading").style.display = "none";
 

@@ -66,7 +66,7 @@
                     </div>
                 </div>
                 <div class="panel-body">
-                    <h3 style="font-family:'Times New Roman', Times, serif">{{ridehistoryas}}</h3>
+                    <!--<h3 style="font-family:'Times New Roman', Times, serif">{{ridehistoryas}}</h3>-->
                     <div ng-if="ridesavailable">
                         <!--<table>
                             <tr ng-repeat="x in rides.rides" style="border-bottom:solid 1px">
@@ -82,7 +82,7 @@
                                 </tr>
                             </thead>-->
                             <tbody ng-repeat="x in rides.rides">                                
-                                <tr>
+                                <tr style="background-color:#CFCFCF">
                                     <td>On Date</td>
                                     <td>{{x.EndDate}}</td>
                                 </tr>

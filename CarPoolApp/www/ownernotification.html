@@ -120,30 +120,83 @@
                                                 <br />
                                             </label>
                                         </div>
+                                        <div ng-switch on="data.status">
+                                            <div ng-switch-when="rejected">
+                                                <!-- @ Switch Case default @ -->
+                                                &nbsp;
+                                                <a class="btn btn-disable btn-circle" ng-href="#" title="Call to {{data.passengername}}" data-toggle="tooltip">
+                                                    <i class="fa fa-phone"></i>
+                                                </a>
+                                                &nbsp;
+                                                <button class="btn btn-disable btn-circle" type="button"><i class="fa fa-check"></i></button>
+                                                &nbsp;
+                                                <button class="btn btn-disable btn-circle" type="button"><i class="fa fa-times"></i></button>
+                                                <!-- @ Completed @  -->
+                                            </div>
+                                            <div ng-switch-when="canceled">
+                                                <!-- @@ Switch Case default @@ -->
+                                                &nbsp;
+                                                <a class="btn btn-disable btn-circle" ng-href="#"  title="Call to {{data.passengername}}" data-toggle="tooltip">
+                                                    <i class="fa fa-phone"></i>
+                                                </a>
+                                                &nbsp;
+                                                <button class="btn btn-disable btn-circle" type="button" ><i class="fa fa-check"></i></button>
+                                                &nbsp;
+                                                <button class="btn btn-disable btn-circle" type="button" ><i class="fa fa-times"></i></button>
+                                                <!-- @@ Completed @@  -->
 
+                                            </div>
+                                            <div ng-switch-when="accepted">
+                                                <!-- @@ Switch Case default @@ -->
+                                                &nbsp;
+                                                <a class="btn btn-info btn-circle" ng-href="tel: {{data.mobile}}" target="_blank" title="Call to {{data.passengername}}" data-toggle="tooltip">
+                                                    <i class="fa fa-phone"></i>
+                                                </a>
+                                                &nbsp;
+                                                <button class="btn btn-disable btn-circle" type="button"><i class="fa fa-check"></i></button>
+                                                &nbsp;
+                                                <button class="btn btn-danger btn-circle" type="button" ng-click="(data.status=='rejected' ||data.status=='canceled') || updateRideNotification(data.ownerid, data.rideid, data.passengerid,'rejected'); $event.stopPropagation();"><i class="fa fa-times"></i></button>
+                                                <!-- @@ Completed @@  -->
 
-                                        &nbsp;
-                                        <a class="btn btn-info btn-circle" ng-href="tel: {{data.mobile}}" target="_blank" title="Call to {{data.passengername}}" data-toggle="tooltip">
-                                            <i class="fa fa-phone"></i>
-                                        </a>
-                                        &nbsp;
-                                        <button class="btn btn-success btn-circle" ng-class="{'disabled': data.status!='pending'}" type="button" ng-click="data.status!='pending' || updateRideNotification(data.ownerid, data.rideid, data.passengerid,'accepted'); $event.stopPropagation();"><i class="fa fa-check"></i></button>
-                                        &nbsp;
-                                        <button class="btn btn-danger btn-circle" type="button" ng-class="{'disabled': data.status=='rejected' ||data.status=='canceled'}" ng-click="(data.status=='rejected' ||data.status=='canceled') || updateRideNotification(data.ownerid, data.rideid, data.passengerid,'rejected'); $event.stopPropagation();"><i class="fa fa-times"></i></button>
-
-                                     
-                                        <!--<a href="#" alt="Accept" title="Accept" data-toggle="tooltip" ng-class="{'disabled': data.status!='pending'}" ng-click="data.status!='pending' || updateRideNotification(data.ownerid, data.rideid, data.passengerid,'accepted'); $event.stopPropagation();"><i class="fa fa-check fa-2x"></i></a>
-                                        <a href="#" alt="Reject" title="Reject" data-toggle="tooltip" ng-class="{'disabled': data.status=='rejected' ||data.status=='canceled'}" ng-click="(data.status=='rejected' ||data.status=='canceled') || updateRideNotification(data.ownerid, data.rideid, data.passengerid,'rejected'); $event.stopPropagation();"><i class="fa fa-close fa-2x"></i></a>-->
-
+                                            </div>
+                                            <div ng-switch-default>
+                                                <!-- @@@ Switch Case default @@@ -->
+                                                &nbsp;
+                                                <a class="btn btn-info btn-circle" ng-href="tel: {{data.mobile}}" target="_blank" title="Call to {{data.passengername}}" data-toggle="tooltip">
+                                                    <i class="fa fa-phone"></i>
+                                                </a>
+                                                &nbsp;
+                                                <button class="btn btn-success btn-circle" type="button" ng-click="data.status!='pending' || updateRideNotification(data.ownerid, data.rideid, data.passengerid,'accepted'); $event.stopPropagation();"><i class="fa fa-check"></i></button>
+                                                &nbsp;
+                                                <button class="btn btn-danger btn-circle" type="button" ng-click="(data.status=='rejected' ||data.status=='canceled') || updateRideNotification(data.ownerid, data.rideid, data.passengerid,'rejected'); $event.stopPropagation();"><i class="fa fa-times"></i></button>
+                                                <!-- @@@ Completed @@@  -->
+                                            </div>
+                                        </div>
                                     </td>
                                     <!--<td>
                                         <img ng-src="{{data.photo}}" height="50" width="50" />
                                     </td>-->
 
                                 </tr>
-                                <tr>
+                                <tr >
                                     <td>Status</td>
-                                    <td>{{data.status}}</td>
+                                    <td>
+                                        <div ng-switch on="data.status">
+                                            <div ng-switch-when="rejected">
+                                                <span style="color:red">{{data.status}}</span><br />
+                                            </div>
+                                            <div ng-switch-when="canceled">
+                                                <span style="color:grey;">{{data.status}}</span><br />
+                                            </div>
+                                            <div ng-switch-when="pending">
+                                                <span style="color:darkorange;font-weight:bold">{{data.status}}</span><br />
+                                            </div>
+                                            <div ng-switch-default>
+                                                <span style="color:darkgreen">{{data.status}}</span><br />
+                                            </div>
+                                        </div>
+                                    
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>Boarding On</td>
@@ -155,6 +208,24 @@
                                 </tr>
                             </tbody>
                         </table>
+                    </div>
+                </div>
+                <div class="panel-footer legendBlock">
+                    <b>Legends</b>
+                    <div class="legendDivider"></div>
+                    <div class="row">
+                        <div class="col-md-4 col-xs-6" style="margin:2px 0px">
+                            <span class="btn btn-xs btn-primary btn-circle-legends"><i class="fa fa-refresh fa-1x"></i></span> Update records
+                        </div>
+                        <div class="col-md-4 col-xs-6" style="margin:2px 0px">
+                            <span class="btn btn-xs btn-info btn-circle-legends"><i class="fa fa-phone fa-1x"></i></span> Make a call
+                        </div>
+                        <div class="col-md-4 col-xs-6" style="margin:2px 0px">
+                            <span class="btn btn-xs btn-success btn-circle-legends"><i class="fa fa-check fa-1x"></i></span> Confirm ride
+                        </div>
+                        <div class="col-md-4 col-xs-6" style="margin:2px 0px">
+                            <span class="btn btn-xs btn-danger btn-circle-legends"><i class="fa fa-times fa-1x"></i></span> Cancel ride
+                        </div>
                     </div>
                 </div>
             </div>

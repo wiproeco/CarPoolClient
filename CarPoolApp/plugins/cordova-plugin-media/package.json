@@ -1,0 +1,44 @@
+{
+  "name": "cordova-plugin-media-playback",
+  "version": "1.0.2-dev2",
+  "description": "Cordova Media Plugin (with playback rate)",
+  "cordova": {
+    "id": "cordova-plugin-media-playback",
+    "platforms": [
+      "android",
+      "amazon-fireos",
+      "ubuntu",
+      "ios",
+      "blackberry10",
+      "wp7",
+      "wp8",
+      "windows8",
+      "windows",
+      "tizen"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/apache/cordova-plugin-media"
+  },
+  "keywords": [
+    "cordova",
+    "media",
+    "ecosystem:cordova",
+    "cordova-android",
+    "cordova-amazon-fireos",
+    "cordova-ubuntu",
+    "cordova-ios",
+    "cordova-blackberry10",
+    "cordova-wp7",
+    "cordova-wp8",
+    "cordova-windows8",
+    "cordova-windows",
+    "cordova-tizen"
+  ],
+  "peerDependencies": {
+    "cordova-plugin-file": ">=2.0.0"
+  },
+  "author": "Apache Software Foundation",
+  "license": "Apache 2.0"
+}

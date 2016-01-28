@@ -116,4 +116,5 @@
   <vs:plugin name="cordova-plugin-geolocation" version="1.0.1" />
   <vs:plugin name="cordova-plugin-dialogs" version="1.2.0" />
   <vs:plugin name="cordova-plugin-camera" version="1.2.0" />
+  <vs:plugin name="cordova-plugin-media" version="1.0.2-dev" src="https://github.com/whitecolor/cordova-plugin-media-playback" />
 </widget>

@@ -111,37 +111,103 @@
                                 <tr ng-repeat="data in notificationdata">
                                     <!--<td>{{$index + 1}}</td>-->
                                     <td>
-                                        <img ng-src="{{data.photo}}" alt="pic" height="50" width="50" />
+                                        <img ng-src="{{data.photo}}" alt="pic" height="50" width="50" />                                       
                                     </td>
-                                    <td align="center">
-                                        <div >
-                                            {{data.ownername }} <br />
-                                            <!--<a ng-href="tel: {{data.mobile}}" target="_blank" title="Call to {{data.ownername}}" data-toggle="tooltip">
-                                                <img border="0" alt="MakeCall" src="images/makecall.png" width="25" height="25">
-                                            </a>-->    
-                                            <div ng-if="data.isownercurrentlocnallowed && data.status == 'accepted'">
-                                                <a class="btn btn-sm btn-success" ng-class="{'disabled': data.status!='accepted'}" ng-click="trackownerlocation(data.ownerid);" href="#" title="Track location">
-                                                    <i class="fa fa--map-marker"></i> Track car
-                                                </a>
-                                             </div>
-                                                &nbsp;
-                                                <a class="btn btn-info btn-circle" ng-href="tel: {{data.mobile}}" target="_blank" title="Call to {{data.ownername}}" data-toggle="tooltip">
+                                    <td valign="middle" align="center">
+                                        <!-- Checking the status of user acceptances and based on it display the recors enable and disable-->
+                                        <div ng-switch on="data.status">
+                                            <div ng-switch-when="rejected">
+                                                <!--@@@@ should be disabled track and phone call @@@@-->
+
+                                                <a class="btn btn-sm btn-disable btn-circle" ng-href="#" title="Call to {{data.ownername}}" data-toggle="tooltip">
                                                     <i class="fa fa-phone"></i>
                                                 </a>
+                                                {{data.ownername }}
+                                                <br />
+                                                <div ng-if="data.isownercurrentlocnallowed && data.status == 'accepted'" style="margin-top:6px">
+                                                    <a class="btn btn-sm  btn-disable"  href="#" title="Track location">
+                                                        <i class="fa fa-map-marker"></i>&nbsp; Track car
+                                                    </a>
+                                                </div>
+                                                <!-- @@@@ completed @@@@-->
                                             </div>
+                                            <div ng-switch-when="canceled">
+                                                <!--@@@@@ should be disabled track and phone call @@@@@-->
+
+                                                <a class="btn btn-sm btn-disable btn-circle" ng-href="#"  title="Call to {{data.ownername}}" data-toggle="tooltip">
+                                                    <i class="fa fa-phone"></i>
+                                                </a>
+                                                {{data.ownername }}
+                                                <br />
+                                                <div ng-if="data.isownercurrentlocnallowed && data.status == 'accepted'" style="margin-top:6px">
+                                                    <a class="btn btn-sm  btn-disable" href="#" title="Track location">
+                                                        <i class="fa fa-map-marker"></i>&nbsp; Track car
+                                                    </a>
+                                                </div>
+                                                <!-- @@@@@ completed @@@@@-->
+                                            </div>
+                                            <div ng-switch-default>
+
+                                                <!--@@@@@@ should not be disabled track and phone call @@@@@@-->
+                                                <a class="btn btn-sm btn-info btn-circle" ng-href="tel: {{data.mobile}}" target="_blank" title="Call to {{data.ownername}}" data-toggle="tooltip">
+                                                    <i class="fa fa-phone"></i>
+                                                </a>
+                                                {{data.ownername }}
+                                                <!--<a ng-href="tel: {{data.mobile}}" target="_blank" title="Call to {{data.ownername}}" data-toggle="tooltip">
+        <img border="0" alt="MakeCall" src="images/makecall.png" width="12" height="12"> {{data.ownername}}
+    </a>-->
+                                                <br />
+                                                <div ng-if="data.isownercurrentlocnallowed && data.status == 'accepted'" style="margin-top:6px">
+                                                    <a class="btn btn-sm btn-success"  ng-click="trackownerlocation(data.ownerid);" href="#" title="Track location">
+                                                        <i class="fa fa-map-marker"></i>&nbsp; Track car
+                                                    </a>
+                                                </div>
+                                                <!--@@@@@@ completed @@@@@@-->
+                                            </div>
+                                        </div>
+                                        
                                     </td>
                                     <td align="center">
-                                        {{data.status}}<br />
-                                        <button class="btn btn-danger btn-circle" type="button" ng-class="{'disabled': data.status=='canceled'}" ng-click="data.status=='canceled' || cancelRideNotification(data.ownerid, data.rideid, data.passengerid,'canceled'); $event.stopPropagation();"><i class="fa fa-times"></i></button>
-                                        
-                                      <!--  <a href="#" alt="Cancel" ng-class="{'disabled': data.status=='canceled'}" ng-click="data.status=='canceled' || cancelRideNotification(data.ownerid, data.rideid, data.passengerid,'canceled'); $event.stopPropagation();"><i class="fa fa-remove fa-2x"></i></a>-->
-
+                                       
+                                        <div ng-switch on="data.status">
+                                            <div ng-switch-when="rejected">
+                                                <span style="color:red">{{data.status}}</span><br />
+                                                <button class="btn btn-disable btn-circle" type="button" ><i class="fa fa-times"></i></button>
+                                            </div>
+                                            <div ng-switch-when="canceled">
+                                                <span style="color:grey">{{data.status}}</span><br />
+                                                <button class="btn btn-disable btn-circle" type="button"  ><i class="fa fa-times"></i></button>
+                                            </div>
+                                            <div ng-switch-when="pending">
+                                                <span style="color:goldenrod">{{data.status}}</span><br />
+                                                <button class="btn btn-danger btn-circle" type="button" ng-click="(data.status=='rejected' ||data.status=='canceled') || cancelRideNotification(data.ownerid, data.rideid, data.passengerid,'canceled'); $event.stopPropagation();"><i class="fa fa-times"></i></button>
+                                            </div>
+                                            <div ng-switch-default>
+                                                <span style="color:darkgreen">{{data.status}}</span><br />
+                                                <button class="btn btn-danger btn-circle" type="button"  ng-click="(data.status=='rejected' ||data.status=='canceled') || cancelRideNotification(data.ownerid, data.rideid, data.passengerid,'canceled'); $event.stopPropagation();"><i class="fa fa-times"></i></button>
+                                            </div>
+                                        </div>
+                                        <!--ng-class="{'disabled': data.status=='rejected' ||data.status=='canceled'}"   <a href="#" alt="Cancel" ng-class="{'disabled': data.status=='canceled'}" ng-click="data.status=='canceled' || cancelRideNotification(data.ownerid, data.rideid, data.passengerid,'canceled'); $event.stopPropagation();"><i class="fa fa-remove fa-2x"></i></a>-->
 
                                     </td>
-
                                 </tr>
                             </tbody>
                         </table>
+                    </div>
+                </div>
+                <div class="panel-footer legendBlock">
+                    <b>Legends</b>
+                    <div class="legendDivider"></div>
+                    <div class="row">
+                        <div class="col-md-4 col-xs-6" style="margin:2px 0px">
+                            <span class="btn btn-xs btn-primary btn-circle-legends"><i class="fa fa-refresh fa-1x"></i></span> Update records
+                        </div>
+                        <div class="col-md-4 col-xs-6" style="margin:2px 0px">
+                            <span class="btn btn-xs btn-info btn-circle-legends"><i class="fa fa-phone fa-1x"></i></span> Make a call
+                        </div>
+                        <div class="col-md-4 col-xs-6" style="margin:2px 0px">
+                            <span class="btn btn-xs btn-danger btn-circle-legends"><i class="fa fa-times fa-1x"></i></span> Cancel ride
+                        </div>
                     </div>
                 </div>
             </div>

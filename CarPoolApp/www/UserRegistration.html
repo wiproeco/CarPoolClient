@@ -19,7 +19,7 @@
             border-color: #de615e;
         }
 
-        /*.hide 
+        /*.hide
         {
             display:none;
             visibility:hidden;
@@ -74,13 +74,14 @@
                         <div id="errordiv" class="row" ng-if="iserror">
                             <div class="col-lg-12">
                                 <div id="errormsg" class="alert alert-danger">
+                                    {{Errors}}
                                 </div>
                             </div>
                         </div>
                         <div class="col-lg-12">
 
                         </div>
-                        <div class="col-lg-12">                           
+                        <div class="col-lg-12">
                             <div class="alert alert-success" id="dvSuccess" ng-show="issuccess">
                                 Your account is created. <a href="index.html" id="aSignin"><b>Sign In!</b></a>
                             </div>
@@ -106,9 +107,9 @@
                             </div>
                             <div class="form-group">
                                 <label class="sr-only" for="form-confirm-password">Confirm Password</label>
-                                <input type="password" name="form-confirm-password" placeholder="Confirm Password"  maxlength="20" ng-model="txtRegConfirmPwd" class="form-control" id="form-confirm-password">
+                                <input type="password" name="form-confirm-password" placeholder="Confirm Password" maxlength="20" ng-model="txtRegConfirmPwd" class="form-control" id="form-confirm-password">
                             </div>
-                            <div ng-hide="ismatch" class="alert alert-danger hide"> Password and confirm password must be matched.</div>                            
+                            <div ng-hide="ismatch" class="alert alert-danger hide"> Password and confirm password must be matched.</div>
                             <div class="form-group">
                                 <label class="sr-only" for="form-mobileno">Mobile No</label>
                                 <input type="text" name="form-mobileno" placeholder="Mobile No" maxlength="10" ng-model="txtRegMobile" ng-blur="checkPhoneNumber(txtRegMobile)" class="form-control" id="form-mobileno">
@@ -162,17 +163,19 @@
                             <div>
                                 <label class="checkbox-inline" for="form-termsandconditions">
                                     <input type="checkbox" ng-model="termsandconditions" id="form-termsandconditions" name="form-termsandconditions" />
-                                    Accept <a ng-click="accepttermsandconditions()">terms and conditions</a>
+                                    I agree to the Carpool <a ng-click="accepttermsandconditions()">terms and conditions</a>
                                 </label>
                             </div>
                             <br />
                             <button type="submit" class="btn btn-primary" id="signup" ng-click="AddUser()">Sign Up</button>
 
                         </form>
-                        
+
                     </div>
                 </div>
-                <div class="panel-footer"><a href="index.html"><b>Already a member? Sign In!</b></a></div>
+                <div class="panel-footer">
+                    Already a member? <a href="index.html"><b>Sign In!</b></a>
+                </div>
             </div>
         </div>
         <div class="modal fade" id="termsandconditions">
