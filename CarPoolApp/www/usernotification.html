@@ -111,7 +111,12 @@
                                 <tr ng-repeat="data in notificationdata">
                                     <!--<td>{{$index + 1}}</td>-->
                                     <td>
-                                        <img ng-src="{{data.photo}}" alt="pic" height="50" width="50" />                                       
+                                        <div ng-if="data.photo == null">
+                                            <img src="./images/ProfileImage.png" alt="pic" height="50" width="50" />
+                                        </div>
+                                        <div ng-if="data.photo != null">
+                                            <img ng-src="{{data.photo}}" alt="pic" height="50" width="50" />
+                                        </div>
                                     </td>
                                     <td valign="middle" align="center">
                                         <!-- Checking the status of user acceptances and based on it display the recors enable and disable-->

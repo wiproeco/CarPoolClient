@@ -186,7 +186,7 @@
                     window.location.href = 'index.html';
                 });
 
-            }, function (error) { alert("enable location in your mobile"); }, { timeout: 1000, enableHighAccuracy: true, maximumAge: 90000 });
+            }, function (error) { alert("enable location in your mobile"); }, { timeout: 5000, enableHighAccuracy: true, maximumAge: 90000 });
         } else {
             alert("Geolocation is not supported by this browser.");
         }

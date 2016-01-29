@@ -108,7 +108,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr ng-repeat="ride in rides">
+                                <tr ng-repeat="ride in rides | orderBy:'-startdatetime':reverse">
                                     <td>
 
                                         <div ng-switch on="ride.ridestatus">
