@@ -156,7 +156,7 @@
                         type: "POST",
                         contentType: "application/json",
                         url: "http://wiprocarpool.azurewebsites.net/joinride/",
-                        data: JSON.stringify({ carownerId: carOwnerId, userId: localStorage.getItem("userid"), rideid: rideObject.rideid, boardingid: $("#ddlPickuppoints").val(), reqforcurrgeolocn: reqforcurrgeolocnvalue }),
+                        data: JSON.stringify({ carownerId: carOwnerId, userId: localStorage.getItem("userid"), rideid: rideObject.rideid, boardingid: $("#bordingid").val(), reqforcurrgeolocn: reqforcurrgeolocnvalue }),
                         dataType: "json",
                         success: function (data) {
                             $("#carmodal").modal("toggle");
@@ -226,7 +226,6 @@
                     else if (response[0].passengers.length > 0) {
                         $(response[0].passengers).each(function (index, obj) {
                             if (obj.userid === localStorage.getItem("userid") && (obj.status === "pending" || obj.status === "acepted")) {
-                                //alert("You have already sent a request to the rider.");
                                 $("#validationmodal").modal("toggle");
                                 $("#validationMsg").text("You have already sent a request to the rider.");
                                 dirtyFlag = true;
@@ -234,7 +233,6 @@
                         });
                     }
                     if (dirtyFlag === false) {
-                        $("#ddlPickuppoints").html("");
                         var data = response[0];
                         rideObject = response[0];
                         $("#carmodal").modal("toggle");
@@ -244,15 +242,12 @@
                         $("#carFrom").text(response[0].startpoint);
                         $("#carTo").text(response[0].endpoint);
                         $(data.boardingpoints).each(function (index, obj) {
-                            var option = $("<option></option>");
-                            option.attr("value", obj.boardingid).text(obj.address);
-
                             if (obj.address == pickupdetails.address)
-                                option.attr("selected", "selected");
-
-                            $("#ddlPickuppoints").append(option);
+                            {
+                                $("#pickup").text(obj.address);
+                                $("#bordingid").val(obj.boardingid);
+                            }
                         });
-                        $("#ddlPickuppoints").prop("disabled", true);
                     }
                 }
             });
