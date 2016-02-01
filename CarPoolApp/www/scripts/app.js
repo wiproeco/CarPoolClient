@@ -540,12 +540,6 @@ function PushNotifications() {
     var totaltimeout = 5;
     $("#MyNotifications").css("color", "green");
 
-    if (window.localStorage.getItem("notificationCount") == null)
-        window.localStorage.setItem("notificationCount", 0);
-    else if (window.localStorage.getItem("notificationCount") != "0") {
-        $("#MyNotifications").css("color", "red");
-    }
-
     if (isowner == "true") {
         var latitude = "";
         var longitude = "";
@@ -567,10 +561,11 @@ function PushNotifications() {
 
 function NotificationCallback(notifications) {
     var isowner = window.localStorage.getItem("isowner");
-    var nCount = window.localStorage.getItem("notificationCount");
+    var cacheData = window.localStorage.getItem("notificationData");
+    var currentData = JSON.stringify(notifications);
 
-    if (notifications != undefined && notifications != null && notifications.data.length > 0 && nCount != notifications.data.length) {
-        window.localStorage.setItem("notificationCount", notifications.data.length);
+    if (notifications != undefined && notifications != null && cacheData != currentData) {
+        window.localStorage.setItem("notificationData", currentData);
 
         if (isowner == "true") {
             $("#MyNotifications").css("color", "red");
